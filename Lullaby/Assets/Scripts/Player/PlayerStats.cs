@@ -44,6 +44,8 @@ namespace PLAYERTWO.PlatformerProject
 		public float coyoteJumpThreshold = 0.15f; // Tiempo o umbral de salto para no caerse
 		public float maxJumpHeight = 17f;
 		public float minJumpHeight = 10f;
+		public float frontFlipTime = 0.5f;
+		public float doubleJumpHeight = 8f;
 
 		[Header("Crouch Stats")]
 		public float crouchHeight = 1f;

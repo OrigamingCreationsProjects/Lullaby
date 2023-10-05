@@ -30,7 +30,7 @@ namespace Lullaby.Entities.States
                 }
                 else
                 {
-                    //player.states.Change<BrakePlayerState>();
+                    player.states.Change<BrakePlayerState>();
                 }
             }
             else

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
 using PLAYERTWO.PlatformerProject;
@@ -225,14 +226,21 @@ namespace Lullaby.Entities
             {
                 if(inputs.GetJumpDown())
                 {
-                    Jump(stats.current.maxJumpHeight);
-                    //states.Change<JumpPlayerState>();
+                    Debug.Log($"Vertical velocity en el salto es: {verticalVelocity}");
+                    if (canMultiJump)
+                    {
+                        //Revisar esto bien
+                        //if(verticalVelocity.y <= 0)
+                            DoubleJump(stats.current.doubleJumpHeight);
+                    }else
+                        Jump(stats.current.maxJumpHeight);
                 }
             }
             
-            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
+            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight)) //
             {
-                verticalVelocity = Vector3.up * stats.current.minJumpHeight; //Esto es para que no salte tan alto
+                verticalVelocity = Vector3.up * stats.current.minJumpHeight; //Esto es para que no salte tan alto en el
+                                                                             //doble salto o si mantenemos poco el botón salte menos 
             }
         }
         /// <summary>
@@ -247,6 +255,20 @@ namespace Lullaby.Entities
             states.Change<FallPlayerState>();
             playerEvents.OnJump?.Invoke();
         }
+        public virtual void DoubleJump(float height)
+        {
+            jumpCounter++;
+            Sequence sequence = DOTween.Sequence();
+            Quaternion initialRotation = transform.localRotation;
+            sequence.AppendCallback(() => initialRotation = transform.localRotation);
+            sequence.Append(skin.transform.DOLocalRotate(new Vector3(360, 0,0), stats.current.frontFlipTime, RotateMode.FastBeyond360).SetEase(Ease.OutCirc));
+            sequence.AppendCallback(() => transform.rotation = initialRotation);
+            verticalVelocity = new Vector3(verticalVelocity.x, height, verticalVelocity.z);
+            //verticalVelocity = Vector3.up * Mathf.Sqrt(2 * height * stats.current.gravity); //Alternativa
+            states.Change<FallPlayerState>();
+            playerEvents.OnJump?.Invoke();
+        }
+        
         /// <summary>
         /// Applies jump force to the Player in a given direction.
         /// </summary>
