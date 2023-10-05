@@ -316,7 +316,7 @@ namespace Lullaby.Entities
                 if(!isGrounded) airDashCounter++;
             
                 lastDashTime = Time.time;
-                //states.Change<DashPlayerState>();
+                states.Change<DashPlayerState>();
             }
         }
 
