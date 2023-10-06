@@ -6,7 +6,7 @@ using MovementEntitys;
 namespace Lullaby
 {
 	[RequireComponent(typeof(CinemachineVirtualCamera))]
-	[AddComponentMenu("Custom Movement/Player/Player Camera")]
+	[AddComponentMenu("Lullaby/Custom Movement/Player/Player Camera")]
 	public class PlayerCamera : MonoBehaviour
 	{
 		[Header("Camera Settings")]

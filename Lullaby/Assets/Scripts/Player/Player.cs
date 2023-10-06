@@ -12,7 +12,7 @@ using PlayerInputManager = MovementEntitys.PlayerInputManager;
 
 namespace Lullaby.Entities
 {
-    [AddComponentMenu("Custom Movement/Player/Player")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Player")]
     [RequireComponent(typeof(PlayerInputManager))]
     [RequireComponent(typeof(PlayerStatsManager))]
     [RequireComponent(typeof(PlayerStateManager))]
@@ -364,7 +364,7 @@ namespace Lullaby.Entities
                 transform.parent = hit.transform;
 
             lastWallNormal = hit.normal;
-            //states.Change<WallDragPlayerState>();
+            states.Change<WallDragPlayerState>();
         }
   
         /// <summary>

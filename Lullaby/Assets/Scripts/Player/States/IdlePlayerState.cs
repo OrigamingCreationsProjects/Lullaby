@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/CustomMovement/Player/States/Idle Player State")]
     public class IdlePlayerState: PlayerState
     {
         protected override void OnEnter(Player player){}

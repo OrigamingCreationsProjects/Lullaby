@@ -65,8 +65,8 @@ namespace PLAYERTWO.PlatformerProject
 		public LayerMask wallDragLayers;
 		public Vector3 wallDragSkinOffset;
 		public float wallDragGravity = 12f;
-		public float wallJumpDistance = 8f;
-		public float wallJumpHeight = 15f;
+		public float wallJumpDistance = 8f; //Distancia máxima en salto de pared
+		public float wallJumpHeight = 15f; //Altura máxima en salto de pared
 
 		[Header("Pole Climb Stats")]
 		public bool canPoleClimb = true;

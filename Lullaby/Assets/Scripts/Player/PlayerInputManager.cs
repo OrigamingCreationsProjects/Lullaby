@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace MovementEntitys
 {
-    [AddComponentMenu("Custom Movement/Player/Player Input Manager")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Player Input Manager")]
     public class PlayerInputManager : MonoBehaviour
     {
         public InputActionAsset actions;
@@ -141,7 +141,7 @@ namespace MovementEntitys
         /// </summary>
         /// <param name="duration">The duration of the locking state in seconds</param>
 
-        public virtual void LockedMovementDirection(float duration) =>
+        public virtual void LockedMovementDirection(float duration = 0.25f) =>
             movementDirectionUnlockTime = Time.time + duration;
 
         public virtual void Awake() => CacheActions();

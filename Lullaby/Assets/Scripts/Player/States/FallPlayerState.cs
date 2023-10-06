@@ -2,6 +2,7 @@
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/CustomMovement/Player/States/Fall Player State")]
     public class FallPlayerState : PlayerState
     {
         protected override void OnEnter(Player player){}
