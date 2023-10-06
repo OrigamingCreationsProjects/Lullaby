@@ -36,7 +36,7 @@ namespace MovementEntitys
             Look = actions["Look"];
             //Attack = actions["Attack"];
             Dash = actions["Dash"];
-            //ReleaseLedge = actions["ReleaseLedge"];
+            ReleaseLedge = actions["ReleaseLedge"];
             //Pause = actions["Pause"];
             //GrindBrake = actions["GrindBrake"];
         }

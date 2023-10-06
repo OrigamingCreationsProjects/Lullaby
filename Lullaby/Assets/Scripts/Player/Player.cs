@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using DG.Tweening;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
@@ -9,6 +10,8 @@ using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using PlayerInputManager = MovementEntitys.PlayerInputManager;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Lullaby.Entities
 {
@@ -303,7 +306,28 @@ namespace Lullaby.Entities
         public virtual void SetJumps(int amount) => jumpCounter = amount;
         
         //IMPLEMENTAR
-        public virtual void LedgeGrab(){}
+        public virtual void LedgeGrab()
+        {
+            if (stats.current.canLedgeHang && verticalVelocity.y < 0 && 
+                states.ConstainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+                DetectingLedge(stats.current.ledgeMaxForwardDistance,
+                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding añadir si cogemos objetos
+            {
+                Debug.Log("Entrando al metodo ledgeGrab");
+                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el ángulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
+                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una cápsula o una esfera no se puede agarrar. 
+
+                var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance; // Distancia del borde
+                var lateralOffset = transform.forward * ledgeDistance; // Offset lateral
+                var verticalOffset = -transform.up * (height * 0.5f) - center; // Offset vertical
+                velocity = Vector3.zero;
+                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : initialParent; // Si el collider es una plataforma el jugador se vuelve hijo.
+                transform.position = hit.point - lateralOffset + verticalOffset; // Colocamos al jugador en función del punto de contacto, el offset lateral y el vertical.
+                states.Change<LedgeHangingPlayerState>(); // Cambiamos al estado de agarrarse a un borde.
+                playerEvents.OnLedgeGrabbed?.Invoke(); // Invocamos el evento de agarrarse a un borde.
+            } 
+           
+        }
         
         public virtual void Dash()
         {
@@ -341,6 +365,7 @@ namespace Lullaby.Entities
         public virtual void ResetSkinParent()
         {
             if(!skin) return;
+            skin.parent = transform;
             skin.localPosition = skinInitialPosition;
             skin.localRotation = skinInitialRotation;
         }
