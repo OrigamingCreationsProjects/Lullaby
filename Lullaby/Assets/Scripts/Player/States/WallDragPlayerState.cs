@@ -8,7 +8,7 @@ namespace Lullaby.Entities.States
         protected override void OnEnter(Player player)
         {
             player.ResetJumps();
-            player.ResetAirDash();
+            //player.ResetAirDash();
             player.velocity = Vector3.zero;
             // Calculamos la posición de la skin en funcion de la rotación del player y el offset de la skin al agarrar la pared
             player.skin.position += player.transform.rotation * player.stats.current.wallDragSkinOffset; 
