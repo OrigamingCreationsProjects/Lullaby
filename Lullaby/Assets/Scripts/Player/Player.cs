@@ -144,12 +144,17 @@ namespace Lullaby.Entities
         /// <param name="direction">The direction you want to move.</param>
         public virtual void Accelerate(Vector3 direction)
         {
-            var turningDrag = stats.current.turningDrag;
-            var acceleration = stats.current.acceleration;
+            var turningDrag = isGrounded && inputs.GetRun() ? stats.current.runningTurningDrag : stats.current.turningDrag;
+            var acceleration = isGrounded && inputs.GetRun() ? stats.current.runningAcceleration : stats.current.acceleration;
             var finalAcceleration = isGrounded ? acceleration : stats.current.airAcceleration;
-            var topSpeed = stats.current.topSpeed;
+            var topSpeed = inputs.GetRun()? stats.current.runningTopSpeed : stats.current.topSpeed;
             
             Accelerate(direction, turningDrag, finalAcceleration, topSpeed);
+
+            if (inputs.GetRunUp())
+            {
+                lateralVelocity = Vector3.ClampMagnitude(lateralVelocity, topSpeed); //Clamp the speed to the top speed
+            }
         }
 
         /// <summary>

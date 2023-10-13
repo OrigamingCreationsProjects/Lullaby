@@ -35,8 +35,8 @@ MonoBehaviour:
   brakeThreshold: -0.8
   slopeUpwardForce: 25
   slopeDownwardForce: 28
-  runningAcceleration: 16
-  runningTopSpeed: 7.5
+  runningAcceleration: 20
+  runningTopSpeed: 15
   runningTurningDrag: 14
   multiJumps: 2
   coyoteJumpThreshold: 0.15
@@ -44,12 +44,23 @@ MonoBehaviour:
   minJumpHeight: 10
   frontFlipTime: 0.5
   doubleJumpHeight: 11
+  canAirDash: 1
+  canGroundDash: 1
+  dashForce: 25
+  dashDuration: 0.3
+  groundDashCoolDown: 0.5
+  allowedAirDashes: 1
   crouchHeight: 1
   crouchFriction: 10
   crawlingAcceleration: 8
   crawlingFriction: 32
   crawlingTopSpeed: 2.5
   crawlingTurningSpeed: 3
+  canAttack: 1
+  canAirAttack: 0
+  attackDuration: 0.5
+  airAttackUpwardForce: 10
+  allowedAirAttacks: 1
   canWallDrag: 1
   wallJumpLockMovement: 1
   minGroundDistanceToDrag: 0.5
@@ -68,11 +79,6 @@ MonoBehaviour:
   climbRotationSpeed: 2
   poleJumpDistance: 8
   poleJumpHeight: 15
-  canSpin: 1
-  canAirSpin: 1
-  spinDuration: 0.5
-  airSpinUpwardForce: 10
-  allowedAirSpins: 1
   hurtUpwardForce: 13
   hurtBackwardsForce: 8
   canAirDive: 1
@@ -119,12 +125,6 @@ MonoBehaviour:
   glidingGravity: 10
   glidingMaxFallSpeed: 2
   glidingTurningDrag: 8
-  canAirDash: 1
-  canGroundDash: 1
-  dashForce: 25
-  dashDuration: 0.3
-  groundDashCoolDown: 0.5
-  allowedAirDashes: 1
   useCustomCollision: 1
   grindRadiusOffset: 0.26
   minGrindInitialSpeed: 10

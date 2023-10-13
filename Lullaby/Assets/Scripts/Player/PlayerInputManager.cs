@@ -12,6 +12,7 @@ namespace MovementEntitys
         public InputActionAsset actions;
 
         protected InputAction Move;
+        protected InputAction Run;
         protected InputAction Jump;
         protected InputAction Look;
         protected InputAction Attack;
@@ -32,6 +33,7 @@ namespace MovementEntitys
         protected virtual void CacheActions()
         {
             Move = actions["Move"];
+            Run = actions["Run"];
             Jump = actions["Jump"];
             Look = actions["Look"];
             Attack = actions["Attack"];
@@ -109,6 +111,9 @@ namespace MovementEntitys
         }
 
         #region -- GET INPUT PRESSED --
+        
+        public virtual bool GetRun() => Run.IsPressed();
+        public virtual bool GetRunUp() => Run.WasReleasedThisFrame();
         
         public virtual bool GetJumpDown()
         {
