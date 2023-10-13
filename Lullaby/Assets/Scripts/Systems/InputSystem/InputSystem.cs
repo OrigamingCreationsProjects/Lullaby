@@ -155,7 +155,8 @@ namespace Systems
         public void OnJump(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
-
+            
+            
             // Debug.Log($"OnJump called {context.ReadValue<float>()}");
 
             if (value == 0f) // Si es 0 es porque está cayendo

@@ -2,6 +2,7 @@
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/CustomMovement/Player/States/Walk Player State")]
     public class WalkPlayerState : PlayerState
     {
         protected override void OnEnter(Player player){}
@@ -14,6 +15,7 @@ namespace Lullaby.Entities.States
             player.SnapToGround();
             player.Jump();
             player.Fall();
+            player.Attack();
             //player.Dash();
             player.RegularSlopeFactor();
             
@@ -30,7 +32,7 @@ namespace Lullaby.Entities.States
                 }
                 else
                 {
-                    //player.states.Change<BrakePlayerState>();
+                    player.states.Change<BrakePlayerState>();
                 }
             }
             else

@@ -44,7 +44,17 @@ namespace PLAYERTWO.PlatformerProject
 		public float coyoteJumpThreshold = 0.15f; // Tiempo o umbral de salto para no caerse
 		public float maxJumpHeight = 17f;
 		public float minJumpHeight = 10f;
-
+		public float frontFlipTime = 0.5f;
+		public float doubleJumpHeight = 8f;
+		
+		[Header("Dash Stats")]
+		public bool canAirDash = true;
+		public bool canGroundDash = true;
+		public float dashForce = 25f;
+		public float dashDuration = 0.3f;
+		public float groundDashCoolDown = 0.5f;
+		public float allowedAirDashes = 1;
+		
 		[Header("Crouch Stats")]
 		public float crouchHeight = 1f;
 		public float crouchFriction = 10f;
@@ -54,7 +64,14 @@ namespace PLAYERTWO.PlatformerProject
 		public float crawlingFriction = 32f;
 		public float crawlingTopSpeed = 2.5f;
 		public float crawlingTurningSpeed = 3f;
-
+		
+		[Header("Attack Stats")]
+		public bool canAttack = true;
+		public bool canAirAttack = false;
+		public float attackDuration = 0.5f;
+		public float airAttackUpwardForce = 10f;
+		public int allowedAirAttacks = 1;
+		
 		[Header("Wall Drag Stats")]
 		public bool canWallDrag = true;
 		public bool wallJumpLockMovement = true;
@@ -63,8 +80,8 @@ namespace PLAYERTWO.PlatformerProject
 		public LayerMask wallDragLayers;
 		public Vector3 wallDragSkinOffset;
 		public float wallDragGravity = 12f;
-		public float wallJumpDistance = 8f;
-		public float wallJumpHeight = 15f;
+		public float wallJumpDistance = 8f; //Distancia máxima en salto de pared
+		public float wallJumpHeight = 15f; //Altura máxima en salto de pared
 
 		[Header("Pole Climb Stats")]
 		public bool canPoleClimb = true;
@@ -74,24 +91,7 @@ namespace PLAYERTWO.PlatformerProject
 		public float climbRotationSpeed = 2f;
 		public float poleJumpDistance = 8f;
 		public float poleJumpHeight = 15f;
-
-		[Header("Swimming Stats")]
-		public float waterConversion = 0.35f;
-		public float waterRotationSpeed = 360f;
-		public float waterUpwardsForce = 8f;
-		public float waterJumpHeight = 15f;
-		public float waterTurningDrag = 2.5f;
-		public float swimAcceleration = 4f;
-		public float swimDeceleration = 3f;
-		public float swimTopSpeed = 4f;
-		public float swimDiveForce = 15f;
-
-		[Header("Spin Stats")]
-		public bool canSpin = true;
-		public bool canAirSpin = true;
-		public float spinDuration = 0.5f;
-		public float airSpinUpwardForce = 10f;
-		public int allowedAirSpins = 1;
+		
 
 		[Header("Hurt Stats")]
 		public float hurtUpwardForce = 10f;
@@ -148,14 +148,6 @@ namespace PLAYERTWO.PlatformerProject
 		public float glidingGravity = 10f;
 		public float glidingMaxFallSpeed = 2f;
 		public float glidingTurningDrag = 8f;
-
-		[Header("Dash Stats")]
-		public bool canAirDash = true;
-		public bool canGroundDash = true;
-		public float dashForce = 25f;
-		public float dashDuration = 0.3f;
-		public float groundDashCoolDown = 0.5f;
-		public float allowedAirDashes = 1;
 
 		[Header("Rail Grinding Stats")]
 		public bool useCustomCollision = true;

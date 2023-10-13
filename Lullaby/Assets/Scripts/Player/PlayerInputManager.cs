@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 
 namespace MovementEntitys
 {
-    [AddComponentMenu("Custom Movement/Player/Player Input Manager")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Player Input Manager")]
     public class PlayerInputManager : MonoBehaviour
     {
         public InputActionAsset actions;
 
         protected InputAction Move;
+        protected InputAction Run;
         protected InputAction Jump;
         protected InputAction Look;
         protected InputAction Attack;
@@ -32,11 +33,12 @@ namespace MovementEntitys
         protected virtual void CacheActions()
         {
             Move = actions["Move"];
+            Run = actions["Run"];
             Jump = actions["Jump"];
             Look = actions["Look"];
-            //Attack = actions["Attack"];
+            Attack = actions["Attack"];
             Dash = actions["Dash"];
-            //ReleaseLedge = actions["ReleaseLedge"];
+            ReleaseLedge = actions["ReleaseLedge"];
             //Pause = actions["Pause"];
             //GrindBrake = actions["GrindBrake"];
         }
@@ -110,6 +112,9 @@ namespace MovementEntitys
 
         #region -- GET INPUT PRESSED --
         
+        public virtual bool GetRun() => Run.IsPressed();
+        public virtual bool GetRunUp() => Run.WasReleasedThisFrame();
+        
         public virtual bool GetJumpDown()
         {
             //Cuidado con HASVALUE, si no habra que usar != null
@@ -124,11 +129,11 @@ namespace MovementEntitys
 
         public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame();
 
-        public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
-
-        public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
-
         public virtual bool GetDashDown() => Dash.WasPressedThisFrame();
+        
+        public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
+        
+        public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
 
         public virtual bool GetPauseDown() => Pause.WasPressedThisFrame();
 
@@ -141,7 +146,7 @@ namespace MovementEntitys
         /// </summary>
         /// <param name="duration">The duration of the locking state in seconds</param>
 
-        public virtual void LockedMovementDirection(float duration) =>
+        public virtual void LockedMovementDirection(float duration = 0.25f) =>
             movementDirectionUnlockTime = Time.time + duration;
 
         public virtual void Awake() => CacheActions();

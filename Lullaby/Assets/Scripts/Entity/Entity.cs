@@ -291,6 +291,7 @@ namespace Lullaby.Entities
         #endregion
         public virtual void ApplyDamage(int damage, Vector3 origin) { }
         
+        
     }
     // Hacemos que T debe ser una clase que herede de Entity<T>.
     // Esto se utiliza para garantizar que T se relacione con Entity<T> y no con cualquier otro tipo.
@@ -301,6 +302,7 @@ namespace Lullaby.Entities
            
         //Controlador de estados de las entidades
         public EntityStateManager<T> states { get; protected set; }
+        
         #region -- INITIALIZATION --
         
         protected virtual void InitializeController()
@@ -321,8 +323,6 @@ namespace Lullaby.Entities
         }
         protected virtual void InitializeStateManager() => states = GetComponent<EntityStateManager<T>>();
         protected virtual void InitializeParent() => initialParent = transform.parent;
-
-        
         
         #endregion
 

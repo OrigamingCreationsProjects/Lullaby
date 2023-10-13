@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Lullaby.Entities.States
 {
-    [AddComponentMenu("Custom Movement/Player/Player State Manager")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Player State Manager")]
     public class PlayerStateManager : EntityStateManager<Player>
     {
         [ClassTypeName(typeof(PlayerState))]

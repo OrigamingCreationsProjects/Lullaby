@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using DG.Tweening;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
 using PLAYERTWO.PlatformerProject;
@@ -8,10 +10,12 @@ using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using PlayerInputManager = MovementEntitys.PlayerInputManager;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Lullaby.Entities
 {
-    [AddComponentMenu("Custom Movement/Player/Player")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Player")]
     [RequireComponent(typeof(PlayerInputManager))]
     [RequireComponent(typeof(PlayerStatsManager))]
     [RequireComponent(typeof(PlayerStateManager))]
@@ -54,6 +58,11 @@ namespace Lullaby.Entities
         /// </summary>
         /// <value></value>
         public int airDashCounter { get; protected set; }
+        
+        /// <summary>
+        /// Returns how many times the Player performed an air attack.
+        /// </summary>
+        public int airAttackCounter { get; protected set; }
         
         /// <summary>
         /// The last time the Player performed an dash.
@@ -125,7 +134,8 @@ namespace Lullaby.Entities
 
         protected override bool EvaluateLanding(RaycastHit hit)
         {
-            return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring); //Si implementamos las zonas de viento
+            // Hacemos que se compruebe lo que ya se comprobaba en el original y si es una zona de viento para no aterrizar
+            return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring); 
         }
         
         /// <summary>
@@ -134,12 +144,17 @@ namespace Lullaby.Entities
         /// <param name="direction">The direction you want to move.</param>
         public virtual void Accelerate(Vector3 direction)
         {
-            var turningDrag = stats.current.turningDrag;
-            var acceleration = stats.current.acceleration;
+            var turningDrag = isGrounded && inputs.GetRun() ? stats.current.runningTurningDrag : stats.current.turningDrag;
+            var acceleration = isGrounded && inputs.GetRun() ? stats.current.runningAcceleration : stats.current.acceleration;
             var finalAcceleration = isGrounded ? acceleration : stats.current.airAcceleration;
-            var topSpeed = stats.current.topSpeed;
+            var topSpeed = inputs.GetRun()? stats.current.runningTopSpeed : stats.current.topSpeed;
             
             Accelerate(direction, turningDrag, finalAcceleration, topSpeed);
+
+            if (inputs.GetRunUp())
+            {
+                lateralVelocity = Vector3.ClampMagnitude(lateralVelocity, topSpeed); //Clamp the speed to the top speed
+            }
         }
 
         /// <summary>
@@ -212,6 +227,7 @@ namespace Lullaby.Entities
                 states.Change<FallPlayerState>();
             }
         }
+        
         /// <summary>
         /// Handles ground jump with proper evaluations and height control.
         /// </summary>
@@ -225,14 +241,21 @@ namespace Lullaby.Entities
             {
                 if(inputs.GetJumpDown())
                 {
-                    Jump(stats.current.maxJumpHeight);
-                    //states.Change<JumpPlayerState>();
+                    Debug.Log($"Vertical velocity en el salto es: {verticalVelocity}");
+                    if (canMultiJump)
+                    {
+                        //Revisar esto bien
+                        //if(verticalVelocity.y <= 0)
+                            DoubleJump(stats.current.doubleJumpHeight);
+                    }else
+                        Jump(stats.current.maxJumpHeight);
                 }
             }
             
-            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
+            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight)) //
             {
-                verticalVelocity = Vector3.up * stats.current.minJumpHeight; //Esto es para que no salte tan alto
+                verticalVelocity = Vector3.up * stats.current.minJumpHeight; //Esto es para que no salte tan alto en el
+                                                                             //doble salto o si mantenemos poco el botón salte menos 
             }
         }
         /// <summary>
@@ -247,6 +270,20 @@ namespace Lullaby.Entities
             states.Change<FallPlayerState>();
             playerEvents.OnJump?.Invoke();
         }
+        public virtual void DoubleJump(float height)
+        {
+            jumpCounter++;
+            Sequence sequence = DOTween.Sequence();
+            Quaternion initialRotation = transform.localRotation;
+            sequence.AppendCallback(() => initialRotation = transform.localRotation);
+            sequence.Append(skin.transform.DOLocalRotate(new Vector3(360, 0,0), stats.current.frontFlipTime, RotateMode.FastBeyond360).SetEase(Ease.OutCirc));
+            sequence.AppendCallback(() => transform.rotation = initialRotation);
+            verticalVelocity = new Vector3(verticalVelocity.x, height, verticalVelocity.z);
+            //verticalVelocity = Vector3.up * Mathf.Sqrt(2 * height * stats.current.gravity); //Alternativa
+            states.Change<FallPlayerState>();
+            playerEvents.OnJump?.Invoke();
+        }
+        
         /// <summary>
         /// Applies jump force to the Player in a given direction.
         /// </summary>
@@ -275,13 +312,56 @@ namespace Lullaby.Entities
         #endregion
         
         /// <summary>
-        /// Sets the jump couter to a specific value.
+        /// Sets the jump counter to a specific value.
         /// </summary>
         /// <param name="amount">The amount of jumps.</param>
         public virtual void SetJumps(int amount) => jumpCounter = amount;
+
+
+        /// <summary>
+        /// Method to attack
+        /// </summary>
+        //ES POSIBLE QUE ESTE METODO DEBA ESTAR EN ENTITY PORQUE QUIZA TODAS LAS ENTIDADES PUEDAN ATACAR
+        public virtual void Attack()
+        {
+            var canMakeAnAttack = (isGrounded || stats.current.canAirAttack) &&
+                               (airAttackCounter < stats.current.allowedAirAttacks);
+            
+            // Si queremos que se cojan objetos tambien habra que comprobar !holding para que no ataque al tener objetos.
+            // O implementar logica para que el objeto salga volando al atacar.
+            if(stats.current.canAttack && canMakeAnAttack && inputs.GetAttackDown()) 
+            {
+                if (!isGrounded)
+                {
+                    airAttackCounter++;
+                }
+                states.Change<AttackPlayerState>();
+                playerEvents.OnAttack?.Invoke();
+            }
+        }
         
-        //IMPLEMENTAR
-        public virtual void LedgeGrab(){}
+        public virtual void LedgeGrab()
+        {
+            if (stats.current.canLedgeHang && verticalVelocity.y < 0 && 
+                states.ConstainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+                DetectingLedge(stats.current.ledgeMaxForwardDistance,
+                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding añadir si cogemos objetos
+            {
+                Debug.Log("Entrando al metodo ledgeGrab");
+                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el ángulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
+                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una cápsula o una esfera no se puede agarrar. 
+
+                var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance; // Distancia del borde
+                var lateralOffset = transform.forward * ledgeDistance; // Offset lateral
+                var verticalOffset = -transform.up * (height * 0.5f) - center; // Offset vertical
+                velocity = Vector3.zero;
+                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : initialParent; // Si el collider es una plataforma el jugador se vuelve hijo.
+                transform.position = hit.point - lateralOffset + verticalOffset; // Colocamos al jugador en función del punto de contacto, el offset lateral y el vertical.
+                states.Change<LedgeHangingPlayerState>(); // Cambiamos al estado de agarrarse a un borde.
+                playerEvents.OnLedgeGrabbed?.Invoke(); // Invocamos el evento de agarrarse a un borde.
+            } 
+           
+        }
         
         public virtual void Dash()
         {
@@ -294,7 +374,7 @@ namespace Lullaby.Entities
                 if(!isGrounded) airDashCounter++;
             
                 lastDashTime = Time.time;
-                //states.Change<DashPlayerState>();
+                states.Change<DashPlayerState>();
             }
         }
 
@@ -319,6 +399,7 @@ namespace Lullaby.Entities
         public virtual void ResetSkinParent()
         {
             if(!skin) return;
+            skin.parent = transform;
             skin.localPosition = skinInitialPosition;
             skin.localRotation = skinInitialRotation;
         }
@@ -342,7 +423,7 @@ namespace Lullaby.Entities
                 transform.parent = hit.transform;
 
             lastWallNormal = hit.normal;
-            //states.Change<WallDragPlayerState>();
+            states.Change<WallDragPlayerState>();
         }
   
         /// <summary>

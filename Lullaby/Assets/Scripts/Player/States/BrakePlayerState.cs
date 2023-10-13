@@ -2,6 +2,7 @@
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/CustomMovement/Player/States/Brake Player State")]
     public class BrakePlayerState: PlayerState
     {
         protected override void OnEnter(Player player){}

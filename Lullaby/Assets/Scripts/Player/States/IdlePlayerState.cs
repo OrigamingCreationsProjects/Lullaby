@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/CustomMovement/Player/States/Idle Player State")]
     public class IdlePlayerState: PlayerState
     {
         protected override void OnEnter(Player player){}
@@ -15,6 +16,7 @@ namespace Lullaby.Entities.States
             player.SnapToGround();
             player.Jump();
             player.Fall();
+            player.Attack();
             player.RegularSlopeFactor();
             player.ApplyFriction();
             
