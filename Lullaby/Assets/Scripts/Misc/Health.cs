@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace Lullaby
 {
+    [AddComponentMenu("Lullaby/Misc/Health")]
     public class Health : MonoBehaviour
     {
         public int initial = 100;
@@ -76,6 +77,7 @@ namespace Lullaby
             {
                 current -= Math.Abs(amount);
                 lastDamageTime = Time.time;
+                Debug.Log($"Se daña al jugador quitando {amount} puntos de vida. La vida actual es {current}");
                 onDamage?.Invoke();
             }
         }
