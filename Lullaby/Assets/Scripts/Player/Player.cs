@@ -60,6 +60,11 @@ namespace Lullaby.Entities
         public int airDashCounter { get; protected set; }
         
         /// <summary>
+        /// Returns how many times the Player performed an air attack.
+        /// </summary>
+        public int airAttackCounter { get; protected set; }
+        
+        /// <summary>
         /// The last time the Player performed an dash.
         /// </summary>
         /// <value></value>
@@ -129,7 +134,8 @@ namespace Lullaby.Entities
 
         protected override bool EvaluateLanding(RaycastHit hit)
         {
-            return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring); //Si implementamos las zonas de viento
+            // Hacemos que se compruebe lo que ya se comprobaba en el original y si es una zona de viento para no aterrizar
+            return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring); 
         }
         
         /// <summary>
@@ -216,6 +222,7 @@ namespace Lullaby.Entities
                 states.Change<FallPlayerState>();
             }
         }
+        
         /// <summary>
         /// Handles ground jump with proper evaluations and height control.
         /// </summary>
@@ -300,12 +307,34 @@ namespace Lullaby.Entities
         #endregion
         
         /// <summary>
-        /// Sets the jump couter to a specific value.
+        /// Sets the jump counter to a specific value.
         /// </summary>
         /// <param name="amount">The amount of jumps.</param>
         public virtual void SetJumps(int amount) => jumpCounter = amount;
+
+
+        /// <summary>
+        /// Method to attack
+        /// </summary>
+        //ES POSIBLE QUE ESTE METODO DEBA ESTAR EN ENTITY PORQUE QUIZA TODAS LAS ENTIDADES PUEDAN ATACAR
+        public virtual void Attack()
+        {
+            var canMakeAnAttack = (isGrounded || stats.current.canAirAttack) &&
+                               (airAttackCounter < stats.current.allowedAirAttacks);
+            
+            // Si queremos que se cojan objetos tambien habra que comprobar !holding para que no ataque al tener objetos.
+            // O implementar logica para que el objeto salga volando al atacar.
+            if(stats.current.canAttack && canMakeAnAttack && inputs.GetAttackDown()) 
+            {
+                if (!isGrounded)
+                {
+                    airAttackCounter++;
+                }
+                states.Change<AttackPlayerState>();
+                playerEvents.OnAttack?.Invoke();
+            }
+        }
         
-        //IMPLEMENTAR
         public virtual void LedgeGrab()
         {
             if (stats.current.canLedgeHang && verticalVelocity.y < 0 && 

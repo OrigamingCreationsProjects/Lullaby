@@ -5,24 +5,29 @@ namespace Lullaby.Entities.States
     [AddComponentMenu("Lullaby/CustomMovement/Player/States/Attack Player State")]
     public class AttackPlayerState: PlayerState
     {
-        protected override void OnEnter(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnEnter(Player player) { }
 
-        protected override void OnExit(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override void OnExit(Player player) {}
 
         public override void OnStep(Player player)
         {
-            throw new System.NotImplementedException();
+            player.ApplyGravity();
+            player.SnapToGround();
+            player.AccelerateToInputDirection();
+
+            if (timeSinceEntered >= player.stats.current.attackDuration)
+            {
+                if(player.isGrounded)
+                {
+                    player.states.Change<IdlePlayerState>();
+                }
+                else
+                {
+                    player.states.Change<FallPlayerState>();
+                }
+            }
         }
 
-        public override void OnContact(Player entity, Collider other)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override void OnContact(Player player, Collider other) { }
     }
 }

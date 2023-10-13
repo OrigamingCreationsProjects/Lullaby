@@ -34,7 +34,7 @@ namespace MovementEntitys
             Move = actions["Move"];
             Jump = actions["Jump"];
             Look = actions["Look"];
-            //Attack = actions["Attack"];
+            Attack = actions["Attack"];
             Dash = actions["Dash"];
             ReleaseLedge = actions["ReleaseLedge"];
             //Pause = actions["Pause"];
@@ -124,11 +124,11 @@ namespace MovementEntitys
 
         public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame();
 
-        public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
-
-        public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
-
         public virtual bool GetDashDown() => Dash.WasPressedThisFrame();
+        
+        public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
+        
+        public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
 
         public virtual bool GetPauseDown() => Pause.WasPressedThisFrame();
 

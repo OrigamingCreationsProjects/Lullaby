@@ -16,9 +16,10 @@ namespace Lullaby.Entities.States
             player.FaceDirectionSmooth(player.lateralVelocity);
             player.AccelerateToInputDirection();
             player.Jump();
+            player.Attack(); //Se podria quitar si al final no se deja atacar en el aire
             player.LedgeGrab();
             player.Dash();
-            player.Glide();
+            //player.Glide(); //De momento desactivamos al no haber planeo (de momento)
             
             if (player.isGrounded)
             {

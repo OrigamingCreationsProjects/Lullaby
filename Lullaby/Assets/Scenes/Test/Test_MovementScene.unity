@@ -1089,7 +1089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &673662201
 Transform:
   m_ObjectHideFlags: 0
@@ -1694,8 +1694,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -2583,10 +2583,19 @@ MonoBehaviour:
     OnJump:
       m_PersistentCalls:
         m_Calls: []
+    OnDashStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDashEnded:
+      m_PersistentCalls:
+        m_Calls: []
     OnHurt:
       m_PersistentCalls:
         m_Calls: []
     OnDie:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAttack:
       m_PersistentCalls:
         m_Calls: []
     OnLedgeGrabbed:
@@ -2596,12 +2605,6 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnAirDive:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDashStarted:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDashEnded:
       m_PersistentCalls:
         m_Calls: []
   pickableSlot: {fileID: 0}
@@ -2650,6 +2653,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.WallDragPlayerState
   - Lullaby.Entities.States.LedgeHangingPlayerState
   - Lullaby.Entities.States.LedgeClimbingPlayerState
+  - Lullaby.Entities.States.AttackPlayerState
 --- !u!1 &1962321329
 GameObject:
   m_ObjectHideFlags: 0
