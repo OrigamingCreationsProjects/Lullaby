@@ -5,11 +5,9 @@ using System.Numerics;
 using DG.Tweening;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
-using PLAYERTWO.PlatformerProject;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using PlayerInputManager = MovementEntitys.PlayerInputManager;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 

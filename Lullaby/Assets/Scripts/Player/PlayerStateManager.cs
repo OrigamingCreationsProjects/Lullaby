@@ -11,7 +11,7 @@ namespace Lullaby.Entities.States
         public string[] states;
         protected override List<EntityState<Player>> GetStateList()
         {
-            return PlayerState.CreateListFromString(states);
+            return PlayerState.CreateListFromStringArray(states);
         }
     }
 }
