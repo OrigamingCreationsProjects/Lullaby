@@ -26,7 +26,7 @@ namespace Lullaby.Entities.Enemies
         /// <summary>
         /// Returns the Waypoint Manager instance.
         /// </summary>
-        public WaypointManager waypointManager { get; protected set; }
+        public WaypointManager waypoints { get; protected set; }
         /// <summary>
         /// Returns the Health instance.
         /// </summary>
@@ -41,7 +41,7 @@ namespace Lullaby.Entities.Enemies
         #region -- INITIALIZERS --
         
         protected virtual void InitializeStatsManager() => stats = GetComponent<EnemyStatsManager>();
-        protected virtual void InitializeWaypointManager() => waypointManager = GetComponent<WaypointManager>();
+        protected virtual void InitializeWaypointManager() => waypoints= GetComponent<WaypointManager>();
         protected virtual void InitializeHealth() => health = GetComponent<Health>();
         protected virtual void InitializeTag() => tag = GameTags.Enemy;
         

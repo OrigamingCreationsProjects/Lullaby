@@ -31,7 +31,7 @@ namespace Lullaby.Entities.Enemies
 
         [Header("Waypoint Stats")]
         public bool faceWaypoint = true;
-        public float waypointMinDistance = 0.5f;
+        public float waypointMinDistance = 0.5f; // Distace from the waypoint to stop moving
         public float waypointAcceleration = 10f;
         public float waypointTopSpeed = 2f;
     }

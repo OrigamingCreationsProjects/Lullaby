@@ -14,7 +14,7 @@ namespace Lullaby.Entities.Enemies
             enemy.SnapToGround();
 
             var head = enemy.player.position - enemy.position; // Direction to player
-            var upOffset = Vector3.Dot(enemy.transform.up, head); // Diferencia de angulo entre el up del enemigo y el vector que apunta al player
+            var upOffset = Vector3.Dot(enemy.transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
             var direction = head - enemy.transform.up * upOffset; // Direction to player without up offset
             var localDirection = Quaternion.FromToRotation(enemy.transform.up, Vector3.up) * direction; // Direction to player without up offset in local space
             
