@@ -1,7 +1,6 @@
 using UnityEngine;
 using Cinemachine;
 using Lullaby.Entities;
-using MovementEntitys;
 
 namespace Lullaby
 {

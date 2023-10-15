@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PLAYERTWO.PlatformerProject
+namespace Lullaby.Entities
 {
 	[CreateAssetMenu(fileName = "NewPlayerStats", menuName = "Character Stats/Player/New Player Stats")]
 	public class PlayerStats : EntityStats<PlayerStats>
