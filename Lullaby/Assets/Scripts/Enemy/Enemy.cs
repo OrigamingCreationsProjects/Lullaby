@@ -5,7 +5,7 @@ namespace Lullaby.Entities.Enemies
 {
     [RequireComponent(typeof(EnemyStatsManager))]
     [RequireComponent(typeof(EnemyStateManager))]
-//Waypoints
+    [RequireComponent(typeof(WaypointManager))]
     [RequireComponent(typeof(Health))]
     [AddComponentMenu("Lullaby/Enemies/Enemy")]
     public class Enemy : Entity<Enemy>
@@ -23,8 +23,10 @@ namespace Lullaby.Entities.Enemies
         /// </summary>
         public EnemyStatsManager stats { get; protected set; }
         
-        // Waypoint Manager
-        
+        /// <summary>
+        /// Returns the Waypoint Manager instance.
+        /// </summary>
+        public WaypointManager waypointManager { get; protected set; }
         /// <summary>
         /// Returns the Health instance.
         /// </summary>
@@ -39,6 +41,7 @@ namespace Lullaby.Entities.Enemies
         #region -- INITIALIZERS --
         
         protected virtual void InitializeStatsManager() => stats = GetComponent<EnemyStatsManager>();
+        protected virtual void InitializeWaypointManager() => waypointManager = GetComponent<WaypointManager>();
         protected virtual void InitializeHealth() => health = GetComponent<Health>();
         protected virtual void InitializeTag() => tag = GameTags.Enemy;
         
@@ -164,6 +167,7 @@ namespace Lullaby.Entities.Enemies
             base.Awake();
             InitializeTag();
             InitializeStatsManager();
+            InitializeWaypointManager();
             InitializeHealth();
         }
 
