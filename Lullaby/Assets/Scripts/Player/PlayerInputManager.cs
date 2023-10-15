@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace MovementEntitys
+namespace Lullaby
 {
     [AddComponentMenu("Lullaby/Custom Movement/Player/Player Input Manager")]
     public class PlayerInputManager : MonoBehaviour
