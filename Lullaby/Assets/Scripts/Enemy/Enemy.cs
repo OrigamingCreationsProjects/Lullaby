@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Lullaby.Entities.Events;
+using UnityEngine;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -9,8 +10,9 @@ namespace Lullaby.Entities.Enemies
     [AddComponentMenu("Lullaby/Enemies/Enemy")]
     public class Enemy : Entity<Enemy>
     {
-        //Eventos del enemigo
-
+        //Eventos del enemigo (oublicos al poder asignarse en el inspector)
+        public EnemyEvents enemyEvents; 
+        
         protected Player _player;
 
         protected Collider[] sightOverlaps = new Collider[1024];
@@ -52,12 +54,12 @@ namespace Lullaby.Entities.Enemies
             if (!health.isEmpty && !health.recovering)
             {
                 health.Damage(amount);
-                //enemyEvents.OnDamage?.Invoke();
+                enemyEvents.OnDamage?.Invoke();
 
                 if (health.isEmpty)
                 {
                     controller.enabled = false;
-                    //enemyEvents.OnDie?.Invoke();
+                    enemyEvents.OnDie?.Invoke();
                 }
             }
         }
@@ -68,7 +70,7 @@ namespace Lullaby.Entities.Enemies
             
             health.ResetHealth();
             controller.enabled = true;
-            //enemyEvents.OnRevive.Invoke();
+            enemyEvents.OnRevive.Invoke();
         }
 
         public virtual void Accelerate(Vector3 direction, float accelaration, float topSpeed) =>
@@ -114,7 +116,7 @@ namespace Lullaby.Entities.Enemies
                     lateralVelocity = -localForward * stats.current.contactPushBackForce; // Empujamos al jugador hacia atras
                 
                 player.ApplyDamage(stats.current.contactDamage, transform.position);
-                //enemyEvents.OnPlayerContact?.Invoke();
+                enemyEvents.OnPlayerContact?.Invoke();
             }
         }
         
@@ -134,7 +136,7 @@ namespace Lullaby.Entities.Enemies
                         if (sightOverlaps[i].TryGetComponent<Player>(out var player))
                         {
                             this.player = player;
-                            //enemyEvents.OnPlayerSpotted?.Invoke();
+                            enemyEvents.OnPlayerDetected?.Invoke();
                             return;
                         }
                     }
@@ -147,7 +149,7 @@ namespace Lullaby.Entities.Enemies
                 if ((player.health.current == 0) || (distance > stats.current.viewRange))
                 {
                     player = null;
-                    //enemyEvents.OnPlayerEscaped?.Invoke();
+                    enemyEvents.OnPlayerEscaped?.Invoke();
                 }
             }
         }
