@@ -5,11 +5,9 @@ using System.Numerics;
 using DG.Tweening;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
-using PLAYERTWO.PlatformerProject;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using PlayerInputManager = MovementEntitys.PlayerInputManager;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -19,6 +17,7 @@ namespace Lullaby.Entities
     [RequireComponent(typeof(PlayerInputManager))]
     [RequireComponent(typeof(PlayerStatsManager))]
     [RequireComponent(typeof(PlayerStateManager))]
+    [RequireComponent(typeof(Health))]
     public class Player : Entity<Player>
     {
         //Eventos
@@ -42,8 +41,10 @@ namespace Lullaby.Entities
         /// </summary>
         public PlayerStatsManager stats { get; protected set; }
         
-        //SALUD
-        
+        /// <summary>
+        /// Returns the Health instance
+        /// </summary>
+        public Health health { get; protected set; }
         
         //COGER OBJETOS?
         
@@ -75,7 +76,10 @@ namespace Lullaby.Entities
         /// </summary>
         public Vector3 lastWallNormal { get; protected set; }
         
-        //HEALTH ALIVE
+        /// <summary>
+        /// Returns true if the Player health is not empty.
+        /// </summary>
+        public virtual bool isAlive => !health.isEmpty;
         
         /// <summary>
         /// Returns true if the Player can stand up.
@@ -84,10 +88,9 @@ namespace Lullaby.Entities
 
         #region -- INITIALIZERS --
         
-        //INPUT
         protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
         protected virtual void InitializeStats() => stats = GetComponent<PlayerStatsManager>();
-        // HEALTH
+        protected virtual void InitializeHealth() => health = GetComponent<Health>();
         protected virtual void InitializeTag() => tag = GameTags.Player;
         
         protected virtual void InitializeRespawn()
@@ -111,8 +114,7 @@ namespace Lullaby.Entities
         /// </summary>
         public virtual void Respawn()
         {
-            //RESET HEALTH
-
+            health.ResetHealth();
             velocity = Vector3.zero;
             transform.SetPositionAndRotation(respawnPosition, respawnRotation);
             states.Change<IdlePlayerState>();
@@ -128,10 +130,50 @@ namespace Lullaby.Entities
         }
         #endregion
         
-        //public override void ApplyDamage(int amount, Vector3 origin){}
-        
-        //public virtual void Die() { }
+        #region -- HEALTH MODIFIERS METHODS --
 
+        /// <summary>
+        /// Applies damage to this Player decreasing its health with proper reaction.
+        /// </summary>
+        /// <param name="amount">The amount of health you want to decrease</param>
+        /// <param name="origin">The origin hit position where we recieve damage</param>
+        public override void ApplyDamage(int amount, Vector3 origin)
+        {
+            if(health.isEmpty || health.recovering) return;
+            
+            health.Damage(amount);
+
+            var head = origin - transform.position; // Get the direction of the hit relative to the Player
+            var upOffset = Vector3.Dot(transform.up, head); // Get the offset of the hit relative to the Player's up direction
+            var damageDir = (head - (transform.up * upOffset)).normalized; // Get the direction of the hit relative to the Player's up direction
+            var localDamageDir = Quaternion.FromToRotation(transform.up, Vector3.up) * damageDir; // Get the direction of the hit relative to the world up direction for face the player to the hit
+            
+            FaceDirection(localDamageDir);
+            lateralVelocity = -localForward * stats.current.hurtBackwardsForce; // Apply a force to the Player to push it back when it gets hit relative to the hit direction
+            
+            //En caso de estar en una situacion especial como estar flotando o en agua
+            //habria que poner estas 2 lineas bajo un if que comprobara que no esta en esa condicion especial
+            verticalVelocity = Vector3.up * stats.current.hurtUpwardForce; // Apply a force to the Player to push it up when it gets hit
+            states.Change<HurtPlayerState>(); 
+            
+            playerEvents.OnHurt?.Invoke();
+
+            if (health.isEmpty)
+            {
+                //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
+                playerEvents.OnDie?.Invoke();
+            }
+        }
+        
+        /// <summary>
+        /// Kills the Player.
+        /// </summary>
+        public virtual void Die()
+        {
+            health.Set(0);
+            playerEvents.OnDie?.Invoke();
+        }
+        #endregion
         protected override bool EvaluateLanding(RaycastHit hit)
         {
             // Hacemos que se compruebe lo que ya se comprobaba en el original y si es una zona de viento para no aterrizar
@@ -484,7 +526,7 @@ namespace Lullaby.Entities
             base.Awake(); // Inicializamos controller, estados y parent
             InitializeInputs();
             InitializeStats();
-            //InitializeHealth();
+            InitializeHealth();
             InitializeTag();
             InitializeRespawn();
 
