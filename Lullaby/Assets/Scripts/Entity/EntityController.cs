@@ -38,6 +38,8 @@ namespace  Lullaby.Entities
         public bool HandleCollision { get; set; } = true;
         
         public new CapsuleCollider collider { get; protected set; }
+
+        public Bounds bounds => collider.bounds; 
         
         //Calculamos el desplazamiento (o distancia) desde el centro de la capsula hasta el extremo más alejado (altura o anchura)
         //Esto nos sirve para colocar objetos relacionados con la capsula, posición de VFX o colisiones de manera precisa en funcion

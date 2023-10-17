@@ -65,7 +65,7 @@ namespace Lullaby.Entities
         /// Returns a new list with instances of the Entity States matching the array of type names.
         /// </summary>
         /// <param name="typeNames">The array of type names.</param>
-        public static List<EntityState<T>> CreateListFromString(string[] typeNames)
+        public static List<EntityState<T>> CreateListFromStringArray(string[] typeNames)
         {
             var list = new List<EntityState<T>>();
             foreach (string typeName in typeNames)
