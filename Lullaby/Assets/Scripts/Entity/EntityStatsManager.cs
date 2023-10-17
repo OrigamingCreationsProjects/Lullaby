@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PLAYERTWO.PlatformerProject
+namespace Lullaby.Entities
 {
 	public abstract class EntityStatsManager<T> : MonoBehaviour where T : EntityStats<T>
 	{
