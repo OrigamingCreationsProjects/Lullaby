@@ -18,12 +18,14 @@ namespace Lullaby
         public Canvas canvas;
         public Text uiText;
         public float scaleDuration = 0.25f;
-
+        public Vector3 backPosition = new Vector3(0, 0.82f, 0);
+        public  Ease scaleAndMoveEase = Ease.OutQuart;
         [Space(15)] 
         public UnityEvent onShow;
         public UnityEvent onHide;
-
+        
         protected Vector3 initialScale;
+        protected Vector3 finalPosition;
         protected bool showing;
         protected Collider collider;
         protected Camera camera;
@@ -35,6 +37,7 @@ namespace Lullaby
                 showing = true;
                 onShow?.Invoke();
                 Scale(Vector3.zero, initialScale);
+                Move(backPosition, finalPosition);
             }
         }
 
@@ -45,13 +48,36 @@ namespace Lullaby
                 showing = false;
                 onShow?.Invoke();
                 Scale(canvas.transform.localScale, Vector3.zero);
+                Move(canvas.transform.localPosition, backPosition);
             }
         }
 
         protected void Scale(Vector3 from, Vector3 to)
         {
             Debug.Log("Intentamos escalar");
-            canvas.transform.DOScale(to, scaleDuration).SetEase(Ease.InOutSine);
+            //Sequence showSequence = DOTween.Sequence();
+            // showSequence.Append(canvas.transform.DOScaleY(to.y, scaleDuration).SetEase(Ease.InOutSine));
+            // showSequence.Insert(0, canvas.transform.DOMoveY(finalPosition.y, scaleDuration).SetEase(Ease.InOutSine));
+            // showSequence.Insert(0, canvas.transform.DOScaleX(to.x, scaleDuration / 2).SetEase(Ease.InOutSine));
+            // showSequence.Insert(2, canvas.transform.DOScaleZ(to.z, scaleDuration / 2).SetEase(Ease.InOutSine));
+            // canvas.transform.DOScaleY(to.y, scaleDuration).SetEase(Ease.InOutSine);
+            // canvas.transform.DOScaleX(to.x, scaleDuration).SetEase(Ease.InOutSine);
+            // canvas.transform.DOScaleZ(to.z, scaleDuration).SetEase(Ease.InOutSine);
+            canvas.transform.DOScale(to, scaleDuration).SetEase(scaleAndMoveEase);
+          
+
+        }
+        protected void Move(Vector3 from, Vector3 to)
+        {
+            Debug.Log("Intentamos escalar");
+            
+            // Sequence showSequence = DOTween.Sequence();
+            // showSequence.Append(canvas.transform.DOScaleY(to.y, scaleDuration).SetEase(Ease.InOutSine));
+            // showSequence.Append(canvas.transform.DOScaleX(to.x, scaleDuration / 2).SetEase(Ease.InOutSine));
+            // showSequence.Insert(2, canvas.transform.DOScaleZ(to.z, scaleDuration / 2).SetEase(Ease.InOutSine));
+            canvas.transform.DOMoveY(to.y, scaleDuration).SetEase(scaleAndMoveEase);
+            
+
         }
         
         // protected virtual IEnumerator Scale(Vector3 from, Vector3 to)
@@ -62,6 +88,8 @@ namespace Lullaby
         protected void Awake()
         {
             uiText.text = text;
+            finalPosition = canvas.transform.position;
+            canvas.transform.localPosition = backPosition;
             initialScale = canvas.transform.localScale;
             canvas.transform.localScale = Vector3.zero;
             //Quiza haya que inicializar la escala
