@@ -55,15 +55,15 @@ namespace Lullaby.Entities
 		public float groundDashCoolDown = 0.5f;
 		public float allowedAirDashes = 1;
 		
-		[Header("Crouch Stats")]
-		public float crouchHeight = 1f;
-		public float crouchFriction = 10f;
-
-		[Header("Crawling Stats")]
-		public float crawlingAcceleration = 8f;
-		public float crawlingFriction = 32f;
-		public float crawlingTopSpeed = 2.5f;
-		public float crawlingTurningSpeed = 3f;
+		// [Header("Crouch Stats")]
+		// public float crouchHeight = 1f;
+		// public float crouchFriction = 10f;
+		//
+		// [Header("Crawling Stats")]
+		// public float crawlingAcceleration = 8f;
+		// public float crawlingFriction = 32f;
+		// public float crawlingTopSpeed = 2.5f;
+		// public float crawlingTurningSpeed = 3f;
 		
 		[Header("Attack Stats")]
 		public bool canAttack = true;
@@ -83,37 +83,19 @@ namespace Lullaby.Entities
 		public float wallJumpDistance = 8f; //Distancia máxima en salto de pared
 		public float wallJumpHeight = 15f; //Altura máxima en salto de pared
 
-		[Header("Pole Climb Stats")]
-		public bool canPoleClimb = true;
-		public Vector3 poleClimbSkinOffset;
-		public float climbUpSpeed = 3f;
-		public float climbDownSpeed = 8f;
-		public float climbRotationSpeed = 2f;
-		public float poleJumpDistance = 8f;
-		public float poleJumpHeight = 15f;
+		// [Header("Pole Climb Stats")]
+		// public bool canPoleClimb = true;
+		// public Vector3 poleClimbSkinOffset;
+		// public float climbUpSpeed = 3f;
+		// public float climbDownSpeed = 8f;
+		// public float climbRotationSpeed = 2f;
+		// public float poleJumpDistance = 8f;
+		// public float poleJumpHeight = 15f;
 		
 
 		[Header("Hurt Stats")]
 		public float hurtUpwardForce = 10f;
 		public float hurtBackwardsForce = 5f;
-
-		[Header("Air Dive Stats")]
-		public bool canAirDive = true;
-		public bool applyDiveSlopeFactor = true;
-		public float airDiveForwardForce = 16f;
-		public float airDiveFriction = 32f;
-		public float airDiveSlopeFriction = 12f;
-		public float airDiveSlopeUpwardForce = 35f;
-		public float airDiveSlopeDownwardForce = 40f;
-		public float airDiveGroundLeapHeight = 10f;
-		public float airDiveRotationSpeed = 45f;
-
-		[Header("Stomp Attack Stats")]
-		public bool canStompAttack = true;
-		public float stompDownwardForce = 20f;
-		public float stompAirTime = 0.8f;
-		public float stompGroundTime = 0.5f;
-		public float stompGroundLeapHeight = 10f;
 
 		[Header("Ledge Hanging Stats")]
 		public bool canLedgeHang = true;
@@ -142,12 +124,6 @@ namespace Lullaby.Entities
 		public float backflipGravity = 35f;
 		public float backflipBackwardForce = 4f;
 		public float backflipBackwardTurnForce = 8f;
-
-		[Header("Gliding Stats")]
-		public bool canGlide = true;
-		public float glidingGravity = 10f;
-		public float glidingMaxFallSpeed = 2f;
-		public float glidingTurningDrag = 8f;
 
 		[Header("Rail Grinding Stats")]
 		public bool useCustomCollision = true;
