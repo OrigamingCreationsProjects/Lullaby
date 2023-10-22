@@ -134,7 +134,7 @@ namespace Lullaby.Entities.Enemies
 
                 for (int i = 0; i < overlaps; i++)
                 {
-                    if (sightOverlaps[i].CompareTag(GameTags.Player))
+                    if (sightOverlaps[i].CompareTag(GameTags.Player)) 
                     {
                         if (sightOverlaps[i].TryGetComponent<Player>(out var player))
                         {

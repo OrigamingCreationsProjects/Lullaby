@@ -540,7 +540,6 @@ namespace Lullaby.Entities
             {
                 ResetJumps();
                 ResetAirDash();
-                //StartGrind();
             });
 
         }
