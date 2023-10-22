@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using Lullaby.Entities;
+using Lullaby.Entities.States;
 
 namespace Lullaby
 {
@@ -79,15 +80,14 @@ namespace Lullaby
 			Reset();
 		}
 
-		// protected virtual bool VerticalFollowingStates()
-		// {
-		// 	return player.states.IsCurrentOfType(typeof(SwimPlayerState)) ||
-		// 		player.states.IsCurrentOfType(typeof(PoleClimbingPlayerState)) ||
-		// 		player.states.IsCurrentOfType(typeof(WallDragPlayerState)) ||
-		// 		player.states.IsCurrentOfType(typeof(LedgeHangingPlayerState)) ||
-		// 		player.states.IsCurrentOfType(typeof(LedgeClimbingPlayerState)) ||
-		// 		player.states.IsCurrentOfType(typeof(RailGrindPlayerState));
-		// }
+		protected virtual bool VerticalFollowingStates()
+		{
+			return
+				player.states.IsCurrentOfType(typeof(WallDragPlayerState)) ||
+				player.states.IsCurrentOfType(typeof(LedgeHangingPlayerState)) ||
+				player.states.IsCurrentOfType(typeof(LedgeClimbingPlayerState));
+				// || player.states.IsCurrentOfType(typeof(RailGrindPlayerState));
+		}
 
 		public virtual void Reset()
 		{
@@ -118,7 +118,7 @@ namespace Lullaby
 			var maxGroundDelta = maxVerticalSpeed * Time.deltaTime;
 			var maxAirDelta = maxAirVerticalSpeed * Time.deltaTime;
 			
-			if (grounded )//|| VerticalFollowingStates())
+			if (grounded || VerticalFollowingStates())
 			{
 				if (yOffset > verticalUpDeadZone)
 				{
