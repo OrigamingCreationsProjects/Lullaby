@@ -420,6 +420,13 @@ namespace Lullaby.Entities
             }
         }
 
+        public virtual void Talk()
+        {
+            if (inputs.GetInteractDown())
+            {
+                playerEvents.OnTalk?.Invoke();
+            }
+        }
         public virtual void Glide()
         {
             // if(!isGrounded && inputs.GetGlide() && 

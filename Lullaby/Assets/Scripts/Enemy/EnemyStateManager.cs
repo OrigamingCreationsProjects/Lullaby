@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Lullaby.Entities;
 
 namespace Lullaby.Entities.Enemies
 {

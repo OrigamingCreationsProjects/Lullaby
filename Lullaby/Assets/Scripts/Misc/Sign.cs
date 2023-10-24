@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using Lullaby.Entities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -116,7 +117,7 @@ namespace Lullaby
                 //var allowedHeight = other.transform.position.y > collider.bounds.min.y;
                 // Si la cámara y el cartel miran en direcciones diferentes significa que la camara esá mirando el cartel
                 var inCameraSight = Vector3.Dot(camera.transform.forward, transform.forward) < 0;
-                
+               
                 if(angle < viewAngle && inCameraSight)
                 {
                     Show();
