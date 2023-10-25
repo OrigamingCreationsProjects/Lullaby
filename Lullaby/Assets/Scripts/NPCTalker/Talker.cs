@@ -15,6 +15,8 @@ namespace Lullaby.Entities.NPC
 
         protected Collider[] sightOverlaps = new Collider[1024];
         
+        
+        
         /// <summary>
         /// Returns the Talker Stats Manager instance.
         /// </summary>
@@ -31,7 +33,7 @@ namespace Lullaby.Entities.NPC
         
         #endregion
         
-        protected virtual void HandleSight()
+        public virtual void HandleSight()
         {
             if (!player)
             {
@@ -41,10 +43,10 @@ namespace Lullaby.Entities.NPC
                 {
                     if (sightOverlaps[i].CompareTag(GameTags.Player)) 
                     {
-                        if (sightOverlaps[i].TryGetComponent<Player>(out var player))
+                        if (sightOverlaps[i].TryGetComponent<Player>(out var player) && player.inputs.GetInteractDown())
                         {
                             this.player = player;
-                            talkerEvents.OnPlayerDetected?.Invoke();
+                            talkerEvents.OnDialogueStarted?.Invoke();
                             return;
                         }
                     }
@@ -62,9 +64,10 @@ namespace Lullaby.Entities.NPC
             }
         }
         
+        
         protected override void OnUpdate()
         {
-            HandleSight();
+            //HandleSight();
         }
         
         protected override void Awake()

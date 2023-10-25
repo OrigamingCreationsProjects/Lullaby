@@ -2,7 +2,7 @@
 
 namespace Lullaby.Systems.DialogueSystem
 {
-    [CreateAssetMenu(fileName = "NewNPCDialogueData", menuName = "DialogueSystem/NPC", order = 0)]
+    [CreateAssetMenu(fileName = "NewNPCDialogueData", menuName = "DialogueSystem/NPC/NewNPCDialogueData", order = 0)]
     public class NPCDialogueData : ScriptableObject
     {
         public string NPCName;
