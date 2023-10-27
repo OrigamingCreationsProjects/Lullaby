@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 5662405255985192950}
   - component: {fileID: 5810930251915018963}
   - component: {fileID: 3987990107631185487}
+  - component: {fileID: 1503293712377979214}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -422,6 +423,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnAttack:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDialogueStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDialogueFinished:
       m_PersistentCalls:
         m_Calls: []
     OnLedgeGrabbed:
@@ -494,6 +501,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.LedgeHangingPlayerState
   - Lullaby.Entities.States.LedgeClimbingPlayerState
   - Lullaby.Entities.States.AttackPlayerState
+  - Lullaby.Entities.States.DialoguePlayerState
 --- !u!114 &3987990107631185487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +523,20 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1503293712377979214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e6438b382a4aedafb8baaa89c693f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGroup: {fileID: 0}
+  dialogueDof: {fileID: 0}
 --- !u!1 &4517935960329081683
 GameObject:
   m_ObjectHideFlags: 0

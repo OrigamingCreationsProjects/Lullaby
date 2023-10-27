@@ -20,6 +20,7 @@ namespace Lullaby
         protected InputAction ReleaseLedge;
         protected InputAction Pause;
         protected InputAction GrindBrake;
+        protected InputAction Interact;
 
         protected Camera camera;
 
@@ -39,6 +40,7 @@ namespace Lullaby
             Attack = actions["Attack"];
             Dash = actions["Dash"];
             ReleaseLedge = actions["ReleaseLedge"];
+            Interact = actions["Interact"];
             //Pause = actions["Pause"];
             //GrindBrake = actions["GrindBrake"];
         }
@@ -118,7 +120,7 @@ namespace Lullaby
         public virtual bool GetJumpDown()
         {
             //Cuidado con HASVALUE, si no habra que usar != null
-            if (lastJumpTime.HasValue && Time.time - lastJumpTime.Value < jumpBuffer)
+            if (lastJumpTime != null && Time.time - lastJumpTime.Value < jumpBuffer)
             {
                 lastJumpTime = null;
                 return true;
@@ -127,13 +129,15 @@ namespace Lullaby
             return false;
         }
 
-        public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame();
+        public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame(); 
 
         public virtual bool GetDashDown() => Dash.WasPressedThisFrame();
         
         public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
         
         public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
+        
+        public virtual bool GetInteractDown() => Interact.WasPressedThisFrame();
 
         public virtual bool GetPauseDown() => Pause.WasPressedThisFrame();
 

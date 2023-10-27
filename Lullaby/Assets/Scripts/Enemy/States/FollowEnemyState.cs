@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Lullaby.Entities.Enemies
+namespace Lullaby.Entities.Enemies.States
 {
     public class FollowEnemyState : EnemyState
     {
