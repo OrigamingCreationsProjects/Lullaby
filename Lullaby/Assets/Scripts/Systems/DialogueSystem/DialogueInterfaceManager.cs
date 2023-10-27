@@ -1,6 +1,8 @@
 ﻿using System;
 using DG.Tweening;
+using Lullaby.Entities;
 using Lullaby.Entities.NPC;
+using Lullaby.Entities.States;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -24,7 +26,8 @@ namespace Lullaby.Systems.DialogueSystem
         private int dialogueIndex;
         public bool canExit;
         public bool nextDialogue;
-
+        public bool currentDialogueTextFinished;
+        
         [Space] 
         
         [Header("Cameras")] 
@@ -33,7 +36,9 @@ namespace Lullaby.Systems.DialogueSystem
         
         //[Space]
         //public Volume dialogueDof;
-        
+
+
+        private Player _player;
         private void Awake()
         {
             if (Instance == null)
@@ -46,28 +51,30 @@ namespace Lullaby.Systems.DialogueSystem
         {
             //Aqui suscribiremos el evento de que se ha terminado el dialogo
             animatedText.onDialogueFinish.AddListener(() => FinishDialogue());
+            _player = FindObjectOfType<Player>();
         }
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Space) && inDialogue)
-            {
-                if (canExit)
-                {
-                    CameraChange(false);
-                    FadeUI(false, .2f, 0);
-                    Sequence s = DOTween.Sequence();
-                    s.AppendInterval(.8f);
-                    s.AppendCallback(() => ResetState());
-                }
-                else if (nextDialogue)
-                {
-                    FadeUI(false, .2f, 0);
-                    Sequence s = DOTween.Sequence();
-                    s.AppendInterval(.8f);
-                    s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
-                }
-            }
+            // if(Input.GetKeyDown(KeyCode.Space) && inDialogue)
+            // {
+            //     if (canExit)
+            //     {
+            //         CameraChange(false);
+            //         FadeUI(false, .2f, 0);
+            //         Sequence s = DOTween.Sequence();
+            //         s.AppendInterval(.8f);
+            //         s.AppendCallback(() => ResetState());
+            //     }
+            //     else if (nextDialogue)
+            //     {
+            //         FadeUI(false, .2f, 0);
+            //         Sequence s = DOTween.Sequence();
+            //         s.AppendInterval(.8f);
+            //         s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
+            //     }
+            // }
+            
         }
 
         public void NextDialogue()
@@ -79,11 +86,31 @@ namespace Lullaby.Systems.DialogueSystem
                 Sequence s = DOTween.Sequence();
                 s.AppendInterval(.8f);
                 s.AppendCallback(() => ResetState());
+                Debug.Log("Salimos del dialogo");
             }
-
-            if (nextDialogue)
+            int auxindex = dialogueIndex == 0? dialogueIndex : dialogueIndex - 1;
+            if ((animatedText.maxVisibleCharacters == currentNPC.dialogueText.conversationBlock[auxindex].Length) 
+                && nextDialogue)
             {
+                nextDialogue = false;
+                //CUIDADO CON ESTAS CUATRO LINEAS
+                // FadeUI(false, .2f, 0);
+                // Sequence s = DOTween.Sequence();
+                // s.AppendInterval(.8f);
+                // s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
                 animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]);
+            } 
+            else if(animatedText.maxVisibleCharacters != currentNPC.dialogueText.conversationBlock[dialogueIndex].Length)
+            {
+                Sequence s = DOTween.Sequence();
+                s.AppendCallback(() => animatedText.StopAllCoroutines());
+                s.AppendCallback(() => animatedText.maxVisibleCharacters = currentNPC.dialogueText.conversationBlock[dialogueIndex].Length);
+                s.AppendInterval(0.5f);
+                s.AppendCallback(() => animatedText.onDialogueFinish?.Invoke());
+                animatedText.StopAllCoroutines();
+                //CUIDADO CON ESTA LINEA YA QUE PUEDE HACER QUE LOS SPLITS SE VEAN. OSEA LAS TAGS
+                //animatedText.maxVisibleCharacters = currentNPC.dialogueText.conversationBlock[dialogueIndex].Length;
+                //animatedText.onDialogueFinish?.Invoke();
             }
         }
 
@@ -123,6 +150,7 @@ namespace Lullaby.Systems.DialogueSystem
         {
             //dialogueDof.weight = x;
         }
+
         
         public void ClearText()
         {
@@ -134,13 +162,16 @@ namespace Lullaby.Systems.DialogueSystem
             //Reseteamos el NPC
             inDialogue = false;
             canExit = false;
+            NotifyDialogueFinished();
         }
         public void FinishDialogue()
         {
+            currentDialogueTextFinished = true;
             if (dialogueIndex < currentNPC.dialogueText.conversationBlock.Count - 1) 
             {
                 dialogueIndex++;
                 nextDialogue = true;
+                Debug.Log($"INDICE DE DIALOGO ACTUAL {dialogueIndex}");
             }
             else
             {
@@ -149,11 +180,15 @@ namespace Lullaby.Systems.DialogueSystem
                 canExit = true;
             }
         }
-        
-        public void StartDialogue(NPCDialogueData npcDialogueData)
+        public void NotifyDialogueStarted()
         {
-            //dialogueInterface.StartDialogue(npcDialogueData);
+            currentNPC.gameObject.GetComponent<Talker>().talkerEvents.OnDialogueStarted?.Invoke();
         }
 
+        public void NotifyDialogueFinished()
+        {
+            currentNPC.gameObject.GetComponent<Talker>().talkerEvents.OnDialogueFinished?.Invoke();
+        }
+        
     }
 }

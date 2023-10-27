@@ -10,12 +10,10 @@ namespace Lullaby.Entities.NPC
     public class Talker: Entity<Talker>
     {
         public TalkerEvents talkerEvents;
-
+        
         protected Player _player;
 
         protected Collider[] sightOverlaps = new Collider[1024];
-        
-        
         
         /// <summary>
         /// Returns the Talker Stats Manager instance.
@@ -27,6 +25,9 @@ namespace Lullaby.Entities.NPC
         /// </summary>
         public Player player { get; protected set; }
 
+        public Quaternion originalRotation { get; protected set; }
+       
+        
         #region -- INITIALIZERS --
         protected virtual void InitializeStatsManager() => stats = GetComponent<TalkerStatsManager>();
         protected virtual void InitializeTag() => tag = GameTags.Talker;
@@ -43,10 +44,10 @@ namespace Lullaby.Entities.NPC
                 {
                     if (sightOverlaps[i].CompareTag(GameTags.Player)) 
                     {
-                        if (sightOverlaps[i].TryGetComponent<Player>(out var player) && player.inputs.GetInteractDown())
+                        if (sightOverlaps[i].TryGetComponent<Player>(out var player))
                         {
                             this.player = player;
-                            talkerEvents.OnDialogueStarted?.Invoke();
+                            //talkerEvents.OnDialogueStarted?.Invoke();
                             return;
                         }
                     }
@@ -63,11 +64,16 @@ namespace Lullaby.Entities.NPC
                 }
             }
         }
-        
-        
+
+        protected override void Update()
+        {
+            HandleStates();
+            OnUpdate();
+        }
+
         protected override void OnUpdate()
         {
-            //HandleSight();
+            HandleSight();
         }
         
         protected override void Awake()
@@ -77,18 +83,23 @@ namespace Lullaby.Entities.NPC
             InitializeStatsManager();
             // TEMPORAL
             talkerEvents.OnDialogueStarted.AddListener(() => Debug.Log("Dialogo Empezado"));
+            originalRotation = new Quaternion(
+                transform.localRotation.x, 
+                transform.localRotation.y, 
+                transform.localRotation.z, 
+                transform.localRotation.w);
         }
         
         protected void OnTriggerStay(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
-            {
-                this.player = player;
-                if (this.player.inputs.GetInteractDown())
-                {
-                    talkerEvents.OnDialogueStarted?.Invoke();
-                }
-            }
+            // if (other.TryGetComponent(out Player player))
+            // {
+            //     this.player = player;
+            //     if (this.player.inputs.GetInteractDown())
+            //     {
+            //         talkerEvents.OnDialogueStarted?.Invoke();
+            //     }
+            // }
         }
     }
 }

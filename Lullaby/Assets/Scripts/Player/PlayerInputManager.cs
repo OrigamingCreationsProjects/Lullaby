@@ -120,7 +120,7 @@ namespace Lullaby
         public virtual bool GetJumpDown()
         {
             //Cuidado con HASVALUE, si no habra que usar != null
-            if (lastJumpTime.HasValue && Time.time - lastJumpTime.Value < jumpBuffer)
+            if (lastJumpTime != null && Time.time - lastJumpTime.Value < jumpBuffer)
             {
                 lastJumpTime = null;
                 return true;
@@ -129,7 +129,7 @@ namespace Lullaby
             return false;
         }
 
-        public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame();
+        public virtual bool GetJumpUp() => Jump.WasReleasedThisFrame(); 
 
         public virtual bool GetDashDown() => Dash.WasPressedThisFrame();
         

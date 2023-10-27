@@ -425,7 +425,10 @@ MonoBehaviour:
     OnAttack:
       m_PersistentCalls:
         m_Calls: []
-    OnTalk:
+    OnDialogueStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDialogueFinished:
       m_PersistentCalls:
         m_Calls: []
     OnLedgeGrabbed:
@@ -498,6 +501,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.LedgeHangingPlayerState
   - Lullaby.Entities.States.LedgeClimbingPlayerState
   - Lullaby.Entities.States.AttackPlayerState
+  - Lullaby.Entities.States.DialoguePlayerState
 --- !u!114 &3987990107631185487
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using DG.Tweening;
 using Lullaby.Entities.Events;
+using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
 using Systems;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Lullaby.Entities
     [RequireComponent(typeof(PlayerStatsManager))]
     [RequireComponent(typeof(PlayerStateManager))]
     [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(PlayerDialogueTrigger))]
     public class Player : Entity<Player>
     {
         //Eventos
@@ -45,6 +47,11 @@ namespace Lullaby.Entities
         /// Returns the Health instance
         /// </summary>
         public Health health { get; protected set; }
+        
+        /// <summary>
+        /// Returns the PlayerDialogueTrigger instance
+        /// </summary>
+        public PlayerDialogueTrigger dialogueTrigger { get; protected set; }
         
         //COGER OBJETOS?
         
@@ -91,6 +98,7 @@ namespace Lullaby.Entities
         protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
         protected virtual void InitializeStats() => stats = GetComponent<PlayerStatsManager>();
         protected virtual void InitializeHealth() => health = GetComponent<Health>();
+        protected virtual void InitializeDialogueTrigger() => dialogueTrigger = GetComponent<PlayerDialogueTrigger>();
         protected virtual void InitializeTag() => tag = GameTags.Player;
         
         protected virtual void InitializeRespawn()
@@ -417,14 +425,18 @@ namespace Lullaby.Entities
             
                 lastDashTime = Time.time;
                 states.Change<DashPlayerState>();
+                playerEvents.OnDashStarted?.Invoke();
             }
         }
 
         public virtual void Talk()
         {
-            if (inputs.GetInteractDown())
+            if (inputs.GetInteractDown() && dialogueTrigger.CheckDialogue(out Talker talker))
             {
-                playerEvents.OnTalk?.Invoke();
+                talker.FaceDirectionSmooth(transform.position, 800);
+                talker.talkerEvents.OnDialogueStarted?.Invoke();
+                states.Change<DialoguePlayerState>();
+                playerEvents.OnDialogueStarted?.Invoke();
             }
         }
         public virtual void Glide()
@@ -534,6 +546,7 @@ namespace Lullaby.Entities
             InitializeInputs();
             InitializeStats();
             InitializeHealth();
+            InitializeDialogueTrigger();
             InitializeTag();
             InitializeRespawn();
 

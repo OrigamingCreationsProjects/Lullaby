@@ -37,9 +37,14 @@ namespace Lullaby.Entities.Events
 		public UnityEvent OnAttack;
 
 		/// <summary>
-		/// Called when the Player Talk.
+		/// Called when the Player start a Dialogue.
 		/// </summary>
-		public UnityEvent OnTalk;
+		public UnityEvent OnDialogueStarted;
+		
+		/// <summary>
+		/// Called when the Player finish a Dialogue.
+		/// </summary>
+		public UnityEvent OnDialogueFinished;
 		
 		// /// <summary>
 		// /// Called when the Player pick up an object.
