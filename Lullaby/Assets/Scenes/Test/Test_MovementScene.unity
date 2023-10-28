@@ -626,9 +626,10 @@ GameObject:
   - component: {fileID: 405922359}
   - component: {fileID: 405922358}
   - component: {fileID: 405922357}
+  - component: {fileID: 405922361}
   m_Layer: 0
   m_Name: Spline
-  m_TagString: Untagged
+  m_TagString: Interactive/Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1326,6 +1327,28 @@ MonoBehaviour:
       m_Data: []
   m_Knots:
     m_KnotsLink: []
+--- !u!64 &405922361
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405922355}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 5bb13d99cd5e9f344ba8f4ebf04458be, type: 2}
 --- !u!1 &444555528
 GameObject:
   m_ObjectHideFlags: 0
