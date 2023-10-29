@@ -370,7 +370,8 @@ namespace Lullaby.Entities
 
             var movingTowardGround = Vector3.Dot(velocity, sphereHit.normal) <= 0; // Comprobamos si el personaje se esta moviendo hacia el suelo
             var validSphereAngle = Vector3.Angle(sphereHit.normal, transform.up) < controller.slopeLimit; 
-            var validAngle = validSphereAngle || hitColliding && Vector3.Angle(rayHit.normal, transform.up) < controller.slopeLimit; // Comprobamos si el angulo del suelo es valido 
+            var validAngle = validSphereAngle || hitColliding && 
+                Vector3.Angle(rayHit.normal, transform.up) < controller.slopeLimit; // Comprobamos si el angulo del suelo es valido 
             
             if (sphereColliding && movingTowardGround && validAngle)
             {

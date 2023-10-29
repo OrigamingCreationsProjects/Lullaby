@@ -183,6 +183,7 @@ namespace  Lullaby.Entities
             return position;
         }
         //Conversion implicita de EntityController a Collider para que sea mas facil de usar y los tipos no den conflictos.
+        //Tambien podremos usar EntityController como si fuera un Collider
         public static implicit operator Collider(EntityController controller) => controller.collider;
 
         protected void OnDrawGizmos()
