@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GrindBrake",
+                    "type": "Button",
+                    "id": "be81d419-c2a5-430d-bd49-fdc1f9271440",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -172,7 +181,7 @@
                     "id": "0f90db3e-f88b-4c5c-b28d-7299f085c069",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=0.5,y=0.5)",
                     "groups": "",
                     "action": "Look",
                     "isComposite": false,
@@ -296,6 +305,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8dd8a5af-e214-4cc1-b0c6-484f49eb56a0",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GrindBrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

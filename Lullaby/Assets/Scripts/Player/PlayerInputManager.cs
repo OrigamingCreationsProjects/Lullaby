@@ -42,7 +42,7 @@ namespace Lullaby
             ReleaseLedge = actions["ReleaseLedge"];
             Interact = actions["Interact"];
             //Pause = actions["Pause"];
-            //GrindBrake = actions["GrindBrake"];
+            GrindBrake = actions["GrindBrake"];
         }
 
         #region -- GET DIRECTIONS --

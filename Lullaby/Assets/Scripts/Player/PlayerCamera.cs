@@ -85,8 +85,8 @@ namespace Lullaby
 			return
 				player.states.IsCurrentOfType(typeof(WallDragPlayerState)) ||
 				player.states.IsCurrentOfType(typeof(LedgeHangingPlayerState)) ||
-				player.states.IsCurrentOfType(typeof(LedgeClimbingPlayerState));
-				// || player.states.IsCurrentOfType(typeof(RailGrindPlayerState));
+				player.states.IsCurrentOfType(typeof(LedgeClimbingPlayerState)) ||
+				player.states.IsCurrentOfType(typeof(RailGrindPlayerState));
 		}
 
 		public virtual void Reset()

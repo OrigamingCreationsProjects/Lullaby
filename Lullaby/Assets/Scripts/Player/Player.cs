@@ -538,7 +538,7 @@ namespace Lullaby.Entities
                 stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore); // Devuelve true si choca con un ledge
         }
         
-        //public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
+        public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
 
         protected override void Awake()
         {
@@ -560,6 +560,7 @@ namespace Lullaby.Entities
             {
                 ResetJumps();
                 ResetAirDash();
+                StartGrind();
             });
 
         }
