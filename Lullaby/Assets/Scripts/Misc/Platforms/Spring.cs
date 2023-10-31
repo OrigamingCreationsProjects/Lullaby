@@ -39,8 +39,7 @@ namespace Lullaby
                 player.states.Change<FallPlayerState>();
             }
         }
-
-
+        
         protected virtual void Start()
         {
             tag = GameTags.Spring;
