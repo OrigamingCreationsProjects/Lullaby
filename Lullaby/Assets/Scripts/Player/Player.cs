@@ -184,7 +184,7 @@ namespace Lullaby.Entities
         #endregion
         protected override bool EvaluateLanding(RaycastHit hit)
         {
-            // Hacemos que se compruebe lo que ya se comprobaba en el original y si es una zona de viento para no aterrizar
+            // Hacemos que se compruebe lo que ya se comprobaba en el original y si es una zona de muelle para no aterrizar
             return base.EvaluateLanding(hit) && !hit.collider.CompareTag(GameTags.Spring); 
         }
         
