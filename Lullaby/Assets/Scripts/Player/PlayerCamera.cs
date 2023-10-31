@@ -104,7 +104,7 @@ namespace Lullaby
 		protected virtual void HandleOffset()
 		{
 			var grounded = player.isGrounded && player.verticalVelocity.y <= 0;
-			var target = player.transform.position + player.transform.up * heightOffset;
+			var target = player.unsizedPosition + player.transform.up * heightOffset; // AQUI HABIA PUESTO PLAYER.TRANSFORM.POSITION EN LUGAR DE UNSIZED POSITION
 			var head = target - m_cameraTargetPosition;
 			
 			var xOffset = Vector3.Dot(head, player.transform.right);
