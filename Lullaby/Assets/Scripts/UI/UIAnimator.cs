@@ -33,6 +33,7 @@ namespace Lullaby.UI
         {
             //Aqui lanzariamos el trigger del animator
             OnShow?.Invoke();
+            _canvas.enabled = true;
         }
 
         /// <summary>
@@ -42,6 +43,7 @@ namespace Lullaby.UI
         {
             //Aqui lanzariamos el trigger del animator
             OnHide?.Invoke();
+            _canvas.enabled = false;
         }
         
         /// <summary>
