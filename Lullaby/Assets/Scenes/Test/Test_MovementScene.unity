@@ -11964,7 +11964,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5011257500451653083, guid: 11de6942d2d3d17429f0b6aca3bf4073, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.32
+      value: -20.319946
       objectReference: {fileID: 0}
     - target: {fileID: 5011257500451653083, guid: 11de6942d2d3d17429f0b6aca3bf4073, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13932,6 +13932,7 @@ GameObject:
   - component: {fileID: 1446860575}
   - component: {fileID: 1446860574}
   - component: {fileID: 1446860577}
+  - component: {fileID: 1446860578}
   m_Layer: 0
   m_Name: PauseScreen
   m_TagString: Untagged
@@ -14039,6 +14040,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPanel: {fileID: 1502686074}
+--- !u!114 &1446860578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446860572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5048484bed417e8bdeca97cf58871a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnShow:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHide:
+    m_PersistentCalls:
+      m_Calls: []
+  hidenOnAwake: 1
+  normalTrigger: Normal
+  showTrigger: Show
+  hideTrigger: Hide
 --- !u!1 &1447084152
 GameObject:
   m_ObjectHideFlags: 0
@@ -17210,6 +17233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1782638609}
+  - component: {fileID: 1782638610}
   m_Layer: 0
   m_Name: __LEVEL__
   m_TagString: Untagged
@@ -17235,6 +17259,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1782638610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782638608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2ab7ac413a474eb927aea374db2055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPaused:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnpaused:
+    m_PersistentCalls:
+      m_Calls: []
+  pauseScreen: {fileID: 1446860578}
 --- !u!1 &1788279712
 GameObject:
   m_ObjectHideFlags: 0
