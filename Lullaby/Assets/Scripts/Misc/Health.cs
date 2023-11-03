@@ -39,6 +39,7 @@ namespace Lullaby
 
                 if (value != last)
                 {
+                    Debug.Log("Detectamos que se ha actualizado esto");
                     currentHealth = Mathf.Clamp(value, 0, max);
                     onChange?.Invoke();
                 }

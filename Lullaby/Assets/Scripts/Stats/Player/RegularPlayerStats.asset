@@ -45,17 +45,11 @@ MonoBehaviour:
   frontFlipTime: 0.5
   doubleJumpHeight: 11
   canAirDash: 1
-  canGroundDash: 1
+  canGroundDash: 0
   dashForce: 25
   dashDuration: 0.3
   groundDashCoolDown: 0.5
   allowedAirDashes: 1
-  crouchHeight: 1
-  crouchFriction: 10
-  crawlingAcceleration: 8
-  crawlingFriction: 32
-  crawlingTopSpeed: 2.5
-  crawlingTurningSpeed: 3
   canAttack: 1
   canAirAttack: 0
   attackDuration: 0.5
@@ -67,38 +61,17 @@ MonoBehaviour:
   minWallAngleToDrag: 60
   wallDragLayers:
     serializedVersion: 2
-    m_Bits: 449
+    m_Bits: 513
   wallDragSkinOffset: {x: 0, y: 0, z: 0}
   wallDragGravity: 12
   wallJumpDistance: 8
   wallJumpHeight: 15
-  canPoleClimb: 1
-  poleClimbSkinOffset: {x: 0, y: 0, z: 0}
-  climbUpSpeed: 3
-  climbDownSpeed: 8
-  climbRotationSpeed: 2
-  poleJumpDistance: 8
-  poleJumpHeight: 15
   hurtUpwardForce: 13
   hurtBackwardsForce: 8
-  canAirDive: 1
-  applyDiveSlopeFactor: 1
-  airDiveForwardForce: 16
-  airDiveFriction: 32
-  airDiveSlopeFriction: 12
-  airDiveSlopeUpwardForce: 35
-  airDiveSlopeDownwardForce: 40
-  airDiveGroundLeapHeight: 10
-  airDiveRotationSpeed: 45
-  canStompAttack: 1
-  stompDownwardForce: 20
-  stompAirTime: 0.8
-  stompGroundTime: 0.5
-  stompGroundLeapHeight: 10
   canLedgeHang: 1
   ledgeHangingLayers:
     serializedVersion: 2
-    m_Bits: 833
+    m_Bits: 513
   ledgeHangingSkinOffset: {x: 0, y: 0, z: 0}
   ledgeMaxForwardDistance: 0.25
   ledgeMaxDownwardDistance: 0.25
@@ -109,7 +82,7 @@ MonoBehaviour:
   canClimbLedges: 1
   ledgeClimbingLayers:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 513
   ledgeClimbingSkinOffset: {x: 0, y: 0, z: 0}
   ledgeClimbingDuration: 1
   canBackflip: 1
@@ -121,10 +94,6 @@ MonoBehaviour:
   backflipGravity: 35
   backflipBackwardForce: 4
   backflipBackwardTurnForce: 8
-  canGlide: 1
-  glidingGravity: 10
-  glidingMaxFallSpeed: 2
-  glidingTurningDrag: 8
   useCustomCollision: 1
   grindRadiusOffset: 0.26
   minGrindInitialSpeed: 10

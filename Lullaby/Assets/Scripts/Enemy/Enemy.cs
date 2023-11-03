@@ -10,7 +10,7 @@ namespace Lullaby.Entities.Enemies
     [AddComponentMenu("Lullaby/Enemies/Enemy")]
     public class Enemy : Entity<Enemy>
     {
-        //Eventos del enemigo (oublicos al poder asignarse en el inspector)
+        //Eventos del enemigo (publicos al poder asignarse en el inspector)
         public EnemyEvents enemyEvents; 
         
         protected Player _player;
@@ -134,7 +134,7 @@ namespace Lullaby.Entities.Enemies
 
                 for (int i = 0; i < overlaps; i++)
                 {
-                    if (sightOverlaps[i].CompareTag(GameTags.Player))
+                    if (sightOverlaps[i].CompareTag(GameTags.Player)) 
                     {
                         if (sightOverlaps[i].TryGetComponent<Player>(out var player))
                         {
