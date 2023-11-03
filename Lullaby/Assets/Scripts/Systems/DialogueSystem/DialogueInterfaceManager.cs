@@ -52,6 +52,7 @@ namespace Lullaby.Systems.DialogueSystem
             //Aqui suscribiremos el evento de que se ha terminado el dialogo
             animatedText.onDialogueFinish.AddListener(() => FinishDialogue());
             _player = FindObjectOfType<Player>();
+            canvasGroup.interactable = false;
         }
 
         private void Update()

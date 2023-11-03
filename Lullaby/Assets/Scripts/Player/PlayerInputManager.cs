@@ -41,7 +41,7 @@ namespace Lullaby
             Dash = actions["Dash"];
             ReleaseLedge = actions["ReleaseLedge"];
             Interact = actions["Interact"];
-            //Pause = actions["Pause"];
+            Pause = actions["Pause"];
             GrindBrake = actions["GrindBrake"];
         }
 
