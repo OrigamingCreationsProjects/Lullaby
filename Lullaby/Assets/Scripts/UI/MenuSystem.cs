@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MenuSystem : MonoBehaviour
 {
@@ -23,11 +24,10 @@ public class MenuSystem : MonoBehaviour
         }
         currentPanel.Show();
     }
-    // Update is called once per frame
-    void Update()
+    
+    void OnBack(InputValue value) // Al pulsar el botón de ir hacia atrás pues retrocederemos en los menús
     {
-        //Aqui introducimos el codigo del input para volver hacia atras por ejemplo, pero normalmente lo mejor es
-        //hacerlo con un inputManager
+        GoToPrevious();
     }
 
     public void GoToPrevious()
