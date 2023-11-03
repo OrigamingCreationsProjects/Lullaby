@@ -9563,6 +9563,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2908437204325012040, guid: 1852e911ebd6a7c4d9e368db83100606, type: 3}
+      propertyPath: damage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6808683881142639950, guid: 1852e911ebd6a7c4d9e368db83100606, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -18030,7 +18034,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1782638609}
+  - component: {fileID: 1782638612}
   - component: {fileID: 1782638610}
+  - component: {fileID: 1782638611}
   m_Layer: 0
   m_Name: __LEVEL__
   m_TagString: Untagged
@@ -18075,6 +18081,40 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   pauseScreen: {fileID: 1446860578}
+--- !u!114 &1782638611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782638608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58259fd55a14bfa90128bf14d23315b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnRespawn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameOver:
+    m_PersistentCalls:
+      m_Calls: []
+  respawnFadeOutDelay: 1
+  respawnFadeInDelay: 0.5
+  gameOverFadeOutDelay: 5
+  restartFadeOutDelay: 0.5
+--- !u!114 &1782638612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782638608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b493f302411046d0ad13df394bc14d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1788279712
 GameObject:
   m_ObjectHideFlags: 0
@@ -22319,6 +22359,18 @@ PrefabInstance:
     - target: {fileID: 2812922285005920064, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810930251915018963, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
+      propertyPath: states.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810930251915018963, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
+      propertyPath: states.Array.data[11]
+      value: Lullaby.Entities.States.HurtPlayerState
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810930251915018963, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
+      propertyPath: states.Array.data[12]
+      value: Lullaby.Entities.States.DiePlayerState
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

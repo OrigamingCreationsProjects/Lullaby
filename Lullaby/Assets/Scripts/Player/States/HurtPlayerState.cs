@@ -2,6 +2,7 @@
 
 namespace Lullaby.Entities.States
 {
+    [AddComponentMenu("Lullaby/Entities/Player/States/Hurt Player State")]
     public class HurtPlayerState : PlayerState
     {
         protected override void OnEnter(Player player) { }
