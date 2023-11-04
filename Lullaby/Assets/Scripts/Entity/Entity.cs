@@ -7,15 +7,15 @@ using UnityEngine.Splines;
 
 namespace Lullaby.Entities
 {
-    public class Entity : MonoBehaviour
+    public abstract class Entity : MonoBehaviour
     {
         public EntityEvents entityEvents;
         
-        protected Collider[] contactBuffer = new Collider[10];
+        protected Collider[] _contactBuffer = new Collider[10];
 
-        protected readonly float groundOffset = 0.1f;
+        protected readonly float _groundOffset = 0.1f;
 
-        protected readonly float slopingGroundAngle = 20f;
+        protected readonly float _slopingGroundAngle = 20f;
 
         protected float lockGravityTime;
      
@@ -25,9 +25,7 @@ namespace Lullaby.Entities
         public EntityController controller { get; protected set; }
 
         #region -- VELOCITES --
-
-
-
+        
         /// <summary>
         /// The current velocity of this Entity.
         /// </summary>
@@ -217,12 +215,12 @@ namespace Lullaby.Entities
         /// <returns></returns>
         public virtual bool OnSlopingGround()
         {
-            if (isGrounded && groundAngle > slopingGroundAngle)
+            if (isGrounded && groundAngle > _slopingGroundAngle)
             {
                 if (Physics.Raycast(transform.position, -transform.up, out var hit, height * 2f,
                         Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
                 {
-                    return Vector3.Angle(hit.normal, transform.up) > slopingGroundAngle; // Comprobamos si el angulo es
+                    return Vector3.Angle(hit.normal, transform.up) > _slopingGroundAngle; // Comprobamos si el angulo es
                     // mayor al maximo permitido para las cuestas.
                 }
                 else
@@ -241,7 +239,6 @@ namespace Lullaby.Entities
         public virtual void ResizeCollider(float height) => controller.Resize(height);
 
         #region -- RAYCASTERS --
-
         
         public virtual bool CapsuleCast(Vector3 direction, float distance, int layer = Physics.DefaultRaycastLayers,
             QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore)
@@ -279,12 +276,13 @@ namespace Lullaby.Entities
         public virtual int OverlapEntity(Collider[] result, float skinOffset = 0) =>
             OverlapEntity(position, result, skinOffset);
 
-        public virtual int OverlapEntity(Vector3 positon, Collider[] result, float skinOffset = 0)
+        public virtual int OverlapEntity(Vector3 pos, Collider[] result, float skinOffset = 0)
         {
             var overlapRadius = radius + skinOffset;
             var offset = (height + skinOffset) * 0.5f - overlapRadius; // Calculamos el offset del raycast
-            var top = position + transform.up * offset; // Calculamos el punto mas alto del raycast
-            var bottom = position - transform.up * offset; // Calculamos el punto mas bajo del raycast
+            var top = pos + transform.up * offset; // Calculamos el punto mas alto del raycast
+            var bottom = pos - transform.up * offset; // Calculamos el punto mas bajo del raycast
+            
             return Physics.OverlapCapsuleNonAlloc(top, bottom, overlapRadius,
                 result, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
         }
@@ -298,7 +296,7 @@ namespace Lullaby.Entities
     public abstract class Entity<T> : Entity where T : Entity<T> 
     {
         //public static T instance { get; protected set; }
-        protected IEntityContact[] contactListeners;
+        protected IEntityContact[] _contactListeners;
            
         //Controlador de estados de las entidades
         public EntityStateManager<T> states { get; protected set; }
@@ -363,7 +361,7 @@ namespace Lullaby.Entities
         {
             if(onRails) return;
 
-            var distance = (height * 0.5f) + groundOffset; // Calculamos la distancia a la que se encuentra el centro del collider
+            var distance = (height * 0.5f) + _groundOffset; // Calculamos la distancia a la que se encuentra el centro del collider
             var sphereColliding = SphereCast(-transform.up, distance, out var sphereHit);
             var hitColliding = Physics.Raycast(position, -transform.up, out var rayHit,
                 distance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
@@ -390,16 +388,16 @@ namespace Lullaby.Entities
         protected virtual void HandleContacts()
         {
             var skinOffset = controller.skinWidth + Physics.defaultContactOffset;
-            var overlaps = OverlapEntity(contactBuffer, skinOffset); // Obtenemos en numero de colliders que
+            var overlaps = OverlapEntity(_contactBuffer, skinOffset); // Obtenemos en numero de colliders que
                                                                      // estan en contacto con el personaje
            for (int i = 0; i < overlaps; i++)
            {
-                if(contactBuffer[i].transform == transform) continue; // Si el collider es el mismo que el del personaje
+                if(_contactBuffer[i].transform == transform) continue; // Si el collider es el mismo que el del personaje
                                                                      // continuamos con el siguiente collider
-                OnContact(contactBuffer[i]);
+                OnContact(_contactBuffer[i]);
                 
-                contactListeners = contactBuffer[i].GetComponents<IEntityContact>();
-                foreach (var contact in contactListeners)
+                _contactListeners = _contactBuffer[i].GetComponents<IEntityContact>();
+                foreach (var contact in _contactListeners)
                     contact.OnEntityContact((T)this);
                 
            }    
@@ -601,11 +599,11 @@ namespace Lullaby.Entities
         public virtual bool FitsIntoPosition(Vector3 position)
         {
             var skinOffset = controller.skinWidth + Physics.defaultContactOffset;
-            var overlaps = OverlapEntity(position, contactBuffer, -skinOffset);
+            var overlaps = OverlapEntity(position, _contactBuffer, -skinOffset);
 
             for (int i = 0; i < overlaps; i++)
             {
-                if (contactBuffer[i].gameObject.isStatic && !GameTags.IsHazard(contactBuffer[i]))
+                if (_contactBuffer[i].gameObject.isStatic && !GameTags.IsHazard(_contactBuffer[i]))
                     return false;
             }
 
@@ -615,7 +613,7 @@ namespace Lullaby.Entities
         /// Enables or disables the custom collision. Disabling the Character Controller.
         /// </summary>
         /// <param name="value">If true, enables the custom collision.</param>
-        public virtual void UseCustomCollision(bool value) => controller.HandleCollision = !value;
+        public virtual void UseCustomCollision(bool value) => controller.handleCollision = !value;
 
         protected virtual void Awake()
         {
