@@ -29,6 +29,9 @@ namespace Level
         protected Level _level => Level.instance;
         protected LevelPauser _pauser => LevelPauser.instance;
         //GameSceneLoader
+        protected GameSceneLoader _sceneLoader => GameSceneLoader.instance;
+        
+        protected Fader _fader => Fader.instance;
         //Fader
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace Level
             
             
             //Cargar siguiente escena
+            _sceneLoader.Load(nextScene);
             OnFinish?.Invoke();
         }
 
@@ -72,6 +76,7 @@ namespace Level
             yield return new WaitForSeconds(loadingDelay);
             GameManager.LockCursor(false);
             //Cargar escena de salida
+            _sceneLoader.Load(exitScene);
             OnExit?.Invoke();
         }
         
