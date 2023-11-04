@@ -30,12 +30,12 @@ namespace  Lullaby.Entities
         public LayerMask collisionLayer = -5;
         
         //PROPIEDADES
-        protected const int MaxCollisionSteps = 3;
+        protected const int _maxCollisionSteps = 3;
 
-        protected Rigidbody CharacterRigidbody;
-        protected Collider[] Overlaps = new Collider[128]; // Maximo de colisiones o solapamiento de colisiones a la vez
+        protected Rigidbody _characterRigidbody;
+        protected Collider[] _overlaps = new Collider[128]; // Maximo de colisiones o solapamiento de colisiones a la vez
 
-        public bool HandleCollision { get; set; } = true;
+        public bool handleCollision { get; set; } = true;
         
         public new CapsuleCollider collider { get; protected set; }
 
@@ -64,19 +64,19 @@ namespace  Lullaby.Entities
         }
         private void InitializeRigidbody()
         {
-            if (!TryGetComponent(out CharacterRigidbody))
+            if (!TryGetComponent(out _characterRigidbody))
             {
-                CharacterRigidbody = gameObject.AddComponent<Rigidbody>();
+                _characterRigidbody = gameObject.AddComponent<Rigidbody>();
             }
 
-            CharacterRigidbody.isKinematic = true;
+            _characterRigidbody.isKinematic = true;
         }
 
-        public virtual void Resize(float height)
+        public virtual void Resize(float height) //CAMBIO REALIZADO EN CALCULO DE CENTER
         {
             var delta = height - this.height; //Calculamos la diferencia de altura
             this.height = height; 
-            center += transform.up * delta * 0.5f; //Ajustamos el centro de la capsula en funcion de la altura
+            center += Vector3.up * delta * 0.5f; //Ajustamos el centro de la capsula en funcion de la altura
             RefreshCollider();
         }
         private void RefreshCollider()
@@ -92,7 +92,7 @@ namespace  Lullaby.Entities
 
             var position = transform.position;
 
-            if (HandleCollision)
+            if (handleCollision)
             {
                 //Con la siguiente linea pasamos de coordenadas del mundo a coordenadas locales
                 var localMotion = transform.InverseTransformDirection(motion); 
@@ -108,7 +108,6 @@ namespace  Lullaby.Entities
             }
             else
             {
-                Debug.Log($"Move in else whith motion {motion}");
                 position += motion;
             }
 
@@ -118,10 +117,10 @@ namespace  Lullaby.Entities
 
         protected virtual Vector3 MoveAndSlide(Vector3 position, Vector3 motion, bool verticalPass = false)
         {
-            for (int i = 0; i < MaxCollisionSteps; i++)
+            for (int i = 0; i < _maxCollisionSteps; i++)
             {
                 var moveDistance = motion.magnitude;
-                var moveDirection = motion/moveDistance;
+                var moveDirection = motion / moveDistance;
                 
                 if(moveDistance <= 0.001f) break;
                 
@@ -162,16 +161,16 @@ namespace  Lullaby.Entities
             var point1 = origin + capsuleOffset; //Punto superior de la capsula
             var point2 = origin - capsuleOffset; //Punto inferior de la capsula
             var penetrations = Physics.OverlapCapsuleNonAlloc(point1, point2, radius, 
-                Overlaps, collisionLayer, QueryTriggerInteraction.Ignore); //Obtenemos todas las colisiones en un array prefefinido
+                _overlaps, collisionLayer, QueryTriggerInteraction.Ignore); //Obtenemos todas las colisiones en un array prefefinido
 
             for (int i = 0; i < penetrations; i++)
             {
                 if(Physics.ComputePenetration(collider, transform.position, transform.rotation, 
-                       Overlaps[i], Overlaps[i].transform.position, Overlaps[i].transform.rotation, 
+                       _overlaps[i], _overlaps[i].transform.position, _overlaps[i].transform.rotation, 
                        out var direction, out var distance))
                 {
-                    if(Overlaps[i].transform == transform) continue;
-                    if (Overlaps[i].CompareTag(GameTags.Platform)) //Si la colision es con una plataforma
+                    if(_overlaps[i].transform == transform) continue;
+                    if (_overlaps[i].CompareTag(GameTags.Platform)) //Si la colision es con una plataforma
                     {
                         position += transform.up * height * 0.5f; //Subimos la capsula a la mitad de su altura
                         continue;

@@ -8,30 +8,30 @@ namespace Lullaby.Entities.States
     [AddComponentMenu("Lullaby/CustomMovement/Player/States/Ledge Climbing Player State")]
     public class LedgeClimbingPlayerState: PlayerState
     {
-        protected IEnumerator routine;
-        protected GameObject skinClimbSlot;
+        protected IEnumerator _routine;
+        protected GameObject _skinClimbSlot;
         
         protected override void OnEnter(Player player)
         {
             player.playerEvents.OnLedgeClimbing.Invoke();
             
-            if (!skinClimbSlot)
-                skinClimbSlot = new GameObject();
+            if (!_skinClimbSlot)
+                _skinClimbSlot = new GameObject();
 
-            skinClimbSlot.transform.position = player.transform.position; // Asignamos la posicion del player a la del skin
-            skinClimbSlot.transform.rotation = player.transform.rotation; // Asignamos la rotacion del player a la del skin
-            skinClimbSlot.transform.parent = player.transform.parent; // Asignamos el padre del player al del skin
+            _skinClimbSlot.transform.position = player.transform.position; // Asignamos la posicion del player a la del skin
+            _skinClimbSlot.transform.rotation = player.transform.rotation; // Asignamos la rotacion del player a la del skin
+            _skinClimbSlot.transform.parent = player.transform.parent; // Asignamos el padre del player al del skin
  
             player.velocity = Vector3.zero; 
-            player.SetSkinParent(skinClimbSlot.transform); // Asignamos el padre del skin al del player
-            routine = SetPositionRoutine(player); 
-            player.StartCoroutine(routine); // Iniciamos la corrutina desde el script player
+            player.SetSkinParent(_skinClimbSlot.transform); // Asignamos el padre del skin al del player
+            _routine = SetPositionRoutine(player); 
+            player.StartCoroutine(_routine); // Iniciamos la corrutina desde el script player
         }
 
         protected override void OnExit(Player player)
         {
             player.ResetSkinParent();
-            player.StopCoroutine(routine); // Paramos la corrutina desde el script player
+            player.StopCoroutine(_routine); // Paramos la corrutina desde el script player
         }
         public override void OnStep(Player player){}
         
