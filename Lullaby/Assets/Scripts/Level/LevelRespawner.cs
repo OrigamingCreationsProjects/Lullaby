@@ -92,7 +92,7 @@ namespace Level
             _pauser.canPause = false;
             _level.player.inputs.enabled = false;
             yield return new WaitForSeconds(restartFadeOutDelay);
-            //GameLoader.instance.Reload();
+            GameSceneLoader.instance.Reload();
         }
         protected virtual IEnumerator GameOverRoutine()
         {
@@ -113,6 +113,7 @@ namespace Level
         {
             _cameras = new List<PlayerCamera>(FindObjectsOfType<PlayerCamera>());
             _level.player.playerEvents.OnDie.AddListener(() => Respawn());
+            _level.player.playerEvents.OnDeadlyFall.AddListener(() => Respawn());
         }
         
     }
