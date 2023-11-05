@@ -71,7 +71,7 @@ namespace Lullaby.Entities.Events
 		/// <summary>
 		/// Called when the Player air dives.
 		/// </summary>
-		public UnityEvent OnAirDive;
+		public UnityEvent OnDeadlyFall;
 
 		#region Eventos descartados
 		

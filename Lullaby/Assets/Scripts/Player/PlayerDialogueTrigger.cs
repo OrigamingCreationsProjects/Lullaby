@@ -109,7 +109,6 @@ namespace Lullaby.Entities
                 _uiManager.NextDialogue();
             }
             */
-            return false;
         }
     }
 }

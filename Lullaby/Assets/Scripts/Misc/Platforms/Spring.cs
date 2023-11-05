@@ -22,7 +22,7 @@ namespace Lullaby
             if(player.verticalVelocity.y <= 0)
             {
                 _audio.PlayOneShot(clip);
-                player.verticalVelocity = Vector3.up * force;
+                player.verticalVelocity = transform.up * force;
             }
         }
         

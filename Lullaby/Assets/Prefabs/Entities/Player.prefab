@@ -350,9 +350,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1313438923136261701}
   - component: {fileID: 600783899669734749}
-  - component: {fileID: 8584591213413378862}
   - component: {fileID: 5662405255985192950}
+  - component: {fileID: 8584591213413378862}
   - component: {fileID: 5810930251915018963}
+  - component: {fileID: 8697383638212605354}
+  - component: {fileID: 6552688707189487400}
   - component: {fileID: 3987990107631185487}
   - component: {fileID: 1503293712377979214}
   - component: {fileID: 6015938911292691236}
@@ -438,11 +440,24 @@ MonoBehaviour:
     OnLedgeClimbing:
       m_PersistentCalls:
         m_Calls: []
-    OnAirDive:
+    OnDeadlyFall:
       m_PersistentCalls:
         m_Calls: []
   pickableSlot: {fileID: 0}
   skin: {fileID: 5070540766334671618}
+--- !u!114 &5662405255985192950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0a0def34ed9e049a5f96402c4c9ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 2d73e79a620f0bf41a43847d8e62ad83, type: 3}
 --- !u!114 &8584591213413378862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,19 +472,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - {fileID: 11400000, guid: 43e7a7b53d437fb44bdbd7b98b03fac0, type: 2}
---- !u!114 &5662405255985192950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2812922285005920064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0a0def34ed9e049a5f96402c4c9ea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 2d73e79a620f0bf41a43847d8e62ad83, type: 3}
 --- !u!114 &5810930251915018963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +508,67 @@ MonoBehaviour:
   - Lullaby.Entities.States.RailGrindPlayerState
   - Lullaby.Entities.States.HurtPlayerState
   - Lullaby.Entities.States.DiePlayerState
+--- !u!114 &8697383638212605354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b3ecc32b034dda9ceb38b50bdb8d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump:
+  - {fileID: 8300000, guid: 4a316f1cc46f111439d347002809308f, type: 3}
+  - {fileID: 8300000, guid: c5c0e120da0cacd47a072f72348a8c46, type: 3}
+  - {fileID: 8300000, guid: 487aab8fb8f240445b0ebc1d101c833c, type: 3}
+  - {fileID: 8300000, guid: b00fd46addd3ada4ab15e7da2391f8f8, type: 3}
+  - {fileID: 8300000, guid: be50b102c8d562a4cb98446fb0c80f9e, type: 3}
+  hurt:
+  - {fileID: 8300000, guid: 7d2b803bde153164ea7778abdcc87795, type: 3}
+  - {fileID: 8300000, guid: 03799d4561b68cc44a3d0210a20dcbfe, type: 3}
+  - {fileID: 8300000, guid: 589a0fc96a5d6f54696a0dee5910fec2, type: 3}
+  - {fileID: 8300000, guid: 2c539052f0b3e70478cf18d0d9e738bd, type: 3}
+  - {fileID: 8300000, guid: a7e8801468c91dd4f9826f32a984899e, type: 3}
+  attack: []
+  deadlyFall:
+  - {fileID: 8300000, guid: 7c7391c7f2d4f9247a30b4475329a7d6, type: 3}
+  - {fileID: 8300000, guid: 15cabe48327db584b9cd252da00c80ca, type: 3}
+  - {fileID: 8300000, guid: c30df23524903a9409fa066a2cffb1dc, type: 3}
+  ledgeClimbing:
+  - {fileID: 8300000, guid: 1d99a55603d96754abf3b0022dfa9903, type: 3}
+  - {fileID: 8300000, guid: 0cc23c6121031ee4384c8cfe0a96bfaf, type: 3}
+  - {fileID: 8300000, guid: 6e8735ebd6301b8459d138b1047297fa, type: 3}
+  airDash: {fileID: 8300000, guid: 6b0f75be2524ec54c95f0b7bfe9a05b2, type: 3}
+  ledgeGrabbing: {fileID: 8300000, guid: a209b34d21edd61488a87e949634861b, type: 3}
+  startRailGrind: {fileID: 0}
+  railGrind: {fileID: 0}
+  grindAudio: {fileID: 0}
+--- !u!114 &6552688707189487400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41909e7135d34928b6e4b0726af646ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surfaces: []
+  defaultFootsteps:
+  - {fileID: 8300000, guid: 70aaaffa1614fee42a256d285200d48f, type: 3}
+  - {fileID: 8300000, guid: 89abe8846d5a5554c81fcbd1751582ce, type: 3}
+  - {fileID: 8300000, guid: 1e4fe0177645e8d4bba7b6aecb825a1f, type: 3}
+  - {fileID: 8300000, guid: a9be5842c849c28489353c0e09388a80, type: 3}
+  - {fileID: 8300000, guid: a2a5d565fe2fe4a40afcbe673c34a901, type: 3}
+  defaultLandings:
+  - {fileID: 8300000, guid: a209b34d21edd61488a87e949634861b, type: 3}
+  stepDistanceOffset: 1.25
+  groundStepVolume: 0.5
 --- !u!114 &3987990107631185487
 MonoBehaviour:
   m_ObjectHideFlags: 0
