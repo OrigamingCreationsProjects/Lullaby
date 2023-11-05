@@ -45,6 +45,7 @@ namespace Level
                     {
                         Debug.Log("Pasamos el tercer if");
                         //DESBLOQUEAR CURSOR AQUI PARA QUE PUEDAN NAVEGAR POR EL MENU (Si está en pc o el ultimo control no es mando)
+                        GameManager.LockCursor(false);
                         paused = true;
                         Time.timeScale = 0;
                         pauseScreen.SetActive(true);
@@ -54,7 +55,8 @@ namespace Level
                 }
                 else
                 {
-                    //BLOQUEAR CURSOR AQUI PARA QUE NO PUEDAN NAVEGAR POR EL MENU (Si está en pc o el ultimo control no es mando)
+                    //BLOQUEAR CURSOR AQUI PARA QUE NO LO VEAN EN GAMEPLAY 
+                    GameManager.LockCursor();
                     paused = false;
                     Time.timeScale = 1;
                     pauseScreen?.Hide();
