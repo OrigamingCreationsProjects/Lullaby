@@ -13,7 +13,7 @@ namespace Lullaby
         public virtual void ActiveSwitch()
         {
             sphere.transform.DOMoveY(targetPos.position.y, duration);
-            sphere.GetComponent<MeshRenderer>().material.color = activateColor; //.DOColor(activateColor, duration);
+            sphere.GetComponent<MeshRenderer>().material.DOColor(activateColor, duration);
             sphere.GetComponent<Floater>().enabled = false;
         }
     }
