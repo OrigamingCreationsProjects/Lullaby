@@ -25,14 +25,13 @@ namespace Lullaby.Entities
         //Eventos
         public PlayerEvents playerEvents;
         public Transform pickableSlot; //Slot para posicionar el objeto que se puede recoger
-
         public Transform skin;
         
-        protected Vector3 respawnPosition;
-        protected Quaternion respawnRotation;
+        protected Vector3 _respawnPosition;
+        protected Quaternion _respawnRotation;
         
-        protected Vector3 skinInitialPosition;
-        protected Quaternion skinInitialRotation;
+        protected Vector3 _skinInitialPosition;
+        protected Quaternion _skinInitialRotation;
         
         /// <summary>
         /// Returns the Player Input Manager instance.
@@ -103,15 +102,15 @@ namespace Lullaby.Entities
         
         protected virtual void InitializeRespawn()
         {
-            respawnPosition = transform.position;
-            respawnRotation = transform.rotation;
+            _respawnPosition = transform.position;
+            _respawnRotation = transform.rotation;
         }
 
         protected virtual void InitializeSkin()
         {
             if(!skin) return;
-            skinInitialPosition = skin.localPosition;
-            skinInitialRotation = skin.localRotation;
+            _skinInitialPosition = skin.localPosition;
+            _skinInitialRotation = skin.localRotation;
         }
         
         #endregion
@@ -124,7 +123,7 @@ namespace Lullaby.Entities
         {
             health.ResetHealth();
             velocity = Vector3.zero;
-            transform.SetPositionAndRotation(respawnPosition, respawnRotation);
+            transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
             states.Change<IdlePlayerState>();
         }
 
@@ -133,8 +132,8 @@ namespace Lullaby.Entities
         /// </summary>
         public virtual void SetRespawn(Vector3 position, Quaternion rotation)
         {
-            respawnPosition = position;
-            respawnRotation = rotation;
+            _respawnPosition = position;
+            _respawnRotation = rotation;
         }
         #endregion
         
@@ -302,7 +301,7 @@ namespace Lullaby.Entities
                 }
             }
             
-            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight)) //
+            if(inputs.GetJumpUp() && (jumpCounter > 0) && (verticalVelocity.y > stats.current.minJumpHeight))
             {
                 verticalVelocity = Vector3.up * stats.current.minJumpHeight; //Esto es para que no salte tan alto en el
                                                                              //doble salto o si mantenemos poco el botón salte menos 
@@ -461,8 +460,8 @@ namespace Lullaby.Entities
         {
             if(!skin) return;
             skin.parent = transform;
-            skin.localPosition = skinInitialPosition;
-            skin.localRotation = skinInitialRotation;
+            skin.localPosition = _skinInitialPosition;
+            skin.localRotation = _skinInitialRotation;
         }
 
         public virtual void WallDrag(Collider other)

@@ -7,17 +7,17 @@ namespace Lullaby.Entities.States
     [AddComponentMenu("Lullaby/CustomMovement/Player/States/Ledge Hanging Player State")]
     public class LedgeHangingPlayerState: PlayerState
     {
-        protected bool keepParent;
-        protected Coroutine clearParentRoutine;
+        protected bool _keepParent;
+        protected Coroutine _clearParentRoutine;
 
-        protected const float clearParentDelay = 0.25f;
+        protected const float _clearParentDelay = 0.25f;
         
         protected override void OnEnter(Player player)
         {
-            if(clearParentRoutine != null)
-                player.StopCoroutine(clearParentRoutine);
+            if(_clearParentRoutine != null)
+                player.StopCoroutine(_clearParentRoutine);
             
-            keepParent = false;
+            _keepParent = false;
             player.velocity = Vector3.zero;
             // Colocamos la skin en función del offset para ajustarlo a los bordes
             player.skin.position += player.transform.rotation * player.stats.current.ledgeHangingSkinOffset; 
@@ -27,7 +27,7 @@ namespace Lullaby.Entities.States
 
         protected override void OnExit(Player player)
         {
-            clearParentRoutine = player.StartCoroutine(ClearParentRoutine(player));
+            _clearParentRoutine = player.StartCoroutine(ClearParentRoutine(player));
             player.skin.position -= player.transform.rotation * player.stats.current.ledgeHangingSkinOffset;
         }
 
@@ -82,7 +82,8 @@ namespace Lullaby.Entities.States
             {
                 player.FaceDirection(-sideForward, Space.World);
                 player.states.Change<FallPlayerState>();
-            } else if (player.inputs.GetJumpDown()) // Si el jugador salta, cambiamos de estado y saltamos
+            } 
+            else if (player.inputs.GetJumpDown()) // Si el jugador salta, cambiamos de estado y saltamos
             {
                 player.Jump(player.stats.current.maxJumpHeight);
                 player.states.Change<FallPlayerState>();
@@ -92,7 +93,7 @@ namespace Lullaby.Entities.States
                      ((1 << topHit.collider.gameObject.layer) & player.stats.current.ledgeClimbingLayers) != 0 &&
                      player.FitsIntoPosition(climbDestination - player.transform.forward * (player.radius * 0.5f))) 
             {
-                keepParent = true;
+                _keepParent = true;
                 player.states.Change<LedgeClimbingPlayerState>();
             }
         }
@@ -100,8 +101,8 @@ namespace Lullaby.Entities.States
         public override void OnContact(Player player, Collider other){}
         protected virtual IEnumerator ClearParentRoutine(Player player)
         {
-            if(keepParent) yield break;
-            yield return new WaitForSeconds(clearParentDelay); // Esperamos un tiempo para desengancharnos
+            if(_keepParent) yield break;
+            yield return new WaitForSeconds(_clearParentDelay); // Esperamos un tiempo para desengancharnos
             player.transform.parent = player.initialParent; // Volvemos a poner el padre inicial
         }
     }

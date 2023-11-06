@@ -15,7 +15,6 @@ namespace Lullaby.Entities
         {
             _player = GetComponent<Player>();
             _pauser = LevelPauser.instance;
-            _pauser.canPause = true;
         }
 
         protected virtual void Update()

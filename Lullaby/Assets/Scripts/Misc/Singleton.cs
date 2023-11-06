@@ -20,7 +20,7 @@ namespace Lullaby
             }
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             if (instance != this)
             {
