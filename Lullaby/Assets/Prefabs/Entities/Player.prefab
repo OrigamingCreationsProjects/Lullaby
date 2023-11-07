@@ -376,10 +376,13 @@ GameObject:
   - component: {fileID: 8584591213413378862}
   - component: {fileID: 5810930251915018963}
   - component: {fileID: 8697383638212605354}
+  - component: {fileID: 4437697211066741242}
   - component: {fileID: 6552688707189487400}
   - component: {fileID: 3987990107631185487}
   - component: {fileID: 1503293712377979214}
   - component: {fileID: 6015938911292691236}
+  - component: {fileID: 607872311690988042}
+  - component: {fileID: 7035975592158325138}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -568,6 +571,34 @@ MonoBehaviour:
   startRailGrind: {fileID: 0}
   railGrind: {fileID: 0}
   grindAudio: {fileID: 0}
+--- !u!114 &4437697211066741242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6412216093322217601}
+  stateName: State
+  lastStateName: Last State
+  lateralSpeedName: Lateral Speed
+  verticalSpeedName: Vertical Speed
+  lateralAnimationSpeed: Lateral Animation Speed
+  healthName: Health
+  jumpCounterName: Jump Counter
+  isGroundedName: IsGrounded
+  isHoldingName: IsHolding
+  onStateChangedName: OnStateChanged
+  minLateralAnimationSpeed: 0.5
+  forcedTransitions:
+  - fromStateId: 7
+    animationLayer: 0
+    toAnimationState: Idle
 --- !u!114 &6552688707189487400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,6 +669,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bf160c230d452aafa6003bfb5f3c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &607872311690988042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9809025c3ba4b4bbde3180c7a22845d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers: []
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+--- !u!114 &7035975592158325138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1354ab7a29cf42449960e0a0a26f9803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 5070540766334671618}
+  maxTiltAngle: 15
+  tiltSmoothTime: 0.2
 --- !u!1 &4517935960329081683
 GameObject:
   m_ObjectHideFlags: 0

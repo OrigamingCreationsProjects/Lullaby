@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lullaby.Entities;
+using Lullaby.Systems.DialogueSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,10 +28,12 @@ namespace Lullaby
 
         protected float movementDirectionUnlockTime;
         protected float? lastJumpTime;
+        protected float? lastInteractTime;
 
         protected const string mouseDeviceName = "Mouse";
 
         protected const float jumpBuffer = 0.15f;
+        protected const float interactCooldown = 0.2f;
 
         protected virtual void CacheActions()
         {
@@ -137,12 +141,34 @@ namespace Lullaby
         
         public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
         
-        public virtual bool GetInteractDown() => Interact.WasPressedThisFrame();
+        //public virtual bool GetInteractDown() => Interact.WasPerformedThisFrame();
 
+        public virtual bool GetInteractDown()
+        {
+            if (lastInteractTime != null && Time.time - lastInteractTime.Value > interactCooldown)
+            {
+                lastInteractTime = null;
+                return true;
+            }
+
+            return false;
+        }
+        
         public virtual bool GetPauseDown() => Pause.WasPressedThisFrame();
 
         public virtual bool GetGrindBrake() => GrindBrake.IsPressed();
-        
+
+        public virtual void SetInteractDialogue(bool value)
+        {
+            if (value)
+            {
+                //Interact.performed += DialogueInterfaceManager.Instance.SkipNewDialogue;
+            }
+            else
+            {
+                //Interact.performed -= DialogueInterfaceManager.Instance.SkipNewDialogue;
+            }
+        }
         #endregion
         
         /// <summary>
@@ -168,6 +194,11 @@ namespace Lullaby
             if (Jump.WasPressedThisFrame())
             {
                 lastJumpTime = Time.time;
+            }
+
+            if (Interact.WasPressedThisFrame())
+            {
+                lastInteractTime = Time.time;
             }
         }
 

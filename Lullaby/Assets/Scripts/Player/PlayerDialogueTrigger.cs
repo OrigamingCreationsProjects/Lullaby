@@ -12,9 +12,10 @@ namespace Lullaby.Entities
         private Talker _currentTalker;
         private Player _player;
         public CinemachineTargetGroup targetGroup;
-        
-        [Space]
-        
+
+        [Space] [Header("Input cooldown variables")]
+        public float timeAfterStarted = 1f;
+        public float timeAfterFinished = 0.3f;
         [Header("Post Processing")]
         public Volume dialogueDof;
 
