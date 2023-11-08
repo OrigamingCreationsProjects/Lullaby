@@ -13,19 +13,19 @@ namespace Lullaby.Entities.States
         {
             player.ApplyGravity();
             player.SnapToGround();
-            player.AccelerateToInputDirection();
+            //player.AccelerateToInputDirection();
 
-            if (timeSinceEntered >= player.stats.current.attackDuration)
-            {
-                if(player.isGrounded)
-                {
-                    player.states.Change<IdlePlayerState>();
-                }
-                else
-                {
-                    player.states.Change<FallPlayerState>();
-                }
-            }
+            // if (timeSinceEntered >= player.stats.current.attackDuration)
+            // {
+            //     if(player.isGrounded)
+            //     {
+            //         player.states.Change<IdlePlayerState>();
+            //     }
+            //     else
+            //     {
+            //         player.states.Change<FallPlayerState>();
+            //     }
+            // }
         }
 
         public override void OnContact(Player player, Collider other) { }

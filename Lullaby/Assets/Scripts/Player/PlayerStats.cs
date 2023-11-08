@@ -68,7 +68,7 @@ namespace Lullaby.Entities
 		[Header("Attack Stats")]
 		public bool canAttack = true;
 		public bool canAirAttack = false;
-		public float attackDuration = 0.5f;
+		public float attackDuration = 1f;
 		public float airAttackUpwardForce = 10f;
 		public int allowedAirAttacks = 1;
 		
