@@ -35,7 +35,8 @@ namespace Lullaby.Entities
         public string isGroundedName = "IsGrounded";
         public string isHoldingName = "IsHolding";
         public string onStateChangedName = "OnStateChanged";
-
+        public string attackTriggerName = "AttackTrigger";
+        
         [Header("Settings")] 
         public float minLateralAnimationSpeed = 0.5f;
         public List<ForcedTransition> forcedTransitions;
@@ -50,6 +51,7 @@ namespace Lullaby.Entities
         protected int _isGroundedHash;
         protected int _isHoldingHash;
         protected int _onStateChangedHash;
+        protected int _attackTriggerHash;
 
         protected Dictionary<int, ForcedTransition> m_forcedTransitions;
 
@@ -91,6 +93,7 @@ namespace Lullaby.Entities
             _isGroundedHash = Animator.StringToHash(isGroundedName);
             _isHoldingHash = Animator.StringToHash(isHoldingName);
             _onStateChangedHash = Animator.StringToHash(onStateChangedName);
+            _attackTriggerHash = Animator.StringToHash(attackTriggerName);
         }
 
         protected virtual void HandleForcedTransitions()
@@ -120,6 +123,11 @@ namespace Lullaby.Entities
             animator.SetInteger(_jumpCounterHash, _player.jumpCounter);
             animator.SetBool(_isGroundedHash, _player.isGrounded);
             //animator.SetBool(_isHoldingHash, _player.holding);
+
+            if (_player.inputs.GetAttackDown())
+            {
+                animator.SetTrigger(_attackTriggerHash);
+            }
         }
 
         protected virtual void Start()

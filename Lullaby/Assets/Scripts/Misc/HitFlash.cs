@@ -8,7 +8,7 @@ namespace Lullaby
     public class HitFlash : MonoBehaviour
     {
         [Header("Flash Settings")]
-        public MeshRenderer[] renderers;
+        public SkinnedMeshRenderer[] renderers;
         public Color flashColor = Color.red;
         public float flashDuration = 0.5f;
 
