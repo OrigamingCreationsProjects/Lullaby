@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Lullaby.Entities.States
 {
@@ -37,17 +38,22 @@ namespace Lullaby.Entities.States
             //player.AccelerateToInputDirection();
             player.transform.position = _skinAttackPosSlot.GetComponentInChildren<Animator>().transform.position;
             // MANEJAREMOS ESTO DESDE EL ANIMATOR
-            // if (timeSinceEntered >= player.stats.current.attackDuration)
-            // {
-            //     if(player.isGrounded)
-            //     {
-            //         player.states.Change<IdlePlayerState>();
-            //     }
-            //     else
-            //     { 
-            //         player.states.Change<FallPlayerState>();
-            //     }
-            // }
+            if (player.inputs.GetAttackDown())
+            {
+                timeSinceEntered = 0;
+            }
+            
+            if (timeSinceEntered >= player.stats.current.attackDuration)
+            {
+                if(player.isGrounded)
+                {
+                    player.states.Change<IdlePlayerState>();
+                }
+                else
+                { 
+                    player.states.Change<FallPlayerState>();
+                }
+            }
         }
 
         public override void OnContact(Player player, Collider other) { }

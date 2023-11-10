@@ -18,8 +18,7 @@ namespace Lullaby
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(animator.GetInteger("State") == 0)
-                player.states.Change<IdlePlayerState>();
+            //if(animator.GetInteger("State") == 0) player.states.Change<IdlePlayerState>();
         }
     }
 }

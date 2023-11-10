@@ -36,14 +36,11 @@ namespace Level
             //Comprobamos que no se este intentando poner en el mismo estado que ya estamos
             if (paused != value)
             {
-                Debug.Log("Pasamos el primer if");
                 if (!paused)
                 {
-                    Debug.Log("Pasamos el segundo if");
                     //Comprobamos esta condicion ya que podriamos querer que no se pueda pausar en ciertos momentos
                     if (canPause) 
                     {
-                        Debug.Log("Pasamos el tercer if");
                         //DESBLOQUEAR CURSOR AQUI PARA QUE PUEDAN NAVEGAR POR EL MENU (Si está en pc o el ultimo control no es mando)
                         GameManager.LockCursor(false);
                         paused = true;
