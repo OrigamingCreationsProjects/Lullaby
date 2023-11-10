@@ -317,6 +317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5070540766334671618}
+  - component: {fileID: 4790337188480674400}
   m_Layer: 14
   m_Name: Skin
   m_TagString: Untagged
@@ -341,6 +342,27 @@ Transform:
   m_Father: {fileID: 1313438923136261701}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4790337188480674400
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864453225138063651}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
+  m_Controller: {fileID: 9100000, guid: 565b93ba380d4d84282923c80ab11e85, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2812922285005920064
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1926735944544475283}
+  animator: {fileID: 4790337188480674400}
   stateName: State
   lastStateName: Last State
   lateralSpeedName: Lateral Speed
@@ -574,6 +596,7 @@ MonoBehaviour:
   isGroundedName: IsGrounded
   isHoldingName: IsHolding
   onStateChangedName: OnStateChanged
+  attackTriggerName: AttackTrigger
   minLateralAnimationSpeed: 0.5
   forcedTransitions:
   - fromStateId: 7
@@ -976,7 +999,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -88767797421227844, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
@@ -984,11 +1008,6 @@ PrefabInstance:
       addedObject: {fileID: 3357459208805485088}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
---- !u!95 &1926735944544475283 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
-  m_PrefabInstance: {fileID: 5465031887242945794}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3824422101288920510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -88767797421227844, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}

@@ -123,7 +123,6 @@ namespace Lullaby.Entities
             animator.SetInteger(_jumpCounterHash, _player.jumpCounter);
             animator.SetBool(_isGroundedHash, _player.isGrounded);
             //animator.SetBool(_isHoldingHash, _player.holding);
-
             if (_player.inputs.GetAttackDown())
             {
                 animator.SetTrigger(_attackTriggerHash);
@@ -136,8 +135,10 @@ namespace Lullaby.Entities
             InitializeForcedTransitions();
             InitializeParametersHash();
             InitializeAnimatorTriggers();
+           
         }
 
         protected void LateUpdate() => HandleAnimatorParameters();
+        
     }
 }
