@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lullaby.Entities.Weapons;
 using UnityEngine;
 
 namespace Lullaby.Entities
@@ -21,7 +22,7 @@ namespace Lullaby.Entities
             public string toAnimationState;
         } 
             
-            
+        
         public Animator animator;
 
         [Header("Parameters Names")] 
@@ -56,13 +57,17 @@ namespace Lullaby.Entities
         protected Dictionary<int, ForcedTransition> m_forcedTransitions;
 
         protected Player _player;
+        protected MeleeWeapon _meleeWeapon;
 
         protected virtual void InitializePlayer()
         {
             _player = GetComponent<Player>();
             _player.states.events.onChange.AddListener(HandleForcedTransitions);
         }
-
+        protected virtual void InitializeMeleeWeapon()
+        {
+            _meleeWeapon = GetComponentInChildren<MeleeWeapon>();
+        }
         protected virtual void InitializeForcedTransitions()
         {
             m_forcedTransitions = new Dictionary<int, ForcedTransition>();
@@ -132,6 +137,7 @@ namespace Lullaby.Entities
         protected virtual void Start()
         {
             InitializePlayer();
+            InitializeMeleeWeapon();
             InitializeForcedTransitions();
             InitializeParametersHash();
             InitializeAnimatorTriggers();

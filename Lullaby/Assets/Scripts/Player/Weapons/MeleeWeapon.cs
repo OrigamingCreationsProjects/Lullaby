@@ -93,7 +93,6 @@ namespace Lullaby.Entities.Weapons
         public void EndAttack()
         {
             inAttack = false;
-            
 #if UNITY_EDITOR
             for (int i = 0; i < attackPoints.Length; i++)
             {
@@ -152,6 +151,20 @@ namespace Lullaby.Entities.Weapons
         //FALTA IMPLEMENTAR
         private bool CheckDamage(Collider other, AttackPoint pts)
         {
+            Debug.Log($"Se detecta colision con: {other.name}");
+            Damageable d = other.GetComponent<Damageable>();
+            if(d == null) return false;
+
+            if (d.gameObject == _owner)
+                return true;
+
+            if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
+            {
+                //hit an object that is not in our layer, this end the attack. we "bounce" off it
+                return false;
+            }
+            
+            
             return true;
         }
         
