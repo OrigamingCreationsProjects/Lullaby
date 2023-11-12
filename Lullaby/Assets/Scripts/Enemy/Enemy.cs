@@ -1,4 +1,5 @@
-﻿using Lullaby.Entities.Events;
+﻿using Lullaby.Entities.Enemies.States;
+using Lullaby.Entities.Events;
 using UnityEngine;
 
 namespace Lullaby.Entities.Enemies
@@ -59,10 +60,25 @@ namespace Lullaby.Entities.Enemies
                 health.Damage(amount);
                 enemyEvents.OnDamage?.Invoke();
 
+                if (stats.current.canReceivePushBack)
+                {
+                    states.Change<HurtEnemyState>();
+                    //Debug.Log("Deberia cambiar de estado");
+                    // verticalVelocity = Vector3.up * stats.current.hurtUpwardsForce;
+                    // lateralVelocity = -localForward * stats.current.hurtBackwardsForce;
+                }
+                
+                Debug.Log("Enemigo dañado");
                 if (health.isEmpty)
                 {
-                    controller.enabled = false;
+                    //controller.enabled = false;
                     enemyEvents.OnDie?.Invoke();
+                    states.Change<DieEnemyState>();
+                    //gameObject.SetActive(false);
+                }
+                else
+                {
+                    //states.Change<HurtEnemyState>();
                 }
             }
         }
@@ -122,6 +138,21 @@ namespace Lullaby.Entities.Enemies
                 enemyEvents.OnPlayerContact?.Invoke();
             }
         }
+
+        public virtual void ApplyDieForces()
+        {
+            verticalVelocity = Vector3.up * stats.current.dieUpwardsForce;
+            lateralVelocity = -localForward * stats.current.dieBackwardsForce;
+            //lateralVelocity = new Vector3(0, 0, -localForward.z * stats.current.hurtBackwardsForce);
+        }
+
+        //Meter logica de desaparición como las partículas y tal
+        //(quiza mejor invocar el evento de desaparicion y que el componente de particulas se encargue de ello)
+        public virtual void Disappear()
+        {
+            gameObject.SetActive(false);
+            enemyEvents.OnDisappear?.Invoke();
+        }
         
         /// <summary>
         /// Handles the view sight and Player detection behaviour.
@@ -152,7 +183,8 @@ namespace Lullaby.Entities.Enemies
                 if ((player.health.current == 0) || (distance > stats.current.viewRange))
                 {
                     player = null;
-                    enemyEvents.OnPlayerEscaped?.Invoke();
+                    if(isGrounded)
+                        enemyEvents.OnPlayerEscaped?.Invoke();
                 }
             }
         }

@@ -77,7 +77,7 @@ namespace Lullaby
             {
                 current -= Math.Abs(amount);
                 lastDamageTime = Time.time;
-                Debug.Log($"Se daña al jugador quitando {amount} puntos de vida. La vida actual es {current}");
+                Debug.Log($"Se daña a la entidad quitando {amount} puntos de vida. La vida actual es {current}");
                 onDamage?.Invoke();
             }
         }

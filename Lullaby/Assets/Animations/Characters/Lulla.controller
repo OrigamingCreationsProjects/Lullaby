@@ -135,7 +135,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2038449852116312599, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
+  m_Motion: {fileID: 2038449852116312599, guid: b30f5c4294efe814ebd27debe9c2b9f6, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -153,8 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d561cb15f544cc8b30c43dd47f4ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextState: Lullaby.Entities.States.AttackPlayerState
-  player: {fileID: 0}
 --- !u!114 &-6475421111637056308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,8 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d561cb15f544cc8b30c43dd47f4ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextState: Lullaby.Entities.States.AttackPlayerState
-  player: {fileID: 0}
 --- !u!1102 &-6034847805505544188
 AnimatorState:
   serializedVersion: 6
@@ -594,8 +590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d561cb15f544cc8b30c43dd47f4ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextState: Lullaby.Entities.States.AttackPlayerState
-  player: {fileID: 0}
 --- !u!1109 &-1025811721462402136
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -875,8 +869,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d561cb15f544cc8b30c43dd47f4ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextState: Lullaby.Entities.States.AttackPlayerState
-  player: {fileID: 0}
 --- !u!1102 &703738839918950320
 AnimatorState:
   serializedVersion: 6
@@ -926,7 +918,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2688544947147382826, guid: 65141a0a020c9b74eb70ba19c53d7e5e, type: 3}
+  m_Motion: {fileID: 2688544947147382826, guid: b30f5c4294efe814ebd27debe9c2b9f6, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1041,7 +1033,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AttackCombo1
-  m_Speed: 1.5
+  m_Speed: 1.8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5439666680350707201}

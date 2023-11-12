@@ -110,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513299735510499935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.086, y: 0.27, z: 0.09}
+  m_LocalPosition: {x: 1.086, y: -0.247, z: 0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -134,13 +134,13 @@ MonoBehaviour:
   damage: 10
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   attackPoints:
   - radius: 0.3
-    offset: {x: 0, y: 0, z: 0.5}
+    offset: {x: 0, y: 0.5, z: -0.5}
     attackRoot: {fileID: 4220796934010055448}
   - radius: 0.3
-    offset: {x: 0, y: 0, z: 0}
+    offset: {x: 0, y: 1, z: -0.5}
     attackRoot: {fileID: 4220796934010055448}
   - radius: 0.3
     offset: {x: 0, y: 0, z: -0.5}
@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 607872311690988042}
   - component: {fileID: 7035975592158325138}
   - component: {fileID: 2946508714547011549}
+  - component: {fileID: 3542177472270246663}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -385,7 +386,10 @@ MonoBehaviour:
     OnDie:
       m_PersistentCalls:
         m_Calls: []
-    OnAttack:
+    OnAttackStarted:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAttackFinished:
       m_PersistentCalls:
         m_Calls: []
     OnDialogueStarted:
@@ -656,11 +660,23 @@ MonoBehaviour:
   stepOffset: 0.3
   skinWidth: 0.005
   center: {x: 0, y: 0, z: 0}
-  radius: 0.68
+  radius: 0.59
   height: 1.93
   collisionLayer:
     serializedVersion: 2
     m_Bits: 17395
+--- !u!114 &3542177472270246663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa2f4a8254ee10f47b45c24a877a16b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4517935960329081683
 GameObject:
   m_ObjectHideFlags: 0

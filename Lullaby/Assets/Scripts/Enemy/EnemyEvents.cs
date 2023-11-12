@@ -32,6 +32,11 @@ namespace Lullaby.Entities.Events
         public UnityEvent OnDie;
 
         /// <summary>
+        /// Called when this Enemy dead and disappear
+        /// </summary>
+        public UnityEvent OnDisappear;
+
+        /// <summary>
         /// Called when this Enemy was revived
         /// </summary>
         public UnityEvent OnRevive;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -21,6 +22,16 @@ namespace Lullaby.Entities.Enemies
         public float contactPushBackForce = 18f;
         public float contactSteppingTolerance = 0.1f;
 
+        [Header("Hurt Stats")] 
+        public float timeInHurtState = 0.5f;
+        public bool canReceivePushBack = true;
+        public float hurtBackwardsForce = 15f;
+        
+        [Header("Die Stats")]
+        public float timeUntilDisappear = 1.5f;
+        public float dieBackwardsForce = 15f;
+        public float dieUpwardsForce = 100f;
+       
         [Header("View Stats")]
         public float spotRange = 5f;
         public float viewRange = 8f;

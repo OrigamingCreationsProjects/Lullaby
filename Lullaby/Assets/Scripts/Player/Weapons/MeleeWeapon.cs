@@ -8,8 +8,9 @@ namespace Lullaby.Entities.Weapons
     [AddComponentMenu("Lullaby/Custom Movement/Player/Weapons/Melee Weapon")]
     public class MeleeWeapon : MonoBehaviour
     {
+        protected Player _player;
         public int damage = 10;
-
+        
         [Serializable]
         public class AttackPoint
         {
@@ -32,6 +33,7 @@ namespace Lullaby.Entities.Weapons
 //             }
         }
 
+        
         //FALTAN Particulas
 
         public LayerMask targetLayers;
@@ -100,7 +102,36 @@ namespace Lullaby.Entities.Weapons
             }
 #endif
         }
+        
+        //FALTA IMPLEMENTAR
+        private bool CheckDamage(Collider other, AttackPoint pts)
+        {
+            // if (other.TryGetComponent(out Entity target))
+            // {
+            //     target.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
+            // }
 
+            Entity d = other.GetComponent<Entity>();
+            if(d == null) return false;
+
+            if (d.gameObject == _owner)
+                return true;
+            if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
+            {
+                //hit an object that is not in our layer, this end the attack. we "bounce" off it
+                return false;
+            }
+            Debug.Log($"Se detecta colision con: {other.name}");
+            d.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
+            
+            return true;
+        }
+
+        protected virtual void Awake()
+        {
+            _player = GetComponentInParent<Player>();
+        }
+        
         private void FixedUpdate()
         {
             if (inAttack)
@@ -116,7 +147,7 @@ namespace Lullaby.Entities.Weapons
                     Vector3
                         attackVector =
                             worldPos - _previousPos[i]; //Calculamos el vector de desplazamiento entre la posicion anterior y la actual
-
+                    
                     if (attackVector.magnitude < 0.001f)
                     {
                         // A zero vector for the sphere cast don't yield any result, even if a collider overlap the "sphere" created by radius. 
@@ -148,25 +179,7 @@ namespace Lullaby.Entities.Weapons
             }
         }
 
-        //FALTA IMPLEMENTAR
-        private bool CheckDamage(Collider other, AttackPoint pts)
-        {
-            Debug.Log($"Se detecta colision con: {other.name}");
-            Damageable d = other.GetComponent<Damageable>();
-            if(d == null) return false;
-
-            if (d.gameObject == _owner)
-                return true;
-
-            if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
-            {
-                //hit an object that is not in our layer, this end the attack. we "bounce" off it
-                return false;
-            }
-            
-            
-            return true;
-        }
+        
         
 
 #if UNITY_EDITOR

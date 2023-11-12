@@ -9,7 +9,7 @@ namespace Lullaby.Entities.States
         protected GameObject _skinAttackPosSlot;
         protected override void OnEnter(Player player)
         {
-            player.playerEvents.OnAttack.Invoke();
+            player.playerEvents.OnAttackStarted?.Invoke();
             
             if (!_skinAttackPosSlot)
             {
@@ -27,6 +27,7 @@ namespace Lullaby.Entities.States
 
         protected override void OnExit(Player player)
         {
+            player.playerEvents.OnAttackFinished?.Invoke();
             player.transform.position = _skinAttackPosSlot.GetComponentInChildren<Animator>().transform.position;
             player.ResetSkinParent();
         }

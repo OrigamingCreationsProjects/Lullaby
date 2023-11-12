@@ -11,7 +11,7 @@ namespace Lullaby.Entities.Weapons
         protected MeleeWeapon _meleeWeapon;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             _player = GetComponentInParent<Player>();
             _meleeWeapon = _player.GetComponentInChildren<MeleeWeapon>();

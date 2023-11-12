@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Lullaby.Entities.Events
 {
@@ -34,8 +35,13 @@ namespace Lullaby.Entities.Events
 		/// <summary>
 		/// Called when the Player uses the regular Attack.
 		/// </summary>
-		public UnityEvent OnAttack;
-
+		public UnityEvent OnAttackStarted;
+		
+		/// <summary>
+		/// Called when the Player finish the regular Attack.
+		/// </summary>
+		public UnityEvent OnAttackFinished;
+		
 		/// <summary>
 		/// Called when the Player start a Dialogue.
 		/// </summary>

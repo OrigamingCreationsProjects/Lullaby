@@ -387,7 +387,7 @@ namespace Lullaby.Entities
                     airAttackCounter++;
                 }
                 states.Change<AttackPlayerState>();
-                playerEvents.OnAttack?.Invoke();
+                playerEvents.OnAttackStarted?.Invoke();
             }
         }
         
