@@ -7,6 +7,7 @@ using UnityEngine.Events;
 namespace Lullaby
 {
     [RequireComponent(typeof(Collider), typeof(AudioSource))]
+    [AddComponentMenu("Lullaby/Misc/Breakable")]
     public class Breakable : MonoBehaviour
     {
         public GameObject display;
