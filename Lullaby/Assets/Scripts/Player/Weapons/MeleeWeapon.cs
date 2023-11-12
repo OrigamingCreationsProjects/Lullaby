@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Lullaby.Entities.Weapons
@@ -110,8 +111,19 @@ namespace Lullaby.Entities.Weapons
             // {
             //     target.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
             // }
-
-            Entity d = other.GetComponent<Entity>();
+            Breakable b = null;
+            Entity d = null;
+            if (other.TryGetComponent(out Entity target))
+            {
+                HandleEntityAttack(target);
+                d = target;
+            } 
+            else if(other.TryGetComponent(out Breakable breakable))
+            {
+                b = breakable;
+                HandleBreakableObject(breakable);
+                return true;
+            }
             if(d == null) return false;
 
             if (d.gameObject == _owner)
@@ -122,16 +134,26 @@ namespace Lullaby.Entities.Weapons
                 return false;
             }
             Debug.Log($"Se detecta colision con: {other.name}");
-            d.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
             
             return true;
         }
 
+        protected virtual void HandleEntityAttack(Entity other)
+        {
+            other.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
+        }
+        
+        protected virtual void HandleBreakableObject(Breakable breakable)
+        {
+            breakable.Break();
+        }
+        
+        
         protected virtual void Awake()
         {
             _player = GetComponentInParent<Player>();
         }
-        
+
         private void FixedUpdate()
         {
             if (inAttack)
