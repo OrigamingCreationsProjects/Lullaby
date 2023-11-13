@@ -71,6 +71,7 @@ namespace Lullaby.Entities
 		public float attackDuration = 1f;
 		public float airAttackUpwardForce = 10f;
 		public int allowedAirAttacks = 1;
+		public int regularAttackDamage = 10;
 		
 		[Header("Wall Drag Stats")]
 		public bool canWallDrag = true;

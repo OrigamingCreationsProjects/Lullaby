@@ -32,6 +32,7 @@ namespace Lullaby.Entities
         
         protected Vector3 _skinInitialPosition;
         protected Quaternion _skinInitialRotation;
+        protected Vector3 _skinInitialScale;
         
         /// <summary>
         /// Returns the Player Input Manager instance.
@@ -111,6 +112,7 @@ namespace Lullaby.Entities
             if(!skin) return;
             _skinInitialPosition = skin.localPosition;
             _skinInitialRotation = skin.localRotation;
+            _skinInitialScale = skin.localScale;
         }
         
         #endregion
@@ -385,7 +387,7 @@ namespace Lullaby.Entities
                     airAttackCounter++;
                 }
                 states.Change<AttackPlayerState>();
-                playerEvents.OnAttack?.Invoke();
+                playerEvents.OnAttackStarted?.Invoke();
             }
         }
         
@@ -462,6 +464,7 @@ namespace Lullaby.Entities
             skin.parent = transform;
             skin.localPosition = _skinInitialPosition;
             skin.localRotation = _skinInitialRotation;
+            skin.localScale = _skinInitialScale;
         }
 
         public virtual void WallDrag(Collider other)
@@ -544,6 +547,7 @@ namespace Lullaby.Entities
             base.Awake(); // Inicializamos controller, estados y parent
             InitializeInputs();
             InitializeStats();
+            InitializeSkin();
             InitializeHealth();
             InitializeDialogueTrigger();
             InitializeTag();

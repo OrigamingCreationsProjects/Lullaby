@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Lullaby.Entities.Events;
+using Lullaby.Interfaces;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -288,7 +289,6 @@ namespace Lullaby.Entities
         }
         #endregion
         public virtual void ApplyDamage(int damage, Vector3 origin) { }
-        
         
     }
     // Hacemos que T debe ser una clase que herede de Entity<T>.
