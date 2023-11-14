@@ -55,13 +55,12 @@ namespace Lullaby.Entities.Events
 		// /// <summary>
 		// /// Called when the Player pick up an object.
 		// /// </summary>
-		// public UnityEvent OnPickUp;
+		public UnityEvent OnPickUp;
 		
 		// /// <summary>
 		// /// Called when the Player throws an object.
 		// /// </summary>
-		// public UnityEvent OnThrow;
-
+		public UnityEvent OnThrow;
 
 		/// <summary>
 		/// Called when the player grabs onto a ledge.

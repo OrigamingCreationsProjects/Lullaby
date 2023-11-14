@@ -23,6 +23,7 @@ namespace Lullaby
         protected InputAction Pause;
         protected InputAction GrindBrake;
         protected InputAction Interact;
+        protected InputAction PickAndDrop;
 
         protected Camera camera;
 
@@ -47,6 +48,7 @@ namespace Lullaby
             Interact = actions["Interact"];
             Pause = actions["Pause"];
             GrindBrake = actions["GrindBrake"];
+            PickAndDrop = actions["PickAndDrop"];
         }
 
         #region -- GET DIRECTIONS --
@@ -138,7 +140,7 @@ namespace Lullaby
         public virtual bool GetDashDown() => Dash.WasPressedThisFrame();
         
         public virtual bool GetAttackDown() => Attack.WasPressedThisFrame();
-        
+        public virtual bool GetPickAndDropDown() => PickAndDrop.WasPressedThisFrame();
         public virtual bool GetReleaseLedgeDown() => ReleaseLedge.WasPressedThisFrame();
         
         //public virtual bool GetInteractDown() => Interact.WasPerformedThisFrame();
