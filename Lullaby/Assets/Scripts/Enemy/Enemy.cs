@@ -68,7 +68,7 @@ namespace Lullaby.Entities.Enemies
                     // lateralVelocity = -localForward * stats.current.hurtBackwardsForce;
                 }
                 
-                Debug.Log("Enemigo dañado");
+                //Debug.Log("Enemigo dañado");
                 if (health.isEmpty)
                 {
                     //controller.enabled = false;
