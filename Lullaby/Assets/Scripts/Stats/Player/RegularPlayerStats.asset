@@ -20,7 +20,7 @@ MonoBehaviour:
   fallGravity: 65
   gravityTopSpeed: 50
   canPickUp: 1
-  canPickUpOnAir: 0
+  canPickUpOnAir: 1
   canJumpWhileHolding: 1
   pickDistance: 0.5
   throwVelocityMultiplier: 1.5
@@ -55,6 +55,7 @@ MonoBehaviour:
   attackDuration: 0.8
   airAttackUpwardForce: 10
   allowedAirAttacks: 1
+  regularAttackDamage: 10
   canWallDrag: 1
   wallJumpLockMovement: 1
   minGroundDistanceToDrag: 0.5
@@ -83,7 +84,7 @@ MonoBehaviour:
   ledgeClimbingLayers:
     serializedVersion: 2
     m_Bits: 513
-  ledgeClimbingSkinOffset: {x: 0, y: 0, z: 0}
+  ledgeClimbingSkinOffset: {x: 0, y: 0, z: 0.52}
   ledgeClimbingDuration: 1
   canBackflip: 1
   backflipLockMovement: 1

@@ -17,6 +17,7 @@ namespace Lullaby.Entities.States
             player.AccelerateToInputDirection();
             player.Jump();
             player.Attack(); //Se podria quitar si al final no se deja atacar en el aire
+            player.PickAndThrow();
             player.LedgeGrab();
             player.Dash();
             //player.Glide(); //De momento desactivamos al no haber planeo (de momento)

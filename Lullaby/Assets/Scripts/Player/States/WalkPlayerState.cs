@@ -16,6 +16,7 @@ namespace Lullaby.Entities.States
             player.Jump();
             player.Fall();
             player.Attack();
+            player.PickAndThrow();
             //player.Dash();
             player.RegularSlopeFactor();
             
