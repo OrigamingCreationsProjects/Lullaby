@@ -31,7 +31,6 @@ namespace Lullaby.UI.Menus
             _selectedButtonPosition = transform.position + moveOffset;
             moon.transform.localScale = Vector3.zero;
             moon.SetActive(false);
-            InitializeSequences();
         }
         
         public override void OnPointerEnter(BaseEventData eventData)
@@ -87,14 +86,5 @@ namespace Lullaby.UI.Menus
             _exitSequence.OnComplete(() => tween.Pause());
             //_exitSequence.Play();
         }
-
-        protected virtual void InitializeSequences()
-        {
-            // ENTER SEQUENCE
-            
-            //EXIT SEQUENCE
-           
-        }
-        
     }
 }
