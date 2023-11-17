@@ -71,15 +71,11 @@ namespace Lullaby
         }
         protected void Move(Vector3 from, Vector3 to)
         {
-            Debug.Log("Intentamos escalar");
-            
             // Sequence showSequence = DOTween.Sequence();
             // showSequence.Append(canvas.transform.DOScaleY(to.y, scaleDuration).SetEase(Ease.InOutSine));
             // showSequence.Append(canvas.transform.DOScaleX(to.x, scaleDuration / 2).SetEase(Ease.InOutSine));
             // showSequence.Insert(2, canvas.transform.DOScaleZ(to.z, scaleDuration / 2).SetEase(Ease.InOutSine));
             canvas.transform.DOMoveY(to.y, scaleDuration).SetEase(scaleAndMoveEase);
-            
-
         }
         
         // protected virtual IEnumerator Scale(Vector3 from, Vector3 to)

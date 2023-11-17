@@ -7,9 +7,11 @@ using Lullaby.Entities.Events;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
 using Systems;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
+using Sequence = DG.Tweening.Sequence;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Lullaby.Entities
@@ -32,6 +34,7 @@ namespace Lullaby.Entities
         
         protected Vector3 _skinInitialPosition;
         protected Quaternion _skinInitialRotation;
+        protected Vector3 _skinInitialScale;
         
         /// <summary>
         /// Returns the Player Input Manager instance.
@@ -52,7 +55,11 @@ namespace Lullaby.Entities
         /// </summary>
         public PlayerDialogueTrigger dialogueTrigger { get; protected set; }
         
-        //COGER OBJETOS?
+        
+        /// <summary>
+        /// Returns true if the Player is holding an object.
+        /// </summary>
+        public bool holding { get; protected set; }
         
         
         /// <summary>
@@ -83,6 +90,11 @@ namespace Lullaby.Entities
         public Vector3 lastWallNormal { get; protected set; }
         
         /// <summary>
+        /// Return the Pickable instance which the Player is holding.
+        /// </summary>
+        public Pickable pickable { get; protected set; }
+        
+        /// <summary>
         /// Returns true if the Player health is not empty.
         /// </summary>
         public virtual bool isAlive => !health.isEmpty;
@@ -111,6 +123,7 @@ namespace Lullaby.Entities
             if(!skin) return;
             _skinInitialPosition = skin.localPosition;
             _skinInitialRotation = skin.localRotation;
+            _skinInitialScale = skin.localScale;
         }
         
         #endregion
@@ -126,7 +139,16 @@ namespace Lullaby.Entities
             transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
             states.Change<IdlePlayerState>();
         }
-
+        /// <summary>
+        /// Resets Player state, position, and rotation.
+        /// </summary>
+        public virtual void RespawnWithCurrentHealth()
+        {
+            velocity = Vector3.zero;
+            transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+            states.Change<IdlePlayerState>();
+        }
+        
         /// <summary>
         /// Sets the position and rotation of the Player for the next respawn.
         /// </summary>
@@ -284,7 +306,7 @@ namespace Lullaby.Entities
         {
             var canMultiJump = (jumpCounter > 0) && (jumpCounter < stats.current.multiJumps);
             var canCoyoteJump = (jumpCounter == 0) && (Time.time < lastGroundTime + stats.current.coyoteJumpThreshold);
-            var holdJump = stats.current.canJumpWhileHolding;   // !holding ; Comentamos esto porque no sabemos si se cogerán objetos
+            var holdJump =  !holding || stats.current.canJumpWhileHolding; //Comentamos esto porque no sabemos si se cogerán objetos
 
             if ((isGrounded || onRails || canMultiJump || canCoyoteJump) && holdJump)
             {
@@ -378,20 +400,76 @@ namespace Lullaby.Entities
             
             // Si queremos que se cojan objetos tambien habra que comprobar !holding para que no ataque al tener objetos.
             // O implementar logica para que el objeto salga volando al atacar.
-            if(stats.current.canAttack && canMakeAnAttack && inputs.GetAttackDown()) 
+            if(stats.current.canAttack && canMakeAnAttack && !holding && inputs.GetAttackDown()) 
             {
                 if (!isGrounded)
                 {
                     airAttackCounter++;
                 }
                 states.Change<AttackPlayerState>();
-                playerEvents.OnAttack?.Invoke();
+                playerEvents.OnAttackStarted?.Invoke();
+            }
+        }
+
+        public virtual void PickAndThrow()
+        {
+            if (stats.current.canPickUp && inputs.GetPickAndDropDown())
+            {
+                if (!holding)
+                {
+                    if (CapsuleCast(transform.forward,
+                            stats.current.pickDistance, out var hit))
+                    {
+                        if (hit.transform.TryGetComponent(out Pickable pickable))
+                        {
+                            PickUp(pickable);
+                        }
+                    }
+                } 
+                else
+                {
+                    Throw();
+                }
+            }
+           
+        }
+
+        public virtual void PickUp(Pickable pickable)
+        {
+            if (!holding && (isGrounded || stats.current.canPickUpOnAir))
+            {
+                holding = true;
+                this.pickable = pickable;
+                pickable.PickUp(pickableSlot);
+                pickable.onRespawn.AddListener(RemovePickable);
+                playerEvents.OnPickUp?.Invoke();
+            }
+        }
+
+        public virtual void Throw()
+        {
+            if (holding)
+            {
+                var force = lateralVelocity.magnitude * stats.current.throwVelocityMultiplier;
+                pickable.Release(transform.forward, force);
+                pickable = null;
+                holding = false;
+                playerEvents.OnThrow?.Invoke();
+            }
+        }
+
+        public virtual void RemovePickable()
+        {
+            if (holding)
+            {
+                pickable = null;
+                holding = false;
             }
         }
         
         public virtual void LedgeGrab()
         {
-            if (stats.current.canLedgeHang && verticalVelocity.y < 0 && 
+            if (stats.current.canLedgeHang && verticalVelocity.y < 0 && !holding &&
                 states.ConstainsStateOfType(typeof(LedgeHangingPlayerState)) &&
                 DetectingLedge(stats.current.ledgeMaxForwardDistance,
                 stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding añadir si cogemos objetos
@@ -462,11 +540,12 @@ namespace Lullaby.Entities
             skin.parent = transform;
             skin.localPosition = _skinInitialPosition;
             skin.localRotation = _skinInitialRotation;
+            skin.localScale = _skinInitialScale;
         }
 
         public virtual void WallDrag(Collider other)
         {
-            if(!stats.current.canWallDrag || verticalVelocity.y > 0) return; //holding añadir esta condicion si metemos coger objetos
+            if(holding || !stats.current.canWallDrag || verticalVelocity.y > 0) return;
 
             var maxWallDistance = radius + stats.current.ledgeMaxForwardDistance; // La distancia máxima de la pared para deslizar por esta
             var minGroundDistance = height * 0.5f + stats.current.minGroundDistanceToDrag; // La altura mínima para deslizar por pared
@@ -544,6 +623,7 @@ namespace Lullaby.Entities
             base.Awake(); // Inicializamos controller, estados y parent
             InitializeInputs();
             InitializeStats();
+            InitializeSkin();
             InitializeHealth();
             InitializeDialogueTrigger();
             InitializeTag();

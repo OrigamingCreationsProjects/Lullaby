@@ -1,49 +1,44 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Lullaby.Entities.Weapons
 {
-    [AddComponentMenu("Lullaby/CustomMovement/Player/Weapons/Melee Weapon")]
+    [AddComponentMenu("Lullaby/Custom Movement/Player/Weapons/Melee Weapon")]
     public class MeleeWeapon : MonoBehaviour
     {
-        #region PARTE TEMPORAL HASTA TENER ANIMACIONES
-
-        public Transform startPoint; // Transform del punto de inicio (derecha del jugador)
-        public Transform targetPoint; // Transform del punto de destino (izquierda del jugador)
-        public AnimationCurve customAnimationCurve;
-
-        #endregion
-
+        protected Player _player;
         public int damage = 10;
-
+        
         [Serializable]
-        public struct AttackPoint
+        public class AttackPoint
         {
             public float radius;
             public Vector3 offset;
             public Transform attackRoot;
 #if UNITY_EDITOR
-        //editor only as it's only used in editor to display the path of the attack that is used by the raycast
-        [NonSerialized] public List<Vector3> previousPositions;
+            //editor only as it's only used in editor to display the path of the attack that is used by the raycast
+            [NonSerialized] public List<Vector3> previousPositions = new List<Vector3>();
 #endif
-            public AttackPoint(float radius, Vector3 offset, Transform attackRoot) // Creamos el constructor
-            {
-                this.radius = radius;
-                this.offset = offset;
-                this.attackRoot = attackRoot;
-#if UNITY_EDITOR
-                this.previousPositions = new List<Vector3>();
-#endif
-                
-            }
+//             public AttackPoint(float radius, Vector3 offset, Transform attackRoot) // Creamos el constructor
+//             {
+//                 this.radius = radius;
+//                 this.offset = offset;
+//                 this.attackRoot = attackRoot;
+// #if UNITY_EDITOR
+//                 this.previousPositions = new List<Vector3>();
+// #endif
+//                 
+//             }
         }
 
+        
         //FALTAN Particulas
 
         public LayerMask targetLayers;
+        
         public AttackPoint[] attackPoints = new AttackPoint[0];
 
         //FALTA Audio
@@ -54,9 +49,9 @@ namespace Lullaby.Entities.Weapons
             set { isThrowingHit = value; }
         }
 
-        protected GameObject owner; //GameObject del jugador
+        protected GameObject _owner; //GameObject del jugador
 
-        protected Vector3[] previousPos = null; //Posiciones anteriores
+        protected Vector3[] _previousPos = null; //Posiciones anteriores
         protected Vector3 direction; //Direccion del ataque
 
         protected bool isThrowingHit = false; //Si esta lanzando un ataque
@@ -72,7 +67,7 @@ namespace Lullaby.Entities.Weapons
 
         public void SetOwner(GameObject owner) //Establecemos quien lleva el arma para que pueda seguir el movimiento etc.
         {
-            this.owner = owner;
+            _owner = owner;
         }
 
         public void BeginAttack(bool throwingAttack)
@@ -83,17 +78,17 @@ namespace Lullaby.Entities.Weapons
 
             inAttack = true;
 
-            previousPos = new Vector3[attackPoints.Length]; // Inicializamos el array de posiciones anteriores
+            _previousPos = new Vector3[attackPoints.Length]; // Inicializamos el array de posiciones anteriores
             for (int i = 0; i < attackPoints.Length; i++)
             {
                 //Calculamos la posicion del ataque en coordenadas del mundo sumando el offset en coordenadas del mundo
                 Vector3 worldPos = attackPoints[i].attackRoot.position +
                                    attackPoints[i].attackRoot.TransformVector(attackPoints[i].offset);
-                previousPos[i] = worldPos; //Guardamos la posicion en el array de posiciones anteriores 
+                _previousPos[i] = worldPos; //Guardamos la posicion en el array de posiciones anteriores 
 
 #if UNITY_EDITOR
-            attackPoints[i].previousPositions.Clear(); //Limpiamos la lista de posiciones anteriores
-            attackPoints[i].previousPositions.Add(previousPos[i]); //Añadimos la posicion al array de posiciones anteriores
+                attackPoints[i].previousPositions.Clear(); //Limpiamos la lista de posiciones anteriores
+                attackPoints[i].previousPositions.Add(_previousPos[i]); //Añadimos la posicion al array de posiciones anteriores
 #endif
             }
         }
@@ -101,54 +96,80 @@ namespace Lullaby.Entities.Weapons
         public void EndAttack()
         {
             inAttack = false;
-
-
-            transform.position = targetPoint.position;
 #if UNITY_EDITOR
-        for (int i = 0; i < attackPoints.Length; i++)
-        {
-            attackPoints[i].previousPositions.Clear();
-        }
+            for (int i = 0; i < attackPoints.Length; i++)
+            {
+                attackPoints[i].previousPositions.Clear();
+            }
 #endif
+        }
+        
+        //FALTA IMPLEMENTAR
+        private bool CheckDamage(Collider other, AttackPoint pts)
+        {
+            // if (other.TryGetComponent(out Entity target))
+            // {
+            //     target.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
+            // }
+            Breakable b = null;
+            Entity d = null;
+            if (other.TryGetComponent(out Entity target))
+            {
+                HandleEntityAttack(target);
+                d = target;
+            } 
+            else if(other.TryGetComponent(out Breakable breakable))
+            {
+                b = breakable;
+                HandleBreakableObject(breakable);
+                return true;
+            }
+            if(d == null) return false;
+
+            if (d.gameObject == _owner)
+                return true;
+            if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
+            {
+                //hit an object that is not in our layer, this end the attack. we "bounce" off it
+                return false;
+            }
+            Debug.Log($"Se detecta colision con: {other.name}");
+            
+            return true;
+        }
+
+        protected virtual void HandleEntityAttack(Entity other)
+        {
+            other.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
+        }
+        
+        protected virtual void HandleBreakableObject(Breakable breakable)
+        {
+            breakable.Break();
+        }
+        
+        
+        protected virtual void Awake()
+        {
+            _player = GetComponentInParent<Player>();
         }
 
         private void FixedUpdate()
         {
-
-            // if (Input.GetKeyDown(KeyCode.R))
-            // {
-            //     BeginAttack(true);
-            //     Debug.Log("Ataque");
-            //     //PARTE A ELIMINAR CUANDO MOVAMOS POR ANIMACIÓN
-            //     transform.position = startPoint.position;
-            //
-            //     // Utiliza DoTween para animar el movimiento desde puntoInicio a puntoDestino en una trayectoria curva.
-            //     transform.DOMove(targetPoint.position, 0.5f) // Duración de la animación (en segundos)
-            //         .SetEase(Ease.InOutQuad) // Curva de animación (puedes ajustarla)
-            //         .OnComplete(AnimationComplete); // Opcional: llama a AnimationComplete cuando la animación se completa
-            // }
-
-            // if (Input.GetKeyUp(KeyCode.R))
-            // {
-            //     EndAttack();
-            // }
-
             if (inAttack)
             {
                 for (int i = 0; i < attackPoints.Length; i++)
                 {
                     AttackPoint pts = attackPoints[i];
 
-                    Vector3
-                        worldPos = pts.attackRoot.position +
-                                   pts.attackRoot
-                                       .TransformVector(pts
-                                           .offset); //Calculamos la posicion del ataque en coordenadas del mundo sumando el offset en coordenadas del mundo
+                    Vector3 worldPos = pts.attackRoot.position +
+                                       pts.attackRoot
+                                           .TransformVector(pts
+                                               .offset); //Calculamos la posicion del ataque en coordenadas del mundo sumando el offset en coordenadas del mundo
                     Vector3
                         attackVector =
-                            worldPos - previousPos[
-                                i]; //Calculamos el vector de desplazamiento entre la posicion anterior y la actual
-
+                            worldPos - _previousPos[i]; //Calculamos el vector de desplazamiento entre la posicion anterior y la actual
+                    
                     if (attackVector.magnitude < 0.001f)
                     {
                         // A zero vector for the sphere cast don't yield any result, even if a collider overlap the "sphere" created by radius. 
@@ -166,35 +187,22 @@ namespace Lullaby.Entities.Weapons
 
                     for (int k = 0; k < contacts; ++k)
                     {
-                        Collider
-                            col = raycastHitCache[k]
-                                .collider; //Cogemos el collider del objeto con el que ha colisionado el rayo esferico
+                        Collider col = raycastHitCache[k].collider; //Cogemos el collider del objeto con el que ha colisionado el rayo esferico
 
-                        if (col != null)
-                            CheckDamage(col,
-                                pts); //Comprobamos si el collider tiene el componente IDamageable y si lo tiene le hacemos daño
+                        if (col != null) CheckDamage(col, pts); //Comprobamos si el collider tiene el componente IDamageable y si lo tiene le hacemos daño
                     }
 
-                    previousPos[i] = worldPos; //Guardamos la posicion en el array de posiciones anteriores
+                    _previousPos[i] = worldPos; //Guardamos la posicion en el array de posiciones anteriores
 
 #if UNITY_EDITOR
-                 pts.previousPositions.Add(previousPos[i]);
+                    pts.previousPositions.Add(_previousPos[i]);
 #endif
                 }
             }
         }
 
-        //FALTA IMPLEMENTAR
-        private bool CheckDamage(Collider other, AttackPoint pts)
-        {
-            return true;
-        }
-
-        void AnimationComplete()
-        {
-            // Este método se ejecutará cuando la animación esté completa.
-            // Puedes realizar acciones adicionales aquí, como reiniciar el movimiento o desactivar el arma.
-        }
+        
+        
 
 #if UNITY_EDITOR
 
@@ -207,7 +215,7 @@ namespace Lullaby.Entities.Weapons
                 if (pts.attackRoot != null)
                 {
                     Vector3 worldPos = pts.attackRoot.TransformVector(pts.offset);
-                    Gizmos.color = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+                    Gizmos.color = new Color(0.0f, 1.0f, 1.0f, 0.4f);
                     Gizmos.DrawSphere(pts.attackRoot.position + worldPos, pts.radius);
                 }
 
@@ -217,7 +225,6 @@ namespace Lullaby.Entities.Weapons
                 }
             }
         }
-
 #endif
     }
 }

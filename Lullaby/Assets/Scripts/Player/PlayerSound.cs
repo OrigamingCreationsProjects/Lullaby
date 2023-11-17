@@ -63,7 +63,7 @@ namespace Lullaby.Entities
         {
             _player.playerEvents.OnJump.AddListener(() => PlayRandom(jump));
             _player.playerEvents.OnHurt.AddListener(() => PlayRandom(hurt));
-            _player.playerEvents.OnAttack.AddListener(() => PlayRandom(attack));
+            _player.playerEvents.OnAttackStarted.AddListener(() => PlayRandom(attack));
             _player.playerEvents.OnDeadlyFall.AddListener(() => PlayRandom(deadlyFall));
             _player.playerEvents.OnDashStarted.AddListener(() => Play(airDash));
             _player.playerEvents.OnLedgeGrabbed.AddListener(() => Play(ledgeGrabbing, false));

@@ -52,7 +52,15 @@ namespace Level
         
         protected virtual IEnumerator RespawnRoutine()
         {
-            _level.player.Respawn();
+            if (_level.player.health.current <= 0)
+            {
+                _level.player.Respawn();
+                
+            }
+            else
+            {
+                _level.player.RespawnWithCurrentHealth();
+            }
             _level.camera.freeze = false;
 
             ResetCameras();

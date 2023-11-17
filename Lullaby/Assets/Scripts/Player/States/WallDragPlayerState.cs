@@ -29,7 +29,7 @@ namespace Lullaby.Entities.States
         public override void OnStep(Player player)
         {
             // Aplicamos el deslizamiento hacia abajo de la pared para que descienda más lentamente
-            player.verticalVelocity += Vector3.down * player.stats.current.wallDragGravity * Time.deltaTime;
+            player.verticalVelocity += Vector3.down * (player.stats.current.wallDragGravity * Time.deltaTime);
             
             var maxWallDistance = player.radius + player.stats.current.ledgeMaxForwardDistance;
             var detectingWall = player.SphereCast(-player.transform.forward, maxWallDistance,

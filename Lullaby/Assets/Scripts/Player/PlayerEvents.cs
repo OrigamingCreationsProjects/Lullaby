@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Lullaby.Entities.Events
 {
@@ -34,8 +35,13 @@ namespace Lullaby.Entities.Events
 		/// <summary>
 		/// Called when the Player uses the regular Attack.
 		/// </summary>
-		public UnityEvent OnAttack;
-
+		public UnityEvent OnAttackStarted;
+		
+		/// <summary>
+		/// Called when the Player finish the regular Attack.
+		/// </summary>
+		public UnityEvent OnAttackFinished;
+		
 		/// <summary>
 		/// Called when the Player start a Dialogue.
 		/// </summary>
@@ -49,13 +55,12 @@ namespace Lullaby.Entities.Events
 		// /// <summary>
 		// /// Called when the Player pick up an object.
 		// /// </summary>
-		// public UnityEvent OnPickUp;
+		public UnityEvent OnPickUp;
 		
 		// /// <summary>
 		// /// Called when the Player throws an object.
 		// /// </summary>
-		// public UnityEvent OnThrow;
-
+		public UnityEvent OnThrow;
 
 		/// <summary>
 		/// Called when the player grabs onto a ledge.
