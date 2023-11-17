@@ -18,16 +18,18 @@ MonoBehaviour:
   deceleration: 28
   friction: 16
   turningDrag: 28
-  timeBeforeMoveAgain: 1
+  timeBeforeMoveAgain: 3
   backAfterAttackTime: 0.3
   backAfterAttackDelay: 0.1
   forwardSpeed: 5
+  chanceToMoveLaterally: 7
+  lateralSpeedMultiplier: 0.3
   retreatPreparationTime: 1.4
-  maxDistanceToRetreat: 4
-  retreatSpeed: 2
+  minDistanceToStopRetreating: 4
+  retreatSpeed: 3
   attackDamage: 15
   attackMovementDuration: 0.5
   attackPreparationTime: 0.2
-  minDistanceToAttack: 2
+  minDistanceToAttack: 1
   damageMovementDuration: 0.3
   damageMovementDelay: 0.1
