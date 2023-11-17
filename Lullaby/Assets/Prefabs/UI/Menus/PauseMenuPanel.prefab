@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1131805699284351793}
   - component: {fileID: 122042352007322307}
   m_Layer: 0
-  m_Name: ResumeButton
+  m_Name: Resume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -747,15 +747,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pausa
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4eccd51250cfa3948a3ac1e21d15fe34, type: 2}
-  m_sharedMaterial: {fileID: 7304186015023537574, guid: 4eccd51250cfa3948a3ac1e21d15fe34, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e6129804e919fdc458801e3eb0e3b6c7, type: 2}
+  m_sharedMaterial: {fileID: -1717466370742801320, guid: e6129804e919fdc458801e3eb0e3b6c7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4293121759
+  m_fontColor: {r: 0.8745099, g: 0.83921576, b: 0.89019614, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1176,7 +1176,7 @@ GameObject:
   - component: {fileID: 7827911418944356187}
   - component: {fileID: 715691525953115401}
   m_Layer: 0
-  m_Name: Button
+  m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,10 +1254,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 4254204155573498902}
+    m_SelectOnDown: {fileID: 8759100109190607487}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1435,7 +1435,7 @@ GameObject:
   - component: {fileID: 3332353171498006697}
   - component: {fileID: 4720222100868099946}
   m_Layer: 0
-  m_Name: ControlsButton
+  m_Name: Controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,7 +1460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 218, y: -85}
+  m_AnchoredPosition: {x: 218, y: 40}
   m_SizeDelta: {x: 532.3685, y: 83.1008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &394786347124304450
@@ -1769,7 +1769,7 @@ GameObject:
   - component: {fileID: 4254204155573498902}
   - component: {fileID: 3940980778292859185}
   m_Layer: 0
-  m_Name: Button
+  m_Name: SettingsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1847,10 +1847,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 2349223602740686945}
+    m_SelectOnDown: {fileID: 7827911418944356187}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -2041,7 +2041,7 @@ GameObject:
   - component: {fileID: 8759100109190607487}
   - component: {fileID: 8020713221410598718}
   m_Layer: 0
-  m_Name: Button
+  m_Name: ResumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2119,10 +2119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 7827911418944356187}
+    m_SelectOnDown: {fileID: 2349223602740686945}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -2720,8 +2720,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5684958238882241817}
-  - {fileID: 1947058147980936960}
   - {fileID: 317257849239703531}
+  - {fileID: 1947058147980936960}
   - {fileID: 2603397341841143794}
   m_Father: {fileID: 8960288862121123887}
   m_RootOrder: -1
@@ -2756,7 +2756,7 @@ GameObject:
   - component: {fileID: 1641744050400326658}
   - component: {fileID: 3215567888226384073}
   m_Layer: 0
-  m_Name: SettingsButton
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2781,7 +2781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 218, y: 40}
+  m_AnchoredPosition: {x: 218, y: -85}
   m_SizeDelta: {x: 532.3685, y: 83.1008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2162547796868490187
@@ -3356,7 +3356,7 @@ GameObject:
   - component: {fileID: 2349223602740686945}
   - component: {fileID: 2907904878361591165}
   m_Layer: 0
-  m_Name: Button
+  m_Name: ControlsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3434,10 +3434,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 8759100109190607487}
+    m_SelectOnDown: {fileID: 4254204155573498902}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -3761,7 +3761,7 @@ GameObject:
   - component: {fileID: 708984101143996536}
   - component: {fileID: 4461855552925966521}
   m_Layer: 0
-  m_Name: ExitButton
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
