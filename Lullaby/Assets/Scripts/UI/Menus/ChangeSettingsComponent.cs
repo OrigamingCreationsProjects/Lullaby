@@ -23,6 +23,7 @@ namespace Lullaby.UI.Menus
 
         protected void Start()
         {
+            _initialColor = text.color;
             if (isForLanguage)
             {
                 buttonBackgrounds[currentButtonSelected].sprite = deselectedButtonBackground;
@@ -42,7 +43,6 @@ namespace Lullaby.UI.Menus
 
         public virtual void TextSelectedBehaviour()
         {
-            _initialColor = text.color;
             text.color = selectedColor;
         }
         

@@ -41,7 +41,7 @@ namespace Lullaby.UI.Menus
                 isEntering = true;
                 //Sequence s = DOTween.Sequence();
                 _exitSequence.Complete();
-                _enterSequence = DOTween.Sequence();
+                _enterSequence = DOTween.Sequence().SetUpdate(true);
 
                 _enterSequence.AppendCallback(() => moon.SetActive(true));
                 _enterSequence.AppendCallback(() => moon.GetComponent<Image>().enabled = true);
@@ -58,7 +58,7 @@ namespace Lullaby.UI.Menus
                     //isEntering = false;
                     _enterSequence.OnComplete(() => tween = transform
                         .DOShakePosition(2f, 5f, 3, 60, false, false,
-                            ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo));
+                            ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo).SetUpdate(true));
                     //_enterSequence.AppendCallback(() => tween.Play());
                 }
 
@@ -74,7 +74,7 @@ namespace Lullaby.UI.Menus
             tween.Pause();
             //Sequence s = DOTween.Sequence();
             
-            _exitSequence = DOTween.Sequence();
+            _exitSequence = DOTween.Sequence().SetUpdate(true);
             if (movePositon)
             {
                 _exitSequence.Append(transform.DOMove(_originalButtonPosition, moveTime).SetEase(Ease.InOutExpo));
