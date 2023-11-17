@@ -12,5 +12,7 @@ namespace Lullaby.Entities.Enemies
         
         public UnityEvent<Dolly> OnStartMoving;
         
+        public UnityEvent<Dolly> OnRetreat;
+
     }
 }

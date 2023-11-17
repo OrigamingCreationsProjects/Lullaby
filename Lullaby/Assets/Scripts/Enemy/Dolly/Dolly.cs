@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using DG.Tweening;
 using Lullaby.Entities.States;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -13,16 +15,20 @@ namespace Lullaby.Entities.Enemies
     {
         public DollyEvents dollyEvents;
 
+        public new DollyStatsManager stats { get; protected set; }
+        
+        
         private float _moveSpeed = 1;
         protected Vector3 moveDirection;
-        
-        
-        public new DollyStatsManager stats { get; protected set; }
+
+        private DollyManager _dollyManager;
         
         /// <summary>
         /// Returns the Dolly Stats Manager instance.
         /// </summary>
         protected override void InitializeStatsManager() => stats = GetComponent<DollyStatsManager>();
+        
+        public Vector3 MoveDirection => moveDirection;
         
         #region -- BOOLEANOS PARA LOS ESTADOS IMPLÍCITOS --
         /// <summary>
@@ -57,7 +63,6 @@ namespace Lullaby.Entities.Enemies
         public bool IsWaiting { get; protected set; }
 
         #endregion
-       
         
         protected Coroutine PrepareAttackCoroutine;
         protected Coroutine RetreatCoroutine;
@@ -98,7 +103,7 @@ namespace Lullaby.Entities.Enemies
                 controller.Move(moveDirection); // CUIDADO CON ESTA LINEA
         }
 
-        protected virtual void MoveDolly(Vector3 direction)
+        public virtual void MoveDolly(Vector3 direction)
         {
             //Set move speed based on the given direction
             _moveSpeed = 1;
@@ -134,7 +139,7 @@ namespace Lullaby.Entities.Enemies
             if(!IsPreparingAttack) 
                 return;
 
-            if (Vector3.Distance(transform.position, _player.transform.position) < stats.current.minDistanceToRetreat)
+            if (Vector3.Distance(transform.position, _player.transform.position) < stats.current.minDistanceToAttack)
             {
                 StopMoving();
                 if(!_player.states.IsCurrentOfType(typeof(AttackPlayerState)))
@@ -151,6 +156,52 @@ namespace Lullaby.Entities.Enemies
             
         }
 
+        public void SetRetreat()
+        {
+            StopActiveCoroutines();
+            RetreatCoroutine = StartCoroutine(PrepRetreat());
+
+            IEnumerator PrepRetreat()
+            {
+                yield return new WaitForSeconds(stats.current.retreatPreparationTime);
+                dollyEvents.OnRetreat?.Invoke(this);
+                IsRetreating = true;
+                moveDirection = -Vector3.forward;
+                IsMoving = true;
+                yield return new WaitUntil(() => Vector3.Distance(transform.position, _player.transform.position) > stats.current.maxDistanceToRetreat);
+                IsRetreating = false;
+                StopMoving();
+
+                IsWaiting = true;
+                MovementCoroutine = StartCoroutine(DollyMovement());
+            }
+        }
+        
+        void Death()
+        {
+            StopActiveCoroutines();
+
+            this.enabled = false;
+            controller.enabled = false;
+            //animator.SetTrigger("Death");
+            _dollyManager.SetEnemyAvailiability(this, false);
+        }
+        
+        public void SetAttack()
+        {
+            IsWaiting = false;
+            
+            PrepareAttackCoroutine = StartCoroutine(PrepAttack());
+            
+            IEnumerator PrepAttack()
+            {
+                PrepareAttack(true);
+                yield return new WaitForSeconds(stats.current.attackPreparationTime);
+                moveDirection = Vector3.forward;
+                IsMoving = true;
+            }
+        }
+        
         protected virtual void PrepareAttack(bool active)
         {
             IsPreparingAttack = active;
@@ -164,9 +215,27 @@ namespace Lullaby.Entities.Enemies
                 StopMoving();
                 //Parar particula?
             }
-            
         }
-        
+
+        protected virtual void StopActiveCoroutines()
+        {
+            PrepareAttack(false);
+
+            if (IsRetreating)
+            {
+                if(RetreatCoroutine != null)
+                    StopCoroutine(RetreatCoroutine);
+            }
+            
+            if(PrepareAttackCoroutine != null)
+                StopCoroutine(PrepareAttackCoroutine);
+            
+            if(DamageCoroutine != null)
+                StopCoroutine(DamageCoroutine);
+            
+            if(MovementCoroutine != null)
+                StopCoroutine(MovementCoroutine);
+        }
         
         protected override void Awake()
         {
@@ -176,6 +245,16 @@ namespace Lullaby.Entities.Enemies
             InitializeTag();
             InitializeStatsManager();
             InitializeHealth();
+        }
+
+        protected void Start()
+        {
+            MovementCoroutine = StartCoroutine(DollyMovement());
+        }
+
+        protected override void Update()
+        {
+            
         }
     }
 }
