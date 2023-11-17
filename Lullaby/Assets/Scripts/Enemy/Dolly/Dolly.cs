@@ -10,7 +10,7 @@ namespace Lullaby.Entities.Enemies
     [RequireComponent(typeof(DollyStatsManager))]
     [RequireComponent(typeof(EnemyStateManager))]
     [RequireComponent(typeof(Health))]
-    [AddComponentMenu("Lullaby/Enemies/Enemy")]
+    [AddComponentMenu("Lullaby/Enemies/Dolly")]
     public class Dolly : Enemy
     {
         public DollyEvents dollyEvents;
@@ -21,6 +21,15 @@ namespace Lullaby.Entities.Enemies
         private float _moveSpeed = 1;
         protected Vector3 moveDirection;
 
+        [Header("States")]
+        [SerializeField] private bool isPreparingAttack;
+        [SerializeField] private bool isMoving;
+        [SerializeField] private bool isRetreating;
+        [SerializeField] private bool isLockedTarget;
+        [SerializeField] private bool isStunned;
+        [SerializeField] private bool isWaiting = true;
+        
+        
         private DollyManager _dollyManager;
         
         /// <summary>
@@ -30,60 +39,98 @@ namespace Lullaby.Entities.Enemies
         
         public Vector3 MoveDirection => moveDirection;
         
+        /// <summary>
+        /// Applies a downward force by its gravity stats.
+        /// </summary>
+        public override void ApplyGravity() => ApplyGravity(stats.current.gravity);
+
+        /// <summary>
+        /// Applies a downward force when ground by its snap stats.
+        /// </summary>
+        public override void SnapToGround() => SnapToGround(stats.current.snapForce);
+        
+        
         #region -- BOOLEANOS PARA LOS ESTADOS IMPLÍCITOS --
+
         /// <summary>
         /// Return if the enemy is moving.
         /// </summary>
-        public bool IsMoving { get; protected set; }
+        public bool IsMoving()
+        {
+            return isMoving;
+        }
+
+        public bool IsAttackable()
+        {
+            return health.current > 0;
+        }
 
         /// <summary>
         /// Return if the enemy is preparing an attack.
         /// </summary>
-        public bool IsPreparingAttack { get; protected set; }
+         public bool IsPreparingAttack()
+        {
+            return isPreparingAttack;
+        }
         
         
         /// <summary>
         /// Return if the enemy is retreating.
         /// </summary>
-        public bool IsRetreating { get; protected set; }
-        
+        public bool IsRetreating()
+        {
+            return isRetreating;
+        }
         /// <summary>
         /// Return if the enemy is attacking.
         /// </summary>
-        public bool IsLockedTarget { get; protected set; }
+        public bool IsLockedTarget()
+        {
+            return isLockedTarget;
+        }
         
         /// <summary>
-        /// Return if the enemy is stunned.
+        /// Return if the enemy is stunned. (Receiving an attack)
         /// </summary>
-        public bool IsStunned { get; protected set; }
-        
+        public bool IsStunned()
+        {
+            return isStunned;
+        }
+
         /// <summary>
         /// Return if the enemy is waiting to start the moving.
         /// </summary>
-        public bool IsWaiting { get; protected set; }
+        public bool IsWaiting()
+        {
+            return isWaiting;
+        }
 
         #endregion
-        
-        protected Coroutine PrepareAttackCoroutine;
-        protected Coroutine RetreatCoroutine;
-        protected Coroutine DamageCoroutine;
-        protected Coroutine MovementCoroutine;
+
+        #region -- STATES COROUTINES
+
+            protected Coroutine PrepareAttackCoroutine;
+            protected Coroutine RetreatCoroutine;
+            protected Coroutine DamageCoroutine;
+            protected Coroutine MovementCoroutine;
+            
+        #endregion
 
         // La corrutina que maneja el movimiento de cada enemigo para no sobrecargar el hilo principal.
         protected IEnumerator DollyMovement()
         {
             // Waits until the enemy is not asssigned to no action like attacking or retreating
-            yield return new WaitUntil(() => IsWaiting == true);
+            yield return new WaitUntil(() => isWaiting == true);
 
             //Probabilidad 50/50 de que el enemigo se mueva o no
-            int randomChance = Random.Range(0, 2);
+            int randomChance = Random.Range(0, 10);
 
-            if (randomChance == 1)
+            if (randomChance <= stats.current.chanceToMoveLaterally)
             {
                 // Probabilidad 50/50 de que el enemigo se mueva a la derecha o a la izquierda
                 int randomDir = Random.Range(0, 2);
                 moveDirection = randomDir == 1 ? Vector3.right : Vector3.left;
-                IsMoving = true; // O cambiamos explicitamente de estado
+                isMoving = true; // O cambiamos explicitamente de estado
             }
             else
             {
@@ -97,7 +144,7 @@ namespace Lullaby.Entities.Enemies
 
         public void StopMoving()
         {
-            IsMoving = false;
+            isMoving = false;
             moveDirection = Vector3.zero;
             if(controller.enabled)
                 controller.Move(moveDirection); // CUIDADO CON ESTA LINEA
@@ -114,9 +161,8 @@ namespace Lullaby.Entities.Enemies
                 _moveSpeed = stats.current.retreatSpeed;
             
             //If isMoving is false we dont want to do anything
-            if (!IsMoving) return;
-            
-            Vector3 dir = (_player.transform.position - transform.position).normalized;
+            if (!isMoving) return;
+            Vector3 dir = (player.gameObject.transform.position - transform.position).normalized;
             Vector3 pDir = Quaternion.AngleAxis(90, Vector3.up) * dir;
             Vector3 moveDir = Vector3.zero;
 
@@ -127,7 +173,7 @@ namespace Lullaby.Entities.Enemies
             else if (direction == Vector3.right || direction == Vector3.left)
             {
                 finalDir = (pDir * direction.normalized.x);
-                _moveSpeed /= 1.5f; // Dividimos la velocidad entre 1.5 para que no sea tan rapido al moverse lateralmente
+                _moveSpeed = stats.current.forwardSpeed * stats.current.lateralSpeedMultiplier; // Dividimos la velocidad entre 1.5 para que no sea tan rapido al moverse lateralmente
             }
             else if (direction == -Vector3.forward)
                 finalDir = -transform.forward;
@@ -136,13 +182,13 @@ namespace Lullaby.Entities.Enemies
             
             controller.Move(moveDir);
             
-            if(!IsPreparingAttack) 
+            if(!isPreparingAttack) 
                 return;
 
-            if (Vector3.Distance(transform.position, _player.transform.position) < stats.current.minDistanceToAttack)
+            if (Vector3.Distance(transform.position, player.transform.position) < stats.current.minDistanceToAttack)
             {
                 StopMoving();
-                if(!_player.states.IsCurrentOfType(typeof(AttackPlayerState)))
+                if(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
                    Attack();
                 else
                     PrepareAttack(false);
@@ -153,7 +199,8 @@ namespace Lullaby.Entities.Enemies
         {
             transform.DOMove(transform.position + (transform.forward / 1), stats.current.attackMovementDuration);
             //Lanzar trigger de ataque o puño o lo que sea del animator
-            
+            Debug.Log("Dolly Attack");
+
         }
 
         public void SetRetreat()
@@ -165,14 +212,14 @@ namespace Lullaby.Entities.Enemies
             {
                 yield return new WaitForSeconds(stats.current.retreatPreparationTime);
                 dollyEvents.OnRetreat?.Invoke(this);
-                IsRetreating = true;
+                isRetreating = true;
                 moveDirection = -Vector3.forward;
-                IsMoving = true;
-                yield return new WaitUntil(() => Vector3.Distance(transform.position, _player.transform.position) > stats.current.maxDistanceToRetreat);
-                IsRetreating = false;
+                isMoving = true;
+                yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > stats.current.minDistanceToStopRetreating);
+                isRetreating = false;
                 StopMoving();
 
-                IsWaiting = true;
+                isWaiting = true;
                 MovementCoroutine = StartCoroutine(DollyMovement());
             }
         }
@@ -184,12 +231,12 @@ namespace Lullaby.Entities.Enemies
             this.enabled = false;
             controller.enabled = false;
             //animator.SetTrigger("Death");
-            _dollyManager.SetEnemyAvailiability(this, false);
+            _dollyManager.SetEnemyAvailability(this, false);
         }
         
         public void SetAttack()
         {
-            IsWaiting = false;
+            isWaiting = false;
             
             PrepareAttackCoroutine = StartCoroutine(PrepAttack());
             
@@ -198,13 +245,13 @@ namespace Lullaby.Entities.Enemies
                 PrepareAttack(true);
                 yield return new WaitForSeconds(stats.current.attackPreparationTime);
                 moveDirection = Vector3.forward;
-                IsMoving = true;
+                isMoving = true;
             }
         }
         
         protected virtual void PrepareAttack(bool active)
         {
-            IsPreparingAttack = active;
+            isPreparingAttack = active;
 
             if (active)
             {
@@ -217,11 +264,34 @@ namespace Lullaby.Entities.Enemies
             }
         }
 
+        public override void ApplyDamage(int amount, Vector3 origin)
+        {
+            if (!health.isEmpty && !health.recovering)
+            {
+                health.Damage(amount);
+                enemyEvents.OnDamage?.Invoke();
+
+                //Debug.Log("Enemigo dañado");
+                if (health.isEmpty)
+                {
+                    //controller.enabled = false;
+                    enemyEvents.OnDie?.Invoke();
+                    //states.Change<DieEnemyState>();
+                    //gameObject.SetActive(false);
+                    Death();
+                }
+                else
+                {
+                    //states.Change<HurtEnemyState>();
+                }
+            }
+        }
+        
         protected virtual void StopActiveCoroutines()
         {
             PrepareAttack(false);
 
-            if (IsRetreating)
+            if (isRetreating)
             {
                 if(RetreatCoroutine != null)
                     StopCoroutine(RetreatCoroutine);
@@ -236,6 +306,52 @@ namespace Lullaby.Entities.Enemies
             if(MovementCoroutine != null)
                 StopCoroutine(MovementCoroutine);
         }
+
+        #region -- ANIMATION AND PLAYER LISTENER EVENTS -- (Quiza se puedan mover a otro sitio)
+
+        public void HitEvent()
+        {
+            if (!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
+                player.ApplyDamage(stats.current.attackDamage, transform.position);
+            
+            PrepareAttack(false);
+        }
+
+        //Listened event from Player Animation
+        
+        void OnPlayerHit(Dolly target)
+        {
+            if (target == this)
+            {
+                StopActiveCoroutines();
+                DamageCoroutine = StartCoroutine(HitCoroutine());
+                
+                //Enemigo actual detectado == null?
+                isLockedTarget = false;
+                dollyEvents.OnDamage?.Invoke(this);
+                
+                ApplyDamage(player.stats.current.regularAttackDamage, player.transform.position);
+                
+                //ANIMATOR TRIGGER DE HIT?
+                transform.DOMove(transform.position - (transform.forward / 2),
+                    stats.current.damageMovementDuration).SetDelay(stats.current.damageMovementDelay);
+                
+                StopMoving();
+
+                IEnumerator HitCoroutine()
+                {
+                    isStunned = true;
+                    yield return new WaitForSeconds(.5f);
+                    isStunned = false;
+                }
+            }
+        }
+        
+        #endregion
+        protected override void OnUpdate()
+        {
+            
+        }
         
         protected override void Awake()
         {
@@ -246,15 +362,21 @@ namespace Lullaby.Entities.Enemies
             InitializeStatsManager();
             InitializeHealth();
         }
-
+        
         protected void Start()
         {
+            player = FindObjectOfType<Player>();
+            Debug.Log($"Se asigna al player {player.name}");
             MovementCoroutine = StartCoroutine(DollyMovement());
         }
-
-        protected override void Update()
+        
+        protected override void OnTriggerEnter(Collider other)
         {
-            
+            //ContactAttack(other);
+            if (other.CompareTag(GameTags.Player))
+            {
+                PrepareAttack(false);
+            }
         }
     }
 }

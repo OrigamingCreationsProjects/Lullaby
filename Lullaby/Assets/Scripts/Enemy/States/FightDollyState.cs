@@ -11,7 +11,6 @@ namespace Lullaby.Entities.Enemies.States
 
         protected override void OnExit(Enemy entity)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnStep(Enemy entity)
@@ -20,12 +19,12 @@ namespace Lullaby.Entities.Enemies.States
             entity.SnapToGround();
             //((Dolly)entity)
             entity.transform.LookAt(new Vector3(entity.player.transform.position.x, entity.player.transform.position.y, entity.player.transform.position.z));
+            Debug.Log($"La direccion actual es: {((Dolly)entity).MoveDirection}");
             ((Dolly)entity).MoveDolly(((Dolly)entity).MoveDirection);
         }
 
         public override void OnContact(Enemy entity, Collider other)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

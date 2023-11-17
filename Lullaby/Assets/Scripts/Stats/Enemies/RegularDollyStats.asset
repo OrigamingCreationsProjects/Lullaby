@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78555c1bb59f4d26857b864a04618c37, type: 3}
+  m_Script: {fileID: 11500000, guid: eeff695203c14b3bb2043a3564d39b93, type: 3}
   m_Name: RegularDollyStats
   m_EditorClassIdentifier: 
   gravity: 35
@@ -18,23 +18,16 @@ MonoBehaviour:
   deceleration: 28
   friction: 16
   turningDrag: 28
-  canAttackOnContact: 1
-  contactPushback: 1
-  contactOffset: 0.15
-  contactDamage: 1
-  contactPushBackForce: 18
-  contactSteppingTolerance: 0.1
-  timeInHurtState: 0.5
-  canReceivePushBack: 1
-  hurtBackwardsForce: 15
-  timeUntilDisappear: 1.5
-  dieBackwardsForce: 15
-  dieUpwardsForce: 100
-  spotRange: 5
-  viewRange: 8
-  followAcceleration: 10
-  followTopSpeed: 4
-  faceWaypoint: 1
-  waypointMinDistance: 0.5
-  waypointAcceleration: 10
-  waypointTopSpeed: 2
+  timeBeforeMoveAgain: 1
+  backAfterAttackTime: 0.3
+  backAfterAttackDelay: 0.1
+  forwardSpeed: 5
+  retreatPreparationTime: 1.4
+  maxDistanceToRetreat: 4
+  retreatSpeed: 2
+  attackDamage: 15
+  attackMovementDuration: 0.5
+  attackPreparationTime: 0.2
+  minDistanceToAttack: 2
+  damageMovementDuration: 0.3
+  damageMovementDelay: 0.1
