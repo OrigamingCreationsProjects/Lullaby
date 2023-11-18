@@ -247,6 +247,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: ChangeLanguage
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2386240021065072700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +953,8 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Muy Baja
+      m_Image: {fileID: 0}
     - m_Text: Baja
       m_Image: {fileID: 0}
     - m_Text: Media
@@ -953,7 +967,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: ChangeQualitySettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &1743684193477099640
 MonoBehaviour:
@@ -1285,6 +1311,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1775183640448024608}
         m_TargetAssemblyTypeName: Lullaby.UI.Menus.ChangeSettingsComponent, Assembly-CSharp
         m_MethodName: ChangeButtonSelected
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: ChangeLanguage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2817,7 +2855,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Baja
+  m_text: Muy Baja
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e6129804e919fdc458801e3eb0e3b6c7, type: 2}
   m_sharedMaterial: {fileID: -1717466370742801320, guid: e6129804e919fdc458801e3eb0e3b6c7, type: 2}
@@ -4736,6 +4774,7 @@ GameObject:
   - component: {fileID: 2826846509917717629}
   - component: {fileID: 3656994046272536407}
   - component: {fileID: 5719365846632686982}
+  - component: {fileID: 6062396008361384740}
   m_Layer: 5
   m_Name: SettingsMenuPanel
   m_TagString: Untagged
@@ -4822,6 +4861,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f63fea3ede785448e94da0077b2a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6062396008361384740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155510382388460209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b2fdc978c3405a8a1e73e93114a33e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generalVolumeSlider: {fileID: 7782219249290167958}
+  musicVolumeSlider: {fileID: 683577324889734041}
+  quialityDropdown: {fileID: 5883828498659667304}
+  defaultGeneralVolume: 0.5
+  defaultMusicVolume: 0.5
+  defaultQualityLevel: 5
 --- !u!1 &5234926319724949219
 GameObject:
   m_ObjectHideFlags: 0
@@ -7303,7 +7360,19 @@ MonoBehaviour:
   m_Value: 0.687
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: SetMusicVolumePref
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8933467169766496427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7914,7 +7983,19 @@ MonoBehaviour:
   m_Value: 0.687
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: SetGeneralVolumePref
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3434611471708792045
 MonoBehaviour:
   m_ObjectHideFlags: 0
