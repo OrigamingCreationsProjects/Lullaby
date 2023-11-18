@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732318919910328667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.38, y: 0.75, z: 0}
+  m_LocalPosition: {x: -28, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -117,7 +117,7 @@ Transform:
   - {fileID: 5607557227713503858}
   - {fileID: 5400892317717995753}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &6151200799936831922
 SphereCollider:
@@ -193,7 +193,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2670817862313020010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0, z: 2.91}
+  m_LocalPosition: {x: 1.6893021, y: 0.44916534, z: -0.8999975}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4434559328661050662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3106995, y: 1.9491632, z: 0.1000061}
+  m_LocalPosition: {x: -0.5, y: -3.25, z: 0.1000061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7891091305638726117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {fileID: 5400892317717995753}
-  sphere: {fileID: 0}
+  sphere: {fileID: 2934360258947389843}
   duration: 0.5
   activateColor: {r: 0.33459416, g: 0.9716981, b: 0.53990537, a: 1}
 --- !u!1001 &5120635684446348403
@@ -360,6 +360,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7bba9daefa4fa354bb6c716586f45176, type: 3}
       propertyPath: m_Name
       value: CheckPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986369359100028402, guid: 7bba9daefa4fa354bb6c716586f45176, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986369359100028402, guid: 7bba9daefa4fa354bb6c716586f45176, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4986369359100028402, guid: 7bba9daefa4fa354bb6c716586f45176, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5472448269472873212
+--- !u!114 &-1168727444123674670
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rail_texture 1
+  m_Name: button_texture
   m_Shader: {fileID: -6465566751694194690, guid: e8c08ba2a705b7a4ca51a31ac0448dff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,11 +37,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: 404a7a27bafb0c040a0b3940f56ba0f3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2a8f8780eb1e7a243b09d3f3c36f949e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 47768e24377c8f34c96825015b5ce636, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6955292cfa427c64f8bf72a5893d1551, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 47768e24377c8f34c96825015b5ce636, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6955292cfa427c64f8bf72a5893d1551, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -120,7 +120,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LightProbeContribution: 2.06
+    - _LightProbeContribution: 3.5
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -142,6 +142,6 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
-    - _Tiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
