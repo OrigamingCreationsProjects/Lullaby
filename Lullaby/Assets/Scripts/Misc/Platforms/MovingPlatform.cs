@@ -24,15 +24,28 @@ namespace Lullaby
 
         protected virtual void Update()
         {
-            var position = transform.position;
-            var target = waypoints.current.position;
-            position = Vector3.MoveTowards(position, target, speed * Time.deltaTime);
-            transform.position = position;
+            if (waypoints.index < waypoints.waypoints.Count)
+            {
+                var position = transform.position;
+                var target = waypoints.current.position;
+                position = Vector3.MoveTowards(position, target, speed * Time.deltaTime);
+                transform.position = position;
 
-            var distance = Vector3.Distance(transform.position, target);
+                var distance = Vector3.Distance(transform.position, target);
 
-            if (distance <= minDistance)
-                waypoints.Next();
+                if (distance <= minDistance)
+                    waypoints.Next();
+            }
+        }
+
+        public void RestartRoute()
+        {
+            if (waypoints.mode == WaypointMode.Once && waypoints.routeFinished)
+            {
+                waypoints.routeFinished = false;
+                transform.position = waypoints.waypoints[0].position;
+                waypoints.ResetRoute();
+            }
         }
     }
 }

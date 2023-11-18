@@ -10,7 +10,8 @@ namespace Lullaby
         public WaypointMode mode; // De que manera se recorren los waypoints
         public float waitTime; // Tiempo de espera entre waypoints
         public List<Transform> waypoints; // Lista de waypoints a recorrer
-
+        [HideInInspector]
+        public bool routeFinished; // Indica si se ha terminado de recorrer la ruta
         protected Transform _current; // Waypoint actual
 
         protected bool _pong; // Indica si estamos yendo hacia delante o hacia atras en el modo PingPong
@@ -70,6 +71,10 @@ namespace Lullaby
                 {
                     StartCoroutine(Change(index + 1)); // Si no estamos en el ultimo waypoint, vamos al siguiente
                 }
+                else
+                {
+                    routeFinished = true; // Si estamos en el ultimo waypoint, indicamos que hemos terminado la ruta
+                }
             }
            
         }
@@ -81,6 +86,11 @@ namespace Lullaby
             yield return new WaitForSeconds(waitTime);
             current = waypoints[to];
             _changing = false;
+        }
+
+        public virtual void ResetRoute()
+        {
+            current = waypoints[0];
         }
     }
 }

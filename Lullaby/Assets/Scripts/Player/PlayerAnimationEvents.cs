@@ -6,7 +6,6 @@ namespace Lullaby.Entities.Weapons
 {
     public class PlayerAnimationEvents : MonoBehaviour
     {
-
         protected Player _player;
         protected MeleeWeapon _meleeWeapon;
 
@@ -15,6 +14,8 @@ namespace Lullaby.Entities.Weapons
         {
             _player = GetComponentInParent<Player>();
             _meleeWeapon = _player.GetComponentInChildren<MeleeWeapon>();
+            
+            
         }
 
         public void MeleeAttackStart(int throwing = 0)
