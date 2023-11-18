@@ -90,7 +90,11 @@ namespace Lullaby.Systems.DialogueSystem
                 Debug.Log("Salimos del dialogo");
             }
             int auxindex = dialogueIndex == 0? dialogueIndex : dialogueIndex - 1;
-            if ((animatedText.maxVisibleCharacters == currentNPC.dialogueText.conversationBlock[auxindex].Length) 
+            string auxLine = currentNPC.dialogueText.conversationBlock[auxindex].dialogueLine.GetLocalizedString();
+            string currentLine = currentNPC.dialogueText.conversationBlock[dialogueIndex].dialogueLine
+                .GetLocalizedString();
+                
+            if ((animatedText.maxVisibleCharacters == auxLine.Length) 
                 && nextDialogue)
             {
                 nextDialogue = false;
@@ -99,13 +103,13 @@ namespace Lullaby.Systems.DialogueSystem
                 // Sequence s = DOTween.Sequence();
                 // s.AppendInterval(.8f);
                 // s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
-                animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]);
+                animatedText.ReadText(currentLine);
             } 
-            else if(animatedText.maxVisibleCharacters != currentNPC.dialogueText.conversationBlock[dialogueIndex].Length)
+            else if(animatedText.maxVisibleCharacters != currentLine.Length)
             {
                 Sequence s = DOTween.Sequence();
                 s.AppendCallback(() => animatedText.StopAllCoroutines());
-                s.AppendCallback(() => animatedText.maxVisibleCharacters = currentNPC.dialogueText.conversationBlock[dialogueIndex].Length);
+                s.AppendCallback(() => animatedText.maxVisibleCharacters = currentLine.Length);
                 s.AppendInterval(0.5f);
                 s.AppendCallback(() => animatedText.onDialogueFinish?.Invoke());
                 animatedText.StopAllCoroutines();
@@ -125,8 +129,8 @@ namespace Lullaby.Systems.DialogueSystem
                 dialogueIndex = 0;
                 fadeSequence.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
                 //fadeSequence.AppendCallback(() => animatedText.text = currentNPC.dialogueText.conversationBlock[dialogueIndex]);
-                fadeSequence.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
-                
+                fadeSequence.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText
+                    .conversationBlock[dialogueIndex].dialogueLine.GetLocalizedString()));
             }
         }
 
