@@ -1,6 +1,8 @@
-﻿using Systems.SoundSystem;
+﻿using Lullaby.Entities;
+using Systems.SoundSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
@@ -10,16 +12,21 @@ namespace Lullaby
     {
         [SerializeField] private Slider generalVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
+        [SerializeField] private Slider cameraSensitivitySlider;
         
         public TMP_Dropdown quialityDropdown;
         
         [SerializeField] private float defaultGeneralVolume = 0.5f;
         [SerializeField] private float defaultMusicVolume = 0.5f;
+        [SerializeField] private float defaultCameraSensitivity = 0.25f;
         [SerializeField] private QualityLevels defaultQualityLevel = QualityLevels.Ultra;
-        
+        [SerializeField] private float minCameraSensitivity = 0.05f;
+        [SerializeField] private float maxCameraSensitivity = 0.85f;
         private string _generalVolumeKey = "GeneralVolume";
         private string _musicVolumeKey = "MusicVolume";
         private string _qualityLevelKey = "QualityLevel";
+        private string _cameraSensitivityKey = "CameraSensitivity";
+        private InputAction _lookAction;
 
         private enum QualityLevels
         {
@@ -60,6 +67,16 @@ namespace Lullaby
                 PlayerPrefs.SetFloat(_musicVolumeKey, defaultMusicVolume);
             }
             
+            if (PlayerPrefs.HasKey(_cameraSensitivityKey))
+            {
+                cameraSensitivitySlider.value = PlayerPrefs.GetFloat(_cameraSensitivityKey);
+            }
+            else
+            {
+                cameraSensitivitySlider.value = defaultCameraSensitivity;
+                PlayerPrefs.SetFloat(_cameraSensitivityKey, defaultCameraSensitivity);
+            }
+            
             if (PlayerPrefs.HasKey(_qualityLevelKey))
             {
                 quialityDropdown.value = PlayerPrefs.GetInt(_qualityLevelKey);
@@ -97,6 +114,14 @@ namespace Lullaby
             //Sonido
         }
         
+        public void SetCameraSensitivityPref()
+        {
+            PlayerPrefs.SetFloat(_cameraSensitivityKey, cameraSensitivitySlider.value);
+            GameManager.instance.cameraSensitivity = cameraSensitivitySlider.value <= minCameraSensitivity ? minCameraSensitivity 
+                : cameraSensitivitySlider.value >= maxCameraSensitivity ? maxCameraSensitivity : cameraSensitivitySlider.value;
+            PlayerPrefs.Save();
+            //Sonido
+        }
 
         public void ChangeQualitySettings()
         {
