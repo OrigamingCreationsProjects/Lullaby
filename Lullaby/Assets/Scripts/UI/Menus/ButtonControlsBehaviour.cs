@@ -26,7 +26,6 @@ namespace Lullaby.UI.Menus
         {
             base.Start();
             _originalButtonPosition = transform.position;
-            Debug.Log($"Original button position: {_originalButtonPosition}");
             _originalMoonRotation = moon.transform.eulerAngles;
             _originalMoonScale = moon.transform.localScale;
             _selectedButtonPosition = transform.position + moveOffset;
