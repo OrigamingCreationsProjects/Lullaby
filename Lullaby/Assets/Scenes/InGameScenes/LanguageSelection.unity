@@ -622,6 +622,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
+--- !u!114 &357238563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7354563639876861316, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
+  m_PrefabInstance: {fileID: 357238562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7fec62c0bd461aac01b3a6bda9d112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &406652478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,6 +1222,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 357238563}
+        m_TargetAssemblyTypeName: Systems.SoundSystem.SoundManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu_Music
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &964346491
@@ -1868,10 +1891,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generalVolumeSlider: {fileID: 0}
   musicVolumeSlider: {fileID: 0}
+  cameraSensitivitySlider: {fileID: 0}
   quialityDropdown: {fileID: 0}
   defaultGeneralVolume: 0.5
   defaultMusicVolume: 0.5
+  defaultCameraSensitivity: 0.25
   defaultQualityLevel: 5
+  minCameraSensitivity: 0.05
+  maxCameraSensitivity: 0.85
+  isLanguageScreen: 1
 --- !u!1 &1707613904
 GameObject:
   m_ObjectHideFlags: 0

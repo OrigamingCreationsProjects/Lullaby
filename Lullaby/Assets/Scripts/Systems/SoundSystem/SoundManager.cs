@@ -61,7 +61,7 @@ namespace Systems.SoundSystem
         public void FadeBGMClipsVolumes(string clipOut, string clipIn, float duration)
         {
             sounds[clipOut].audioSource.DOFade(0, duration);
-            sounds[clipIn].audioSource.DOFade(BGM_MusicVolume, duration);
+            sounds[clipIn].audioSource.DOFade(0.2f, duration);
         }
         
         public void ChangeGeneralVolume(float percent)

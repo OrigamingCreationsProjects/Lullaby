@@ -456,7 +456,19 @@ MonoBehaviour:
   m_Value: 0.687
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6062396008361384740}
+        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
+        m_MethodName: SetCameraSensitivityPref
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2611357323865852511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5064,9 +5076,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generalVolumeSlider: {fileID: 7782219249290167958}
   musicVolumeSlider: {fileID: 683577324889734041}
+  cameraSensitivitySlider: {fileID: 6537346327983876258}
   quialityDropdown: {fileID: 5883828498659667304}
   defaultGeneralVolume: 0.5
   defaultMusicVolume: 0.5
+  defaultCameraSensitivity: 0.25
   defaultQualityLevel: 5
 --- !u!1 &5234926319724949219
 GameObject:
