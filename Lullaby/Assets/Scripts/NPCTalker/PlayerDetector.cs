@@ -14,6 +14,7 @@ namespace Lullaby.Entities.NPC
             _talker = GetComponentInParent<Talker>();
             _contextIndicator = transform.parent.GetComponentInChildren<ContextIndicator>();
             Debug.Log("Talker: " + _talker);
+            Debug.Log("Context indicator: " + _contextIndicator);
         }
         
         private void OnTriggerEnter(Collider other)
