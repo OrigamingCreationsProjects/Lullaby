@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 6115513695678476583}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4346071732389350925
 PrefabInstance:
@@ -43,6 +43,10 @@ PrefabInstance:
     - target: {fileID: 1217256818960252396, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
       propertyPath: m_Name
       value: SpikePlatformStandard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2836578380424495047, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
+      propertyPath: isSolid
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4958117708010650410, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
       propertyPath: m_Size.x
@@ -71,6 +75,14 @@ PrefabInstance:
     - target: {fileID: 7534225827481567018, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
       propertyPath: m_RootOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534225827481567018, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534225827481567018, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7534225827481567018, guid: 21ccb3ecd96f84c42885420dac77b218, type: 3}
       propertyPath: m_LocalPosition.x
