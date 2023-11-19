@@ -1,6 +1,7 @@
 ﻿using System;
 using Lullaby.Entities;
 using Lullaby.Entities.Enemies;
+using Systems.SoundSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -115,6 +116,10 @@ namespace Lullaby
             _initialPosition = transform.localPosition;
             _initialRotation = transform.localRotation;
             _initialParent = transform.parent;
+            
+            SoundManager.instance.Play("AloraMain");
+                //SoundManager.instance.FadeBGMClipsVolumes("MainMenu_Music", "Aloras_DanceA(BGM2)", 1f);
+            
         }
 
         protected virtual void Update()
