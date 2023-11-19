@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Lullaby.Entities;
 using Lullaby.Systems.DialogueSystem;
 using UnityEngine;
@@ -195,6 +196,7 @@ namespace Lullaby
         {
             if (Jump.WasPressedThisFrame())
             {
+                
                 lastJumpTime = Time.time;
             }
 

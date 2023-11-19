@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,12 +23,14 @@ namespace Lullaby.UI.Menus
         private Sequence _enterSequence;
         private Sequence _exitSequence;
         private bool isEntering = false; // Para evitar conflictos al seleccionar y tener el raton encima tambien
+        private bool firstLoop = true;
         protected override void Start()
         {
             base.Start();
             _originalButtonPosition = transform.position;
             _originalMoonRotation = moon.transform.eulerAngles;
             _originalMoonScale = moon.transform.localScale;
+            
             _selectedButtonPosition = transform.position + moveOffset;
             moon.transform.localScale = Vector3.zero;
             moon.SetActive(false);
@@ -35,6 +38,12 @@ namespace Lullaby.UI.Menus
         
         public override void OnPointerEnter(BaseEventData eventData)
         {
+            if (firstLoop)
+            {
+                firstLoop = false;
+                _originalButtonPosition = transform.position;
+                _selectedButtonPosition = transform.position + moveOffset;
+            }
             if (!isEntering)
             {
                 base.OnPointerEnter(eventData);
@@ -49,7 +58,7 @@ namespace Lullaby.UI.Menus
                 //moon.SetActive(true);
                 //moon.transform.DOScale(_originalMoonScale, rotateTime);
                 if (movePositon)
-                    _enterSequence.Append(transform.DOMove(_originalButtonPosition + moveOffset, moveTime)
+                    _enterSequence.Append(transform.DOMove(_selectedButtonPosition, moveTime)
                         .SetEase(Ease.InOutExpo));
 
                 _enterSequence.Join(moon.transform.DORotate(moonRotationOffset, rotateTime));
