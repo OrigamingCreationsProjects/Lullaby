@@ -12,7 +12,7 @@ namespace Lullaby
     [RequireComponent(typeof(Collider))]
     public class Sign: MonoBehaviour
     {
-        [Header("Sing Settings")] [TextArea(15, 20)]
+        [Header("Sign Settings")] [TextArea(15, 20)]
         public string text = "La tortilla es sin cebolla";
         public float viewAngle = 90f; //Angulo de vision de la camara para que te pueda salir el cartel
 
@@ -21,7 +21,7 @@ namespace Lullaby
         public Text uiText;
         public float scaleDuration = 0.25f;
         public Vector3 backPosition = new Vector3(0, 0.82f, 0);
-        public  Ease scaleAndMoveEase = Ease.OutQuart;
+        public Ease scaleAndMoveEase = Ease.OutQuart;
         [Space(15)] 
         public UnityEvent onShow;
         public UnityEvent onHide;
@@ -78,12 +78,8 @@ namespace Lullaby
             canvas.transform.DOMoveY(to.y, scaleDuration).SetEase(scaleAndMoveEase);
         }
         
-        // protected virtual IEnumerator Scale(Vector3 from, Vector3 to)
-        // {
-        //     var elapsedTime = 
-        // }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             uiText.text = text;
             finalPosition = canvas.transform.position;
