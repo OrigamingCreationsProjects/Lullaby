@@ -14,8 +14,8 @@ namespace Lullaby.UI
         private Dictionary<string, int> dictionary= new Dictionary<string,int> {
                 {"Keyboard",0},
                 {"PlayStation",1},
-                {"Xbox",2},
-                {"Switch", 3},
+                {"Switch", 2},
+                {"Xbox",3},
                 {"Mobile", 4}
         };
         public Sprite buttonEast {get{return _buttonEast[dictionary[currentScheme]];}}
