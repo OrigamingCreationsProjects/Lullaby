@@ -27,7 +27,7 @@ namespace Lullaby
         private string _qualityLevelKey = "QualityLevel";
         private string _cameraSensitivityKey = "CameraSensitivity";
         private InputAction _lookAction;
-
+        public bool isLanguageScreen = false;
         private enum QualityLevels
         {
             VeryLow = 0,
@@ -46,49 +46,52 @@ namespace Lullaby
 
         private void LoadSettings()
         {
-            if (PlayerPrefs.HasKey(_generalVolumeKey))
+            if (!isLanguageScreen)
             {
-                generalVolumeSlider.value = PlayerPrefs.GetFloat(_generalVolumeKey);
-                Debug.Log("Valor de GeneralVolume al cargar settigns: " + PlayerPrefs.GetFloat(_generalVolumeKey));
-            }
-            else
-            {
-                generalVolumeSlider.value = defaultGeneralVolume;
-                PlayerPrefs.SetFloat(_generalVolumeKey, defaultGeneralVolume);
-            }
+                if (PlayerPrefs.HasKey(_generalVolumeKey))
+                {
+                    generalVolumeSlider.value = PlayerPrefs.GetFloat(_generalVolumeKey);
+                    Debug.Log("Valor de GeneralVolume al cargar settigns: " + PlayerPrefs.GetFloat(_generalVolumeKey));
+                }
+                else
+                {
+                    generalVolumeSlider.value = defaultGeneralVolume;
+                    PlayerPrefs.SetFloat(_generalVolumeKey, defaultGeneralVolume);
+                }
 
-            if (PlayerPrefs.HasKey(_musicVolumeKey))
-            {
-                musicVolumeSlider.value = PlayerPrefs.GetFloat(_musicVolumeKey);
-            }
-            else
-            {
-                musicVolumeSlider.value = defaultMusicVolume;
-                PlayerPrefs.SetFloat(_musicVolumeKey, defaultMusicVolume);
-            }
-            
-            if (PlayerPrefs.HasKey(_cameraSensitivityKey))
-            {
-                cameraSensitivitySlider.value = PlayerPrefs.GetFloat(_cameraSensitivityKey);
-            }
-            else
-            {
-                cameraSensitivitySlider.value = defaultCameraSensitivity;
-                PlayerPrefs.SetFloat(_cameraSensitivityKey, defaultCameraSensitivity);
-            }
-            
-            if (PlayerPrefs.HasKey(_qualityLevelKey))
-            {
-                quialityDropdown.value = PlayerPrefs.GetInt(_qualityLevelKey);
-                Debug.Log("Quality cogido" + PlayerPrefs.GetInt(_qualityLevelKey));
-                ChangeQualitySettings();
-            }
-            else
-            {
-                quialityDropdown.value = (int)defaultQualityLevel;
-                PlayerPrefs.SetInt(_qualityLevelKey, (int)defaultQualityLevel);
-                Debug.Log("Quality seteado" + (int)defaultQualityLevel);
-                ChangeQualitySettings();
+                if (PlayerPrefs.HasKey(_musicVolumeKey))
+                {
+                    musicVolumeSlider.value = PlayerPrefs.GetFloat(_musicVolumeKey);
+                }
+                else
+                {
+                    musicVolumeSlider.value = defaultMusicVolume;
+                    PlayerPrefs.SetFloat(_musicVolumeKey, defaultMusicVolume);
+                }
+
+                if (PlayerPrefs.HasKey(_cameraSensitivityKey))
+                {
+                    cameraSensitivitySlider.value = PlayerPrefs.GetFloat(_cameraSensitivityKey);
+                }
+                else
+                {
+                    cameraSensitivitySlider.value = defaultCameraSensitivity;
+                    PlayerPrefs.SetFloat(_cameraSensitivityKey, defaultCameraSensitivity);
+                }
+
+                if (PlayerPrefs.HasKey(_qualityLevelKey))
+                {
+                    quialityDropdown.value = PlayerPrefs.GetInt(_qualityLevelKey);
+                    Debug.Log("Quality cogido" + PlayerPrefs.GetInt(_qualityLevelKey));
+                    ChangeQualitySettings();
+                }
+                else
+                {
+                    quialityDropdown.value = (int)defaultQualityLevel;
+                    PlayerPrefs.SetInt(_qualityLevelKey, (int)defaultQualityLevel);
+                    Debug.Log("Quality seteado" + (int)defaultQualityLevel);
+                    ChangeQualitySettings();
+                }
             }
         }
 
