@@ -87,7 +87,7 @@ namespace Lullaby
             current = waypoints[to];
             _changing = false;
         }
-
+        
         public virtual void ResetRoute()
         {
             current = waypoints[0];

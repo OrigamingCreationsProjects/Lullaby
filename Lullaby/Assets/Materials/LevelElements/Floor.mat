@@ -17,14 +17,15 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: ebe857ff99f14a44499f5e11d1200148, type: 3}
+        m_Texture: {fileID: 2800000, guid: d33558b48c641584380c898a82faf10e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -96,6 +97,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _BumpScale: 1
+    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -108,7 +110,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightProbeContribution: 2.22
+    - _LightProbeContribution: 2.46
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -117,7 +119,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _Smoothness: 0.571
+    - _Smoothness: 0.87
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -125,7 +127,9 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -133,8 +137,8 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
-    - _Tiling: {r: 5, g: 5, b: 0, a: 0}
-    - _Tint: {r: 0.55914235, g: 0.36645603, b: 0.5754717, a: 0}
+    - _Tiling: {r: 10, g: 10, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &287240064843211082
 MonoBehaviour:

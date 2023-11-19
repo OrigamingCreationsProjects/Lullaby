@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 20660657215803395}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair_10_3_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 1291404947199317114}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2532390343815545492
 PrefabInstance:
@@ -63,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 1676693388499016161, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.016
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535004014226947357, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621990972055138856, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3661187270213244654, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
       propertyPath: m_RootOrder
@@ -108,9 +116,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6285123952796090460, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8650479454806090100, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
       propertyPath: m_Name
       value: RegularStairs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650479454806090100, guid: 074b98fbc254dfa478c13d32191f882c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
