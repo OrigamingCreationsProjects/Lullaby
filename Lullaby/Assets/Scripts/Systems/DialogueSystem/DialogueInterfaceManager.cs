@@ -22,6 +22,8 @@ namespace Lullaby.Systems.DialogueSystem
         
         [HideInInspector]
         public NPCDialogueScript currentNPC;
+        public Talker currentTalker;
+        public Animator currentTalkerAnimator;
         
         private int dialogueIndex;
         public bool canExit;
@@ -34,6 +36,9 @@ namespace Lullaby.Systems.DialogueSystem
         public GameObject gameCam;
         public GameObject dialogueCam;
         
+        
+        
+        protected int _talkHash;
         //[Space]
         //public Volume dialogueDof;
 
@@ -53,6 +58,7 @@ namespace Lullaby.Systems.DialogueSystem
             animatedText.onDialogueFinish.AddListener(() => FinishDialogue());
             _player = FindObjectOfType<Player>();
             canvasGroup.interactable = false;
+            
         }
 
         private void Update()
@@ -104,6 +110,7 @@ namespace Lullaby.Systems.DialogueSystem
                 // s.AppendInterval(.8f);
                 // s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
                 animatedText.ReadText(currentLine);
+                currentTalkerAnimator.SetTrigger(_talkHash);
             } 
             else if(animatedText.maxVisibleCharacters != currentLine.Length)
             {
@@ -126,6 +133,9 @@ namespace Lullaby.Systems.DialogueSystem
             fadeSequence.Append(canvasGroup.DOFade(show ? 1 : 0, time));
             if (show)
             {
+                currentTalkerAnimator = currentTalker.GetComponentInChildren<Animator>();
+                _talkHash = Animator.StringToHash("Talk");
+                currentTalkerAnimator.SetTrigger(_talkHash);
                 dialogueIndex = 0;
                 fadeSequence.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
                 //fadeSequence.AppendCallback(() => animatedText.text = currentNPC.dialogueText.conversationBlock[dialogueIndex]);
