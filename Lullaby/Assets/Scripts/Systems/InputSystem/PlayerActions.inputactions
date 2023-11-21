@@ -211,7 +211,7 @@
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "ScaleVector2(x=135,y=135)",
-                    "groups": "PlayStation;Xbox;Switch",
+                    "groups": "PlayStation;Xbox;Switch;Mobile",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -299,7 +299,7 @@
                     "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PlayStation;Xbox;Switch",
+                    "groups": "PlayStation;Xbox;Switch;Mobile",
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -490,6 +490,11 @@
             "devices": [
                 {
                     "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }
