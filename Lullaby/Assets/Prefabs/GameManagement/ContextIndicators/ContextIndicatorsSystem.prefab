@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5093099695211953239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6767078821372528457}
+  - component: {fileID: 1554915514594473638}
+  m_Layer: 0
+  m_Name: ContextIndicatorsSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6767078821372528457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093099695211953239}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 903.0515, y: 667.3321, z: 189.9461}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1554915514594473638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093099695211953239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7696c22ccaa4c39b12f3647e62d70c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contextImage: {fileID: 0}
+  _buttonEast:
+  - {fileID: 21300000, guid: 09e8f5234233bd94db9aee425ff4b522, type: 3}
+  - {fileID: 21300000, guid: e5997a0cf2b0ea342b8c8497bfdd5c3a, type: 3}
+  - {fileID: 21300000, guid: e804c0eb75f8a804c973a6dbdfc5babe, type: 3}
+  - {fileID: 21300000, guid: 7111da2641ea0ff42b5eca7213469072, type: 3}
+  - {fileID: 21300000, guid: 7111da2641ea0ff42b5eca7213469072, type: 3}
+  _buttonWest:
+  - {fileID: 21300000, guid: d688ae6c6184dc147b369847839d1d3a, type: 3}
+  - {fileID: 21300000, guid: 4605b33ee6bca0a40b7ba239f6fbfb2a, type: 3}
+  - {fileID: 21300000, guid: 8aa09f8a7e40d944ab68c1cc471eae9b, type: 3}
+  - {fileID: 21300000, guid: eb42de2cab30b694e8d33d7669a1e8c9, type: 3}
+  - {fileID: 21300000, guid: eb42de2cab30b694e8d33d7669a1e8c9, type: 3}
+  _buttonNorth:
+  - {fileID: 21300000, guid: ccbdac193221ee64d8c1e4b7664059d0, type: 3}
+  - {fileID: 21300000, guid: b0bda8c309c7c814c80f7d17eb2ca706, type: 3}
+  - {fileID: 21300000, guid: eb42de2cab30b694e8d33d7669a1e8c9, type: 3}
+  - {fileID: 21300000, guid: 8aa09f8a7e40d944ab68c1cc471eae9b, type: 3}
+  - {fileID: 21300000, guid: 8aa09f8a7e40d944ab68c1cc471eae9b, type: 3}
+  _buttonSouth:
+  - {fileID: 21300000, guid: 4ef9d3a46254d9445a51ac4c25aba5ae, type: 3}
+  - {fileID: 21300000, guid: bdcff391c2e69e445a77b45b0678ba98, type: 3}
+  - {fileID: 21300000, guid: 7111da2641ea0ff42b5eca7213469072, type: 3}
+  - {fileID: 21300000, guid: e804c0eb75f8a804c973a6dbdfc5babe, type: 3}
+  - {fileID: 21300000, guid: e804c0eb75f8a804c973a6dbdfc5babe, type: 3}
+  _dpad: []
+  _dpadDown: []
+  _dpadUp: []
+  _dpadLeft: []
+  _dpadRight: []
+  _leftShoulder: []
+  _leftStick:
+  - {fileID: 21300000, guid: 9b945f1cc2e5911499563b7235cd445e, type: 3}
+  - {fileID: 21300000, guid: 9b945f1cc2e5911499563b7235cd445e, type: 3}
+  - {fileID: 21300000, guid: 9b945f1cc2e5911499563b7235cd445e, type: 3}
+  - {fileID: 21300000, guid: 9b945f1cc2e5911499563b7235cd445e, type: 3}
+  - {fileID: 21300000, guid: 9b945f1cc2e5911499563b7235cd445e, type: 3}
+  _leftStickPress: []
+  _leftTrigger: []
+  _rightShoulder: []
+  _rightStick:
+  - {fileID: 21300000, guid: feca7242779c3384fade729dca5fc2aa, type: 3}
+  - {fileID: 21300000, guid: feca7242779c3384fade729dca5fc2aa, type: 3}
+  - {fileID: 21300000, guid: feca7242779c3384fade729dca5fc2aa, type: 3}
+  - {fileID: 21300000, guid: feca7242779c3384fade729dca5fc2aa, type: 3}
+  - {fileID: 21300000, guid: feca7242779c3384fade729dca5fc2aa, type: 3}
+  _rightStickPress: []
+  _rightTrigger: []
+  _selectButton: []
+  _startButton: []

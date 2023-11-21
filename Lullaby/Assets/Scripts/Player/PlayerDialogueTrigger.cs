@@ -73,8 +73,9 @@ namespace Lullaby.Entities
                     Debug.Log("George asignado");
                     _currentTalker = sphereHit.transform.gameObject.GetComponent<Talker>();
                     talker = _currentTalker;
-                    
+                    targetGroup.m_Targets[1].target = _currentTalker.transform;
                     _uiManager.currentNPC = sphereHit.transform.gameObject.GetComponent<NPCDialogueScript>();
+                    _uiManager.currentTalker = _currentTalker;
                     return true;
                 }
                 else

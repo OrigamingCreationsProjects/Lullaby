@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Lullaby.UI;
+using Systems.SoundSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -86,6 +87,18 @@ namespace Lullaby
             isLoading = false;
             loadingScreen.Hide();
             OnLoadFinish?.Invoke();
+            
+            //YA ESTAS TARDANDO EN QUITAR ESTA PUTISIMA MIERDA
+            if (scene == "Level1_Beta")
+            {
+                // SoundManager.instance.Stop("MainMenu_Music");
+                // SoundManager.instance.Play("Aloras_DanceA(BGM2)");
+                SoundManager.instance.FadeBGMClipsVolumes("MainMenu_Music", "AloraMain", 1f);
+            }
+            else if(scene == "MainMenu" && currentScene == "Level1_Beta")
+            {
+                SoundManager.instance.FadeBGMClipsVolumes("AloraMain", "MainMenu_Music", 1f);
+            }
         }
     }
 }

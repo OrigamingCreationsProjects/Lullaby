@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Lullaby.Entities;
 using Lullaby.Systems.DialogueSystem;
 using UnityEngine;
@@ -26,7 +27,6 @@ namespace Lullaby
         protected InputAction PickAndDrop;
 
         protected Camera camera;
-
         protected float movementDirectionUnlockTime;
         protected float? lastJumpTime;
         protected float? lastInteractTime;
@@ -64,11 +64,14 @@ namespace Lullaby
         {
             var value = Look.ReadValue<Vector2>();
             if (IsLookingWithMouse())
-                return new Vector3(value.x, 0, value.y);
+                return new Vector3(value.x, 0, value.y) * GameManager.instance.cameraSensitivity;
 
             return GetAxisWithCrossDeadZone(value);
         }
 
+        public virtual Vector3 AdjustSensitivity(Vector3 direction, float sensitivity) =>
+            direction * sensitivity; // Adjust the sensitivity of the direction
+        
         public virtual Vector3 GetMovementCameraDirection() // Get the direction of the movement relative to the camera
         {
             var direction = GetMovementDirection();
@@ -195,6 +198,7 @@ namespace Lullaby
         {
             if (Jump.WasPressedThisFrame())
             {
+                
                 lastJumpTime = Time.time;
             }
 
