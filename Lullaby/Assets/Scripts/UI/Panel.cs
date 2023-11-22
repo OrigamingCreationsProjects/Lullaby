@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(Canvas))]
 public class Panel : MonoBehaviour
 {
+    public Button defaultButton = null;
+    
     private Canvas _canvas = null; // Usamos canvas pero podría ser un canvas group si queremos hacer fade in - out etc.
     private MenuSystem _menuManager = null;
-
     private void Awake()
     {
         _canvas = GetComponent<Canvas>();
+        defaultButton = GetComponentInChildren<Button>();
     }
 
     //Utilizamos esta funcion para que el menuManager se encarge de setear todos los paneles o canvas que tiene y cada
@@ -29,6 +33,7 @@ public class Panel : MonoBehaviour
     public void Show()
     {
         _canvas.enabled = true;
+        //defaultButton.Select();
         //gameObject.SetActive(true);
     }
 

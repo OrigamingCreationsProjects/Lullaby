@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MenuSystem : MonoBehaviour
 {
     public Panel currentPanel = null;
 
     private List<Panel> _panelHistory = new List<Panel>();
+    private List<Button> _buttonHistory = new List<Button>();
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,7 @@ public class MenuSystem : MonoBehaviour
     {
         currentPanel.Hide();
         currentPanel = newPanel;
+        currentPanel.defaultButton.Select();
         currentPanel.Show();
     }
 }
