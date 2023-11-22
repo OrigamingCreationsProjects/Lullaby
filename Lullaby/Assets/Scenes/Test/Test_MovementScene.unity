@@ -3778,6 +3778,8 @@ MonoBehaviour:
   nameBubble: {fileID: 1716913215}
   nameTMP: {fileID: 784328963}
   currentNPC: {fileID: 0}
+  currentTalker: {fileID: 0}
+  currentTalkerAnimator: {fileID: 0}
   canExit: 0
   nextDialogue: 0
   currentDialogueTextFinished: 0
@@ -7890,6 +7892,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7451738531167535794, guid: bf2fe96503cfdba4ba70503b1eb0a079, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7618224071676626944, guid: bf2fe96503cfdba4ba70503b1eb0a079, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9247,7 +9253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512318684373836436, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2.874878
+      value: -2.875
       objectReference: {fileID: 0}
     - target: {fileID: 6249414222913629663, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
       propertyPath: m_AnchoredPosition.y
