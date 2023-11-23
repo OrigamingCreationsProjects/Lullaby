@@ -110,7 +110,6 @@ namespace Lullaby.Entities
 
         #region -- TIMES AND BOOLEANS --
 
-
         /// <summary>
         /// Returns the last frame this Entity was grounded.
         /// </summary>

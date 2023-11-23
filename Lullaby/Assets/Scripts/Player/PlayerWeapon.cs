@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Lullaby.Entities.Weapons;
 using UnityEngine;
 
@@ -8,7 +5,7 @@ namespace Lullaby.Entities
 {
     [RequireComponent(typeof(Player))]
     [AddComponentMenu("Lullaby/Platformer Project/Player/Player Fight")]
-    public class PlayerFight : MonoBehaviour
+    public class PlayerWeapon : MonoBehaviour
     {
         protected MeleeWeapon _meleeWeapon;
         protected Player _player;

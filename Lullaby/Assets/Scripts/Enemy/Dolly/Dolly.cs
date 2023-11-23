@@ -15,7 +15,7 @@ namespace Lullaby.Entities.Enemies
     {
         public DollyEvents dollyEvents;
 
-        public new DollyStatsManager stats { get; protected set; }
+        public DollyStatsManager dollyStats { get; protected set; }
         
         
         private float _moveSpeed = 1;
@@ -35,19 +35,19 @@ namespace Lullaby.Entities.Enemies
         /// <summary>
         /// Returns the Dolly Stats Manager instance.
         /// </summary>
-        protected override void InitializeStatsManager() => stats = GetComponent<DollyStatsManager>();
+        protected override void InitializeStatsManager() => dollyStats = GetComponent<DollyStatsManager>();
         
         public Vector3 MoveDirection => moveDirection;
         
         /// <summary>
         /// Applies a downward force by its gravity stats.
         /// </summary>
-        public override void ApplyGravity() => ApplyGravity(stats.current.gravity);
+        public override void ApplyGravity() => ApplyGravity(dollyStats.current.gravity);
 
         /// <summary>
         /// Applies a downward force when ground by its snap stats.
         /// </summary>
-        public override void SnapToGround() => SnapToGround(stats.current.snapForce);
+        public override void SnapToGround() => SnapToGround(dollyStats.current.snapForce);
         
         
         #region -- BOOLEANOS PARA LOS ESTADOS IMPLÍCITOS --
@@ -122,10 +122,10 @@ namespace Lullaby.Entities.Enemies
             // Waits until the enemy is not asssigned to no action like attacking or retreating
             yield return new WaitUntil(() => isWaiting == true);
 
-            //Probabilidad 50/50 de que el enemigo se mueva o no
+            //Probabilidad de que el enemigo se mueva o no
             int randomChance = Random.Range(0, 10);
 
-            if (randomChance <= stats.current.chanceToMoveLaterally)
+            if (randomChance <= dollyStats.current.chanceToMoveLaterally)
             {
                 // Probabilidad 50/50 de que el enemigo se mueva a la derecha o a la izquierda
                 int randomDir = Random.Range(0, 2);
@@ -137,7 +137,7 @@ namespace Lullaby.Entities.Enemies
                 StopMoving();
             }
 
-            yield return new WaitForSeconds(stats.current.timeBeforeMoveAgain);
+            yield return new WaitForSeconds(dollyStats.current.timeBeforeMoveAgain);
             
             MovementCoroutine = StartCoroutine(DollyMovement());
         }
@@ -156,9 +156,9 @@ namespace Lullaby.Entities.Enemies
             _moveSpeed = 1;
 
             if (direction == Vector3.forward)
-                _moveSpeed = stats.current.forwardSpeed;
+                _moveSpeed = dollyStats.current.forwardSpeed;
             else if (direction == -Vector3.forward)
-                _moveSpeed = stats.current.retreatSpeed;
+                _moveSpeed = dollyStats.current.retreatSpeed;
             
             //If isMoving is false we dont want to do anything
             if (!isMoving) return;
@@ -173,7 +173,7 @@ namespace Lullaby.Entities.Enemies
             else if (direction == Vector3.right || direction == Vector3.left)
             {
                 finalDir = (pDir * direction.normalized.x);
-                _moveSpeed = stats.current.forwardSpeed * stats.current.lateralSpeedMultiplier; // Dividimos la velocidad entre 1.5 para que no sea tan rapido al moverse lateralmente
+                _moveSpeed = dollyStats.current.forwardSpeed * dollyStats.current.lateralSpeedMultiplier; // Dividimos la velocidad entre 1.5 para que no sea tan rapido al moverse lateralmente
             }
             else if (direction == -Vector3.forward)
                 finalDir = -transform.forward;
@@ -185,11 +185,11 @@ namespace Lullaby.Entities.Enemies
             if(!isPreparingAttack) 
                 return;
 
-            if (Vector3.Distance(transform.position, player.transform.position) < stats.current.minDistanceToAttack)
+            if (Vector3.Distance(transform.position, player.transform.position) < dollyStats.current.minDistanceToAttack)
             {
                 StopMoving();
                 if(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
-                   Attack();
+                    Attack();
                 else
                     PrepareAttack(false);
             }
@@ -197,10 +197,9 @@ namespace Lullaby.Entities.Enemies
 
         protected virtual void Attack()
         {
-            transform.DOMove(transform.position + (transform.forward / 1), stats.current.attackMovementDuration);
+            transform.DOMove(transform.position + (transform.forward / 1), dollyStats.current.attackMovementDuration);
             //Lanzar trigger de ataque o puño o lo que sea del animator
             Debug.Log("Dolly Attack");
-
         }
 
         public void SetRetreat()
@@ -210,12 +209,12 @@ namespace Lullaby.Entities.Enemies
 
             IEnumerator PrepRetreat()
             {
-                yield return new WaitForSeconds(stats.current.retreatPreparationTime);
+                yield return new WaitForSeconds(dollyStats.current.retreatPreparationTime);
                 dollyEvents.OnRetreat?.Invoke(this);
                 isRetreating = true;
                 moveDirection = -Vector3.forward;
                 isMoving = true;
-                yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > stats.current.minDistanceToStopRetreating);
+                yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > dollyStats.current.minDistanceToStopRetreating);
                 isRetreating = false;
                 StopMoving();
 
@@ -243,7 +242,7 @@ namespace Lullaby.Entities.Enemies
             IEnumerator PrepAttack()
             {
                 PrepareAttack(true);
-                yield return new WaitForSeconds(stats.current.attackPreparationTime);
+                yield return new WaitForSeconds(dollyStats.current.attackPreparationTime);
                 moveDirection = Vector3.forward;
                 isMoving = true;
             }
@@ -312,7 +311,7 @@ namespace Lullaby.Entities.Enemies
         public void HitEvent()
         {
             if (!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
-                player.ApplyDamage(stats.current.attackDamage, transform.position);
+                player.ApplyDamage(dollyStats.current.attackDamage, transform.position);
             
             PrepareAttack(false);
         }
@@ -334,7 +333,7 @@ namespace Lullaby.Entities.Enemies
                 
                 //ANIMATOR TRIGGER DE HIT?
                 transform.DOMove(transform.position - (transform.forward / 2),
-                    stats.current.damageMovementDuration).SetDelay(stats.current.damageMovementDelay);
+                    dollyStats.current.damageMovementDuration).SetDelay(dollyStats.current.damageMovementDelay);
                 
                 StopMoving();
 
