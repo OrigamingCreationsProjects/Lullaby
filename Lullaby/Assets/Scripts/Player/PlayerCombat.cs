@@ -17,7 +17,7 @@ namespace Lullaby.Entities
         private PlayerAnimator _playerAnimator;
         private Player _player;
         [Header("Target")] 
-        private Enemy lockedTarget;
+        [SerializeField] private Enemy lockedTarget;
 
         [Header("Combat Settings")] 
         [SerializeField] private float attackCooldown;
@@ -66,6 +66,11 @@ namespace Lullaby.Entities
                     lockedTarget = enemyManager.RandomDolly();
                 }
             }
+            else
+            {
+                //Si hay un enemigo asignado, atacamos a ese
+                lockedTarget = _enemyDetector.CurrentTarget();
+            }
 
             if (_enemyDetector.GetInputMagnitude() > _player.stats.current.enemyDetectionTreshold)
                 lockedTarget = _enemyDetector.CurrentTarget();
@@ -87,7 +92,7 @@ namespace Lullaby.Entities
                 return;
             }
 
-            if (distance < 15)
+            if (distance < 7)
             {
                 AttackType(target, attackCooldown, .65f);
             }

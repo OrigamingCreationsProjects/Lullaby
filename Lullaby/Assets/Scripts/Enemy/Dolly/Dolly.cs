@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -298,9 +299,16 @@ namespace Lullaby.Entities.Enemies
         {
             if (!health.isEmpty && !health.recovering)
             {
+                StopActiveCoroutines();
+                DamageCoroutine = StartCoroutine(HitCoroutine());
+                
+                player.GetComponentInChildren<PlayerEnemyDetector>().SetCurrentTarget(null);
+                isLockedTarget = false;
+                dollyEvents.OnDamage?.Invoke(this);
+                
                 health.Damage(amount);
+                
                 enemyEvents.OnDamage?.Invoke();
-                animator.SetTrigger(_hitHash);
                 //Debug.Log("Enemigo dañado");
                 if (health.isEmpty)
                 {
@@ -309,10 +317,18 @@ namespace Lullaby.Entities.Enemies
                     //states.Change<DieEnemyState>();
                     //gameObject.SetActive(false);
                     Death();
+                    return;
                 }
-                else
+                animator.SetTrigger(_hitHash);
+                transform.DOMove(transform.position - (transform.forward / 2),
+                    dollyStats.current.damageMovementDuration).SetDelay(dollyStats.current.damageMovementDelay);
+                StopMoving();
+                
+                IEnumerator HitCoroutine()
                 {
-                    //states.Change<HurtEnemyState>();
+                    isStunned = true;
+                    yield return new WaitForSeconds(0.5f);
+                    isStunned = false;
                 }
             }
         }
