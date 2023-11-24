@@ -19,7 +19,7 @@ namespace Lullaby.Entities.Enemies.States
             entity.SnapToGround();
             //((Dolly)entity)
             entity.transform.LookAt(new Vector3(entity.player.transform.position.x, entity.player.transform.position.y, entity.player.transform.position.z));
-            Debug.Log($"La direccion actual es: {((Dolly)entity).MoveDirection}");
+            //Debug.Log($"La direccion actual es: {((Dolly)entity).MoveDirection}");
             ((Dolly)entity).MoveDolly(((Dolly)entity).MoveDirection);
         }
 

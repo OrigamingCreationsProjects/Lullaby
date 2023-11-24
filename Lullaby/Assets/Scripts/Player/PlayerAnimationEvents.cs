@@ -14,8 +14,6 @@ namespace Lullaby.Entities.Weapons
         {
             _player = GetComponentInParent<Player>();
             _meleeWeapon = _player.GetComponentInChildren<MeleeWeapon>();
-            
-            
         }
 
         public void MeleeAttackStart(int throwing = 0)

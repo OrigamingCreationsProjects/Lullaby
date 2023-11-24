@@ -406,8 +406,14 @@ namespace Lullaby.Entities
                 {
                     airAttackCounter++;
                 }
-                states.Change<AttackPlayerState>();
-                playerEvents.OnAttackStarted?.Invoke();
+
+                
+                Sequence s = DOTween.Sequence();
+                s.AppendCallback(() => GetComponent<PlayerCombat>().AttackCheck());
+                s.AppendCallback(() => states.Change<AttackPlayerState>());
+                //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
+                // states.Change<AttackPlayerState>();
+                // playerEvents.OnAttackStarted?.Invoke();
             }
         }
 

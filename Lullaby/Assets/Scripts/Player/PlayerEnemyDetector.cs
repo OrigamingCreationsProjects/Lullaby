@@ -23,25 +23,25 @@ namespace Lullaby.Entities
 
         private void Update()
         {
-            var camera = Camera.main;
-            var forward = camera.transform.forward;
-            var right = camera.transform.right;
-            
-            forward.y = 0f;
-            right.y = 0f;
-            
-            forward.Normalize();
-            right.Normalize();
+            // var camera = Camera.main;
+            // var forward = camera.transform.forward;
+            // var right = camera.transform.right;
+            //
+            // forward.y = 0f;
+            // right.y = 0f;
+            //
+            // forward.Normalize();
+            // right.Normalize();
 
             inputDirection = _player.inputs.GetMovementCameraDirection();
             
             RaycastHit info;
 
             if (Physics.SphereCast(transform.position, _player.stats.current.sightDetectionRadius,
-                    _player.inputs.GetMovementCameraDirection(), out info, _player.stats.current.sightMaxDistance, targetLayerMask))
+                    inputDirection, out info, _player.stats.current.sightMaxDistance, targetLayerMask))
             {
                 if (info.collider.transform.GetComponent<Dolly>().IsAttackable())
-                    SetCurrentTarget(info.collider.transform.GetComponent<Dolly>());
+                    SetCurrentTarget(info.collider.transform.GetComponent<Enemy>());
             }
         }
 

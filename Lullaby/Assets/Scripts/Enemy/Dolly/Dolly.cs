@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using Lullaby.Entities.States;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
@@ -14,12 +15,10 @@ namespace Lullaby.Entities.Enemies
     public class Dolly : Enemy
     {
         public DollyEvents dollyEvents;
-
         public DollyStatsManager dollyStats { get; protected set; }
         
-        
-        private float _moveSpeed = 1;
         protected Vector3 moveDirection;
+        
 
         [Header("States")]
         [SerializeField] private bool isPreparingAttack;
@@ -31,7 +30,9 @@ namespace Lullaby.Entities.Enemies
         
         
         private DollyManager _dollyManager;
-        
+        public Animator animator;
+        private float _moveSpeed = 1;
+
         /// <summary>
         /// Returns the Dolly Stats Manager instance.
         /// </summary>
@@ -115,7 +116,30 @@ namespace Lullaby.Entities.Enemies
             protected Coroutine MovementCoroutine;
             
         #endregion
+        
+        #region -- ANIMATOR PARAMETER NAMES --
 
+        [Header("Parameters Names")] 
+        public string inputMagnitude = "InputMagnitude";
+        public string strafeDirection = "StrafeDirection";
+        public string strafe = "Strafe";
+        public string punch = "Punch";
+        public string hit = "Hit";
+        public string death = "Death";
+
+        #endregion
+
+        #region -- ANIMATOR HASHES --
+
+        protected int _inputMagnitudeHash;
+        protected int _strafeDirectionHash;
+        protected int _strafeHash;
+        protected int _punchHash;
+        protected int _hitHash;
+        protected int _deathHash;
+        
+        #endregion
+        
         // La corrutina que maneja el movimiento de cada enemigo para no sobrecargar el hilo principal.
         protected IEnumerator DollyMovement()
         {
@@ -159,6 +183,11 @@ namespace Lullaby.Entities.Enemies
                 _moveSpeed = dollyStats.current.forwardSpeed;
             else if (direction == -Vector3.forward)
                 _moveSpeed = dollyStats.current.retreatSpeed;
+            Debug.Log($"Animator es {animator}");
+            
+            animator.SetFloat(_inputMagnitudeHash, (_moveSpeed * direction.z) / (5 / _moveSpeed), .2f, Time.deltaTime);
+            animator.SetBool(_strafeHash, (direction == Vector3.right || direction == Vector3.left));
+            animator.SetFloat(_strafeDirectionHash, direction.normalized.x, .2f, Time.deltaTime);
             
             //If isMoving is false we dont want to do anything
             if (!isMoving) return;
@@ -199,6 +228,7 @@ namespace Lullaby.Entities.Enemies
         {
             transform.DOMove(transform.position + (transform.forward / 1), dollyStats.current.attackMovementDuration);
             //Lanzar trigger de ataque o puño o lo que sea del animator
+            animator.SetTrigger(_punchHash);
             Debug.Log("Dolly Attack");
         }
 
@@ -227,10 +257,11 @@ namespace Lullaby.Entities.Enemies
         {
             StopActiveCoroutines();
 
-            this.enabled = false;
             controller.enabled = false;
-            //animator.SetTrigger("Death");
+            animator.SetTrigger(_deathHash);
+            Debug.Log($"Mi dolly manager es {_dollyManager}");
             _dollyManager.SetEnemyAvailability(this, false);
+            this.enabled = false;
         }
         
         public void SetAttack()
@@ -269,7 +300,7 @@ namespace Lullaby.Entities.Enemies
             {
                 health.Damage(amount);
                 enemyEvents.OnDamage?.Invoke();
-
+                animator.SetTrigger(_hitHash);
                 //Debug.Log("Enemigo dañado");
                 if (health.isEmpty)
                 {
@@ -315,9 +346,17 @@ namespace Lullaby.Entities.Enemies
             
             PrepareAttack(false);
         }
-
+        void OnPlayerTrajectory(Enemy target)
+        {
+            if (target == this)
+            {
+                StopActiveCoroutines();
+                isLockedTarget = true;
+                PrepareAttack(false);
+                StopMoving();
+            }
+        }
         //Listened event from Player Animation
-        
         void OnPlayerHit(Dolly target)
         {
             if (target == this)
@@ -332,6 +371,7 @@ namespace Lullaby.Entities.Enemies
                 ApplyDamage(player.stats.current.regularAttackDamage, player.transform.position);
                 
                 //ANIMATOR TRIGGER DE HIT?
+                animator.SetTrigger(_hitHash);
                 transform.DOMove(transform.position - (transform.forward / 2),
                     dollyStats.current.damageMovementDuration).SetDelay(dollyStats.current.damageMovementDelay);
                 
@@ -347,6 +387,16 @@ namespace Lullaby.Entities.Enemies
         }
         
         #endregion
+        
+        protected virtual void InitializeParametersHash()
+        {
+            _inputMagnitudeHash = Animator.StringToHash(inputMagnitude);
+            _strafeHash = Animator.StringToHash(strafe);
+            _strafeDirectionHash= Animator.StringToHash(strafeDirection);
+            _punchHash = Animator.StringToHash(punch);
+            _hitHash = Animator.StringToHash(hit);
+            _deathHash = Animator.StringToHash(death);
+        }
         protected override void OnUpdate()
         {
             
@@ -367,6 +417,11 @@ namespace Lullaby.Entities.Enemies
             player = FindObjectOfType<Player>();
             Debug.Log($"Se asigna al player {player.name}");
             MovementCoroutine = StartCoroutine(DollyMovement());
+            player.GetComponent<PlayerCombat>().OnTrajectory.AddListener((x) => OnPlayerTrajectory(x));
+            animator = GetComponentInChildren<Animator>();
+            Debug.Log($"Se asigna el animator {animator}");
+            InitializeParametersHash();
+            _dollyManager = GetComponentInParent<DollyManager>();
         }
         
         protected override void OnTriggerEnter(Collider other)
