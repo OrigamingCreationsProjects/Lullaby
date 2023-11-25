@@ -18,8 +18,6 @@ namespace Lullaby.Entities.Enemies
         public DollyEvents dollyEvents;
         public DollyStatsManager dollyStats { get; protected set; }
         
-        
-
         [Header("States")]
         [SerializeField] private bool isPreparingAttack;
         [SerializeField] private bool isMoving;
@@ -50,6 +48,12 @@ namespace Lullaby.Entities.Enemies
         /// Applies a downward force when ground by its snap stats.
         /// </summary>
         public override void SnapToGround() => SnapToGround(dollyStats.current.snapForce);
+        
+        /// <summary>
+        /// Rotate the Enemy forward to a given direction.
+        /// </summary>
+        /// <param name="direction"></param>
+        public override void FaceDirectionSmooth(Vector3 direction) => FaceDirectionSmooth(direction, dollyStats.current.rotationSpeed);
         
         
         #region -- BOOLEANOS PARA LOS ESTADOS IMPLÍCITOS --

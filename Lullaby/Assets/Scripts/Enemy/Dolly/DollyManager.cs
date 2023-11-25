@@ -13,6 +13,7 @@ namespace Lullaby.Entities.Enemies
         public DollyStruct[] allEnemies;
         public float minTimeToAttackAgain = 0.1f;
         public float maxTimeToAttackAgain = 3f;
+        public Dolly attackingDolly;
         
         private Dolly[] _dollysClones;
         private List<int> enemyIndexes;
@@ -31,26 +32,31 @@ namespace Lullaby.Entities.Enemies
         {
             if (GetAliveEnemyCount() == 0)
             {
+                Debug.Log("PARAMOS EL AI LOOP");
                 StopCoroutine(AI_Loop(null));
                 yield break;
             }
 
             yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
             
-            Dolly attackingDolly = RandomDollyExcludingOne(dolly);
+            attackingDolly = RandomDollyExcludingOne(dolly);
 
             if (attackingDolly == null)
                 attackingDolly = RandomDolly();
 
             if (attackingDolly == null)
                 yield break;
-
+            Debug.Log("Dolly attacking is " + attackingDolly.name);
+            Debug.Log("Esperamos a que RETREATING sea false");
             yield return new WaitUntil(() => attackingDolly.IsRetreating() == false);
+            Debug.Log("Esperamos a que LOCKED TARGET sea false");
             yield return new WaitUntil(() => attackingDolly.IsLockedTarget() == false);
+            Debug.Log("Esperamos a que STUNNED sea false");
             yield return new WaitUntil(() => attackingDolly.IsStunned() == false);
             
             attackingDolly.SetAttack();
             
+            Debug.Log("Esperamos a que PREPARINGATTACK sea false");
             yield return new WaitUntil(() => attackingDolly.IsPreparingAttack() == false);
             
             attackingDolly.SetRetreat();
@@ -126,6 +132,11 @@ namespace Lullaby.Entities.Enemies
 
             if (FindObjectOfType<PlayerEnemyDetector>().CurrentTarget() == enemy)
                 FindObjectOfType<PlayerEnemyDetector>().SetCurrentTarget(null);
+            if (attackingDolly == enemy)
+            {
+                StopCoroutine(AI_Loop(null));
+                StartAI();
+            }
         }
         
         public bool ADollyIsPreparingAttack()
