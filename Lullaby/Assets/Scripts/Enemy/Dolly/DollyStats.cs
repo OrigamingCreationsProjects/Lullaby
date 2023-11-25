@@ -26,7 +26,7 @@ namespace Lullaby.Entities.Enemies
         
         [Header("Retreat Movement Stats")]
         public float retreatPreparationTime = 1.4f;
-        public float minDistanceToStopRetreating = 4f;
+        public float minDistanceToStopRetreating = 7f;
         public float retreatSpeed = 2f;
 
         [Header("Attack Stats")] 

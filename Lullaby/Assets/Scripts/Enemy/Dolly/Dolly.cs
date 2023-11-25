@@ -18,7 +18,6 @@ namespace Lullaby.Entities.Enemies
         public DollyEvents dollyEvents;
         public DollyStatsManager dollyStats { get; protected set; }
         
-        protected Vector3 moveDirection;
         
 
         [Header("States")]
@@ -30,9 +29,10 @@ namespace Lullaby.Entities.Enemies
         [SerializeField] private bool isWaiting = true;
         
         
+        private Animator _animator;
         private DollyManager _dollyManager;
-        public Animator animator;
-        private float _moveSpeed = 1;
+        [SerializeField]private float _moveSpeed = 1;
+        [SerializeField]protected Vector3 moveDirection;
 
         /// <summary>
         /// Returns the Dolly Stats Manager instance.
@@ -185,9 +185,9 @@ namespace Lullaby.Entities.Enemies
             else if (direction == -Vector3.forward)
                 _moveSpeed = dollyStats.current.retreatSpeed;
 
-            animator.SetFloat(_inputMagnitudeHash, (_moveSpeed * direction.z) / (5 / _moveSpeed), .2f, Time.deltaTime);
-            animator.SetBool(_strafeHash, (direction == Vector3.right || direction == Vector3.left));
-            animator.SetFloat(_strafeDirectionHash, direction.normalized.x, .2f, Time.deltaTime);
+            _animator.SetFloat(_inputMagnitudeHash, (_moveSpeed * direction.z) / (5 / _moveSpeed), .2f, Time.deltaTime);
+            _animator.SetBool(_strafeHash, (direction == Vector3.right || direction == Vector3.left));
+            _animator.SetFloat(_strafeDirectionHash, direction.normalized.x, .2f, Time.deltaTime);
             
             //If isMoving is false we dont want to do anything
             if (!isMoving) return;
@@ -228,7 +228,7 @@ namespace Lullaby.Entities.Enemies
         {
             transform.DOMove(transform.position + (transform.forward / 1), dollyStats.current.attackMovementDuration);
             //Lanzar trigger de ataque o puño o lo que sea del animator
-            animator.SetTrigger(_punchHash);
+            _animator.SetTrigger(_punchHash);
             Debug.Log("Dolly Attack");
         }
 
@@ -249,6 +249,7 @@ namespace Lullaby.Entities.Enemies
                 StopMoving();
 
                 isWaiting = true;
+                Debug.Log("IsWaiting seteado a true");
                 MovementCoroutine = StartCoroutine(DollyMovement());
             }
         }
@@ -258,7 +259,7 @@ namespace Lullaby.Entities.Enemies
             StopActiveCoroutines();
 
             controller.enabled = false;
-            animator.SetTrigger(_deathHash);
+            _animator.SetTrigger(_deathHash);
             Debug.Log($"Mi dolly manager es {_dollyManager}");
             _dollyManager.SetEnemyAvailability(this, false);
             this.enabled = false;
@@ -318,7 +319,7 @@ namespace Lullaby.Entities.Enemies
                     Death();
                     return;
                 }
-                animator.SetTrigger(_hitHash);
+                _animator.SetTrigger(_hitHash);
                 transform.DOMove(transform.position - (transform.forward / 2),
                     dollyStats.current.damageMovementDuration).SetDelay(dollyStats.current.damageMovementDelay);
                 StopMoving();
@@ -386,7 +387,7 @@ namespace Lullaby.Entities.Enemies
                 ApplyDamage(player.stats.current.regularAttackDamage, player.transform.position);
                 
                 //ANIMATOR TRIGGER DE HIT?
-                animator.SetTrigger(_hitHash);
+                _animator.SetTrigger(_hitHash);
                 transform.DOMove(transform.position - (transform.forward / 2),
                     dollyStats.current.damageMovementDuration).SetDelay(dollyStats.current.damageMovementDelay);
                 
@@ -430,11 +431,9 @@ namespace Lullaby.Entities.Enemies
         protected void Start()
         {
             player = FindObjectOfType<Player>();
-            Debug.Log($"Se asigna al player {player.name}");
             MovementCoroutine = StartCoroutine(DollyMovement());
             player.GetComponent<PlayerCombat>().OnTrajectory.AddListener((x) => OnPlayerTrajectory(x));
-            animator = GetComponentInChildren<Animator>();
-            Debug.Log($"Se asigna el animator {animator}");
+            _animator = GetComponentInChildren<Animator>();
             InitializeParametersHash();
             _dollyManager = GetComponentInParent<DollyManager>();
         }

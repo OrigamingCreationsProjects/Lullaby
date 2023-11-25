@@ -40,10 +40,8 @@ namespace Lullaby.Entities.Enemies
             Dolly attackingDolly = RandomDollyExcludingOne(dolly);
 
             if (attackingDolly == null)
-            {
                 attackingDolly = RandomDolly();
-            }
-            
+
             if (attackingDolly == null)
                 yield break;
 
@@ -83,13 +81,13 @@ namespace Lullaby.Entities.Enemies
         }
 
 
-        public Dolly RandomDollyExcludingOne(Dolly dolly)
+        public Dolly RandomDollyExcludingOne(Dolly excludedDolly)
         {
             enemyIndexes = new List<int>();
 
             for (int i = 0; i < allEnemies.Length; i++)
             {
-                if(allEnemies[i].enemyAvailability && allEnemies[i].dollyScript != dolly)
+                if(allEnemies[i].enemyAvailability && allEnemies[i].dollyScript != excludedDolly)
                     enemyIndexes.Add(i);
             }
 
@@ -126,8 +124,8 @@ namespace Lullaby.Entities.Enemies
                     allEnemies[i].enemyAvailability = state;
             }
 
-            // if (FindObjectOfType<EnemyDetection>().CurrentTarget() == enemy)
-            //     FindObjectOfType<EnemyDetection>().SetCurrentTarget(null);
+            if (FindObjectOfType<PlayerEnemyDetector>().CurrentTarget() == enemy)
+                FindObjectOfType<PlayerEnemyDetector>().SetCurrentTarget(null);
         }
         
         public bool ADollyIsPreparingAttack()
