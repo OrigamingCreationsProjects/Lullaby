@@ -135,7 +135,8 @@ namespace Lullaby.Entities.Enemies
             if (attackingDolly == enemy)
             {
                 StopCoroutine(AI_Loop(null));
-                StartAI();
+                if(GetAliveEnemyCount() > 0)
+                    StartAI();
             }
         }
         

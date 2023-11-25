@@ -221,7 +221,7 @@ namespace Lullaby.Entities.Enemies
             if (Vector3.Distance(transform.position, player.transform.position) < dollyStats.current.minDistanceToAttack)
             {
                 StopMoving();
-                if(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
+                if(!player.GetComponent<PlayerCombat>().isAttackingEnemy) //(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
                     Attack();
                 else
                     PrepareAttack(false);
@@ -361,7 +361,7 @@ namespace Lullaby.Entities.Enemies
 
         public void HitEvent()
         {
-            if (!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
+            if (!player.GetComponent<PlayerCombat>().isAttackingEnemy) //(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
                 player.ReceivePunch(dollyStats.current.attackDamage, transform.position);
             
             PrepareAttack(false);
@@ -402,6 +402,7 @@ namespace Lullaby.Entities.Enemies
                     isStunned = true;
                     yield return new WaitForSeconds(.5f);
                     isStunned = false;
+                    MovementCoroutine = StartCoroutine(DollyMovement());
                 }
             }
         }
