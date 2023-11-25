@@ -29,8 +29,8 @@ namespace Lullaby.Entities.Enemies
         
         private Animator _animator;
         private DollyManager _dollyManager;
-        [SerializeField]private float _moveSpeed = 1;
-        [SerializeField]protected Vector3 moveDirection;
+        private float _moveSpeed = 1;
+        protected Vector3 moveDirection;
 
         /// <summary>
         /// Returns the Dolly Stats Manager instance.

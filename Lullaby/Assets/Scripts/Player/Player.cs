@@ -436,11 +436,10 @@ namespace Lullaby.Entities
                 {
                     airAttackCounter++;
                 }
-
                 
                 Sequence s = DOTween.Sequence();
                 s.AppendCallback(() => GetComponent<PlayerCombat>().AttackCheck());
-                s.AppendCallback(() => states.Change<AttackPlayerState>());
+                //s.AppendCallback(() => states.Change<AttackPlayerState>());
                 //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
                 // states.Change<AttackPlayerState>();
                 // playerEvents.OnAttackStarted?.Invoke();
@@ -579,6 +578,12 @@ namespace Lullaby.Entities
             skin.localScale = _skinInitialScale;
         }
 
+        public virtual void SetInputEnabled(bool value)
+        {
+            inputs.enabled = value;
+        }
+        
+        
         public virtual void WallDrag(Collider other)
         {
             if(holding || !stats.current.canWallDrag || verticalVelocity.y > 0) return;

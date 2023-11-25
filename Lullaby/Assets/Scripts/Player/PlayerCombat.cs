@@ -20,7 +20,7 @@ namespace Lullaby.Entities
         [SerializeField] private Enemy lockedTarget;
 
         [Header("Combat Settings")] 
-        [SerializeField] private float attackCooldown;
+        [SerializeField] private float attackCooldown = 0.7f;
         
         [Header("States")]
         public bool isAttackingEnemy = false;
@@ -37,6 +37,9 @@ namespace Lullaby.Entities
         public UnityEvent<Enemy> OnHit;
         public UnityEvent<Enemy> OnTrajectory;
 
+        private int _animationCount = 0;
+        private string[] attackTriggers;
+        
         private void Start()
         {
             enemyManager = FindObjectOfType<DollyManager>();
@@ -85,28 +88,34 @@ namespace Lullaby.Entities
 
         public void Attack(Enemy target, float distance)
         {
+            attackTriggers = new string[] {"AttackCombo1", "AttackCombo2", "AttackCombo3"};
+            
             Debug.Log("Entramos en Attack");
             if (target == null)
             {
-                AttackType(null, .2f, 0);
+                AttackType(null, .2f, 0, "AttackCombo1");
                 return;
             }
 
-            if (distance < 7)
+            if (distance < _player.stats.current.maxDistanceToAttack)
             {
-                AttackType(target, attackCooldown, .65f);
+                _animationCount = (int)Mathf.Repeat((float)_animationCount + 1, (float)attackTriggers.Length);
+                string attackString = attackTriggers[_animationCount];
+                AttackType(target, attackCooldown, .65f, attackString);
             }
             else
             {
                 lockedTarget = null;
-                AttackType(null, .2f, 0f);
+                AttackType(null, .2f, 0f, "AttackCombo1");
             }
             
             //¿Impulso de camara?
         }
 
-        private void AttackType(Enemy target, float cooldown, float movementDuration)
+        private void AttackType(Enemy target, float cooldown, float movementDuration, string attackTrigger)
         {
+            _player.GetComponentInChildren<Animator>().SetTrigger(attackTrigger);
+            _player.playerEvents.OnAttackStarted.Invoke();
             if(attackCoroutine != null)
                 StopCoroutine(attackCoroutine);
             
@@ -119,17 +128,19 @@ namespace Lullaby.Entities
             {
                 d.StopMoving();
             }
+            
             MoveTowardsTarget(target, movementDuration);
            
             IEnumerator AttackCoroutine(float duration)
             {
                 //_player.playerEvents.OnAttackStarted?.Invoke();
                 isAttackingEnemy = true;
-                _player.inputs.enabled = false;
+                _player.SetInputEnabled(false);
                 yield return new WaitForSeconds(duration);
                 isAttackingEnemy = false;
                 yield return new WaitForSeconds(0.2f);
-                _player.inputs.enabled = true;
+                _player.SetInputEnabled(true);
+                _player.playerEvents.OnAttackFinished.Invoke();
                //_player.playerEvents.OnAttackFinished?.Invoke();
             }
         }
