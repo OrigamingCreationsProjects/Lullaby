@@ -138,9 +138,27 @@ namespace Lullaby.Entities
         {
             Debug.Log("Llegamos a instruccion de movimiento");
             OnTrajectory?.Invoke(target);
-            transform.DOLookAt(target.transform.position, .2f);
+            //transform.DOLookAt(target.transform.position, .2f);
+            //_player.FaceDirectionSmooth(target.transform.position);
+            FaceToEnemy(target.transform);
             transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
             //_player.states.Change<AttackPlayerState>();
+        }
+
+        protected void FaceToEnemy(Transform target)
+        {
+            var destination = target.position;
+            var head = destination - transform.position;
+            var upOffset = Vector3.Dot(transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
+           
+            head -= transform.up * upOffset;
+            
+            var distance = head.magnitude;
+            var direction = head / distance; // Normalizamos porque solo nos interesa la direccion
+            var localDirection = Quaternion.FromToRotation(transform.up, Vector3.up) * direction;
+            
+            _player.FaceDirectionSmooth(localDirection);
+
         }
         
         protected float TargetDistance(Enemy target)

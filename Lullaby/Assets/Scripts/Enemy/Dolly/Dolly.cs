@@ -333,6 +333,8 @@ namespace Lullaby.Entities.Enemies
                     isStunned = true;
                     yield return new WaitForSeconds(0.5f);
                     isStunned = false;
+                    //MovementCoroutine = StartCoroutine(DollyMovement());
+                    SetRetreat();
                 }
             }
         }
@@ -402,7 +404,6 @@ namespace Lullaby.Entities.Enemies
                     isStunned = true;
                     yield return new WaitForSeconds(.5f);
                     isStunned = false;
-                    MovementCoroutine = StartCoroutine(DollyMovement());
                 }
             }
         }
