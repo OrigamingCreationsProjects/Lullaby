@@ -610,7 +610,7 @@ MonoBehaviour:
   defaultLandings:
   - {fileID: 8300000, guid: a209b34d21edd61488a87e949634861b, type: 3}
   stepDistanceOffset: 2
-  groundStepVolume: 0.2
+  groundStepVolume: 0.09
 --- !u!114 &3987990107631185487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -946,7 +946,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5435524871141313241, guid: 3fbb9027ef6b79a47b1ce472ac27c142, type: 3}
+  - {fileID: 2100000, guid: 7c5b2bcdaf76713458253b289204f64a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1032,6 +1032,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -29.958984
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 82bf4984af5b84843875abced16e9d32, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c0d21864c9920f4793d9e16c337b712, type: 2}
     - target: {fileID: 919132149155446097, guid: 82bf4984af5b84843875abced16e9d32, type: 3}
       propertyPath: m_Name
       value: Gorro

@@ -10,6 +10,8 @@ namespace Lullaby
     {
         public List<GameLevel> levels;
 
+        [Range(0.01f, 1f)]
+        public float cameraSensitivity = 0.05f;
         protected int _dataIndex;
         
         /// <summary>
