@@ -25,6 +25,9 @@ namespace Lullaby.Entities
         [Header("States")]
         public bool isAttackingEnemy = false;
         //Quiza luego nos conviene referenciar comportamientos externos
+        [Header("Public references")]
+        [SerializeField] private GameObject lastHitCamera;
+        [SerializeField] private Transform lastHitFocusObject;
         
         //Coroutines
         private Coroutine counterCoroutine;
@@ -120,6 +123,9 @@ namespace Lullaby.Entities
                 StopCoroutine(attackCoroutine);
             
             attackCoroutine = StartCoroutine(AttackCoroutine(cooldown));
+
+            if (IsLastHit())
+                StartCoroutine(FinalBlowCoroutine());
             
             if(target == null)
                 return;
@@ -142,6 +148,16 @@ namespace Lullaby.Entities
                 _player.SetInputEnabled(true);
                 _player.playerEvents.OnAttackFinished.Invoke();
                //_player.playerEvents.OnAttackFinished?.Invoke();
+            }
+
+            IEnumerator FinalBlowCoroutine()
+            {
+                Time.timeScale = .3f;
+                lastHitCamera.SetActive(true);
+                lastHitFocusObject.position = lockedTarget.transform.position;
+                yield return new WaitForSecondsRealtime(3);
+                lastHitCamera.SetActive(false);
+                Time.timeScale = 1f;
             }
         }
         
@@ -182,6 +198,15 @@ namespace Lullaby.Entities
             Vector3 position;
             position = target.position;
             return Vector3.MoveTowards(position, transform.position, .95f);
+        }
+
+        private bool IsLastHit()
+        {
+            if (lockedTarget == null)
+                return false;
+
+            return enemyManager.GetAliveEnemyCount() == 1 &&
+                   (lockedTarget.health.current - _player.stats.current.regularAttackDamage) <= 0;
         }
     }
 }
