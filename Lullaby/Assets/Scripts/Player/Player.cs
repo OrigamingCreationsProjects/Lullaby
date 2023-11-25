@@ -193,6 +193,36 @@ namespace Lullaby.Entities
                 playerEvents.OnDie?.Invoke();
             }
         }
+
+        /// <summary>
+        /// Applies damage to this Player decreasing its health with proper reaction when a DOLLY attack.
+        /// </summary>
+        /// <param name="damageAmount">The amount of health you want to decrease</param>
+        /// <param name="origin">The origin hit position where we receive damage</param>
+        public void ReceivePunch(int damageAmount, Vector3 origin)
+        {
+            Debug.Log("Se recibe el golpe");
+            if(health.isEmpty || health.recovering) return;
+            
+            health.Damage(damageAmount);
+
+            var head = origin - transform.position; // Get the direction of the hit relative to the Player
+            var upOffset = Vector3.Dot(transform.up, head); // Get the offset of the hit relative to the Player's up direction
+            var damageDir = (head - (transform.up * upOffset)).normalized; // Get the direction of the hit relative to the Player's up direction
+            var localDamageDir = Quaternion.FromToRotation(transform.up, Vector3.up) * damageDir; // Get the direction of the hit relative to the world up direction for face the player to the hit
+            
+            FaceDirection(localDamageDir);
+            
+            states.Change<PunchHitPlayerState>(); 
+            
+            playerEvents.OnHurt?.Invoke();
+
+            if (health.isEmpty)
+            {
+                //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
+                playerEvents.OnDie?.Invoke();
+            }
+        }
         
         /// <summary>
         /// Kills the Player.

@@ -184,8 +184,7 @@ namespace Lullaby.Entities.Enemies
                 _moveSpeed = dollyStats.current.forwardSpeed;
             else if (direction == -Vector3.forward)
                 _moveSpeed = dollyStats.current.retreatSpeed;
-            Debug.Log($"Animator es {animator}");
-            
+
             animator.SetFloat(_inputMagnitudeHash, (_moveSpeed * direction.z) / (5 / _moveSpeed), .2f, Time.deltaTime);
             animator.SetBool(_strafeHash, (direction == Vector3.right || direction == Vector3.left));
             animator.SetFloat(_strafeDirectionHash, direction.normalized.x, .2f, Time.deltaTime);
@@ -358,7 +357,7 @@ namespace Lullaby.Entities.Enemies
         public void HitEvent()
         {
             if (!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
-                player.ApplyDamage(dollyStats.current.attackDamage, transform.position);
+                player.ReceivePunch(dollyStats.current.attackDamage, transform.position);
             
             PrepareAttack(false);
         }

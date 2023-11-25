@@ -573,6 +573,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.HurtPlayerState
   - Lullaby.Entities.States.DiePlayerState
   - Lullaby.Entities.States.DialoguePlayerState
+  - Lullaby.Entities.States.PunchHitPlayerState
 --- !u!114 &8697383638212605354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +791,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d12ef4045bc4895a05fbfbebf0d5b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockedTarget: {fileID: 0}
+  attackCooldown: 0
+  isAttackingEnemy: 0
   OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTrajectory:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &4517935960329081683
