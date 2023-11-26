@@ -301,6 +301,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: State
     m_EventTreshold: 8
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackTrigger
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: -9176735799185007867}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -667,6 +670,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d561cb15f544cc8b30c43dd47f4ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1101 &-1228669698238447024
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackTrigger
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 3154260467676442185}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1109 &-1025811721462402136
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -719,31 +747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f121c539d325e994ea981fac98bd9f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1101 &-506272116517099756
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: AttackTrigger
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 3154260467676442185}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 0
 --- !u!1109 &-209933621901843790
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -833,7 +836,7 @@ AnimatorStateMachine:
   - {fileID: 6122601330511728807}
   - {fileID: -5625381385430200365}
   - {fileID: -7560305127090553160}
-  - {fileID: -506272116517099756}
+  - {fileID: -1228669698238447024}
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: -9176735799185007867}
