@@ -8,7 +8,6 @@ namespace Lullaby.Entities
     public class PlayerEnemyDetector : MonoBehaviour
     {
         public LayerMask targetLayerMask;
-        [SerializeField] private DollyManager dollyManager;
         [SerializeField] private Enemy currentTarget;
         [SerializeField] private Vector3 inputDirection;
         
@@ -18,7 +17,6 @@ namespace Lullaby.Entities
         {
             _player = GetComponentInParent<Player>();
             _playerWeapon = GetComponentInParent<PlayerWeapon>();
-            dollyManager = FindObjectOfType<DollyManager>(); // QUITAR ESTO POSTERIORMENTE PARA EVITAR CONFLICTOS HABIENDO MAS DE UNO
         }
 
         private void Update()
@@ -32,17 +30,7 @@ namespace Lullaby.Entities
             //
             // forward.Normalize();
             // right.Normalize();
-
-            inputDirection = _player.inputs.GetMovementCameraDirection();
             
-            RaycastHit info;
-
-            if (Physics.SphereCast(transform.position, _player.stats.current.sightDetectionRadius,
-                    inputDirection, out info, _player.stats.current.sightMaxDistance, targetLayerMask))
-            {
-                if (info.collider.transform.GetComponent<Dolly>().IsAttackable())
-                    SetCurrentTarget(info.collider.transform.GetComponent<Enemy>());
-            }
         }
 
         public Enemy CurrentTarget()

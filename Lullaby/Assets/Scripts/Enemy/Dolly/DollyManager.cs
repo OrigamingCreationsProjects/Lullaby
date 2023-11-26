@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Lullaby.Entities.Enemies;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
 {
     public class DollyManager : MonoBehaviour
     {
-        public DollyStruct[] allEnemies;
+        public EnemieStruct[] allEnemies;
         public float minTimeToAttackAgain = 0.1f;
         public float maxTimeToAttackAgain = 3f;
         public Dolly attackingDolly;
@@ -82,7 +83,7 @@ namespace Lullaby.Entities.Enemies
             
             Dolly randomDolly;
             int randomIndex = Random.Range(0, enemyIndexes.Count);
-            randomDolly = allEnemies[enemyIndexes[randomIndex]].dollyScript;
+            randomDolly = (Dolly)allEnemies[enemyIndexes[randomIndex]].enemyScript;
             return randomDolly;
         }
 
@@ -93,7 +94,7 @@ namespace Lullaby.Entities.Enemies
 
             for (int i = 0; i < allEnemies.Length; i++)
             {
-                if(allEnemies[i].enemyAvailability && allEnemies[i].dollyScript != excludedDolly)
+                if(allEnemies[i].enemyAvailability && allEnemies[i].enemyScript != excludedDolly && allEnemies[i].enemyScript is Dolly)
                     enemyIndexes.Add(i);
             }
 
@@ -104,29 +105,27 @@ namespace Lullaby.Entities.Enemies
 
             Dolly randomDolly;
             int randomIndex = Random.Range(0, enemyIndexes.Count);
-            randomDolly = allEnemies[enemyIndexes[randomIndex]].dollyScript;
+            randomDolly = (Dolly)allEnemies[enemyIndexes[randomIndex]].enemyScript;
             return randomDolly;
         }
-
-
-
+        
         public int GetAliveEnemyCount()
         {
             int count = 0;
             for (int i = 0; i < allEnemies.Length; i++)
             {
-                if (allEnemies[i].dollyScript.isActiveAndEnabled)
+                if (allEnemies[i].enemyScript.isActiveAndEnabled)
                     count++;
             }
             aliveDollysCount = count;
             return count;
         }
         
-        public void SetEnemyAvailability(Dolly enemy, bool state)
+        public void SetEnemyAvailability(Enemy enemy, bool state)
         {
             for (int i = 0; i < allEnemies.Length; i++)
             {
-                if (allEnemies[i].dollyScript == enemy)
+                if (allEnemies[i].enemyScript == enemy)
                     allEnemies[i].enemyAvailability = state;
             }
 
@@ -142,9 +141,9 @@ namespace Lullaby.Entities.Enemies
         
         public bool ADollyIsPreparingAttack()
         {
-            foreach (DollyStruct enemyStruct in allEnemies)
+            foreach (EnemieStruct enemyStruct in allEnemies)
             {
-                if (enemyStruct.dollyScript.IsPreparingAttack())
+                if (((Dolly)enemyStruct.enemyScript).IsPreparingAttack())
                 {
                     return true;
                 }
@@ -157,11 +156,11 @@ namespace Lullaby.Entities.Enemies
         {
             _dollysClones = GetComponentsInChildren<Dolly>();
             
-            allEnemies = new DollyStruct[_dollysClones.Length];
+            allEnemies = new EnemieStruct[_dollysClones.Length];
 
             for (int i = 0; i < allEnemies.Length; i++)
             {
-                allEnemies[i].dollyScript = _dollysClones[i];
+                allEnemies[i].enemyScript = _dollysClones[i];
                 allEnemies[i].enemyAvailability = true;
             }
             
@@ -169,9 +168,9 @@ namespace Lullaby.Entities.Enemies
         }
     }
     [System.Serializable]
-    public struct DollyStruct
+    public struct EnemieStruct
     {
-        public Dolly dollyScript;
+        public Enemy enemyScript;
         public bool enemyAvailability;
     }
 }

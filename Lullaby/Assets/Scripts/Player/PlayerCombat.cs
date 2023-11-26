@@ -12,7 +12,7 @@ namespace Lullaby.Entities
     [AddComponentMenu("Lullaby/Combat System/Player Combat")]
     public class PlayerCombat : MonoBehaviour
     {
-        private DollyManager enemyManager;
+        private DollyManager _enemyManager;
         private PlayerEnemyDetector _enemyDetector;
         private PlayerAnimator _playerAnimator;
         private Player _player;
@@ -43,15 +43,17 @@ namespace Lullaby.Entities
         private int _animationCount = 0;
         private string[] attackTriggers;
         
+        private bool _dollyModeActive = false;
+        
         private void Start()
         {
-            enemyManager = FindObjectOfType<DollyManager>();
+            _enemyManager = FindObjectOfType<DollyManager>();
             _playerAnimator = GetComponent<PlayerAnimator>();
             _enemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
             _player = GetComponent<Player>();
         }
 
-        public void AttackCheck()
+        public void RegularAttackCheck()
         {
             if(isAttackingEnemy)
                 return;
@@ -59,18 +61,52 @@ namespace Lullaby.Entities
             //Check to see if the detection behavior has an enemy set
             if (_enemyDetector.CurrentTarget() == null)
             {
-                if (enemyManager.GetAliveEnemyCount() == 0)
-                {
-                    //¿Asignamos que no se ataque a nadie?
-                    Attack(null, 0);
-                    Debug.Log("No hay enemigos vivos");
-                    return;
-                }
-                else
-                {
-                    //Si hay enemigos vivos, atacamos a uno aleatorio
-                    lockedTarget = enemyManager.RandomDolly();
-                }
+                //¿Asignamos que no se ataque a nadie?
+                Attack(null, 0);
+                Debug.Log("No hay target asignado vivos");
+                return;
+            }
+            else
+            {
+                //Si hay un enemigo asignado, atacamos a ese
+                lockedTarget = _enemyDetector.CurrentTarget();
+            }
+
+            if (_enemyDetector.GetInputMagnitude() > _player.stats.current.enemyDetectionTreshold)
+                lockedTarget = _enemyDetector.CurrentTarget();
+
+            Debug.Log("A la linea de attack se se llega");
+            //ATACAMOS AL TONTO QUE TOCA. AGREGAR METODO
+            Attack(lockedTarget, TargetDistance(lockedTarget)); // EL DISTANCE LLEVARMELO A METODO
+        }
+        
+        #region -- DOLLYS COMBAT METHODS --
+
+        public void AttackCheck()
+        {
+            if(isAttackingEnemy)
+                return;
+            _dollyModeActive = true;
+            Debug.Log("Se llega a AttackCheck");
+            //Check to see if the detection behavior has an enemy set
+            if (_enemyDetector.CurrentTarget() == null)
+            {
+                //¿Asignamos que no se ataque a nadie?
+                Attack(null, 0);
+                Debug.Log("No hay target asignado vivos");
+                return;
+                // if (_enemyManager.GetAliveEnemyCount() == 0)
+                // {
+                //     //¿Asignamos que no se ataque a nadie?
+                //     Attack(null, 0);
+                //     Debug.Log("No hay enemigos vivos");
+                //     return;
+                // }
+                // else
+                // {
+                //     //Si hay enemigos vivos, atacamos a uno aleatorio
+                //     lockedTarget = _enemyManager.RandomDolly();
+                // }
             }
             else
             {
@@ -82,12 +118,13 @@ namespace Lullaby.Entities
                 lockedTarget = _enemyDetector.CurrentTarget();
 
             if (lockedTarget == null)
-                lockedTarget = enemyManager.RandomDolly();
+                lockedTarget = _enemyManager.RandomDolly();
             
             Debug.Log("A la linea de attack se se llega");
             //ATACAMOS AL TONTO QUE TOCA. AGREGAR METODO
             Attack(lockedTarget, TargetDistance(lockedTarget)); // EL DISTANCE LLEVARMELO A METODO
         }
+        #endregion
 
         public void Attack(Enemy target, float distance)
         {
@@ -104,6 +141,7 @@ namespace Lullaby.Entities
             {
                 _animationCount = (int)Mathf.Repeat((float)_animationCount + 1, (float)attackTriggers.Length);
                 string attackString = attackTriggers[_animationCount];
+                Debug.Log($"TRIGGER A LANZAR {attackString}");
                 AttackType(target, attackCooldown, .65f, attackString);
             }
             else
@@ -117,7 +155,9 @@ namespace Lullaby.Entities
 
         private void AttackType(Enemy target, float cooldown, float movementDuration, string attackTrigger)
         {
-            _player.GetComponentInChildren<Animator>().SetTrigger(attackTrigger);
+            Animator anim = _player.GetComponentInChildren<Animator>();
+            anim.SetBool("Attacking", true);
+            anim.SetTrigger(attackTrigger);
             _player.playerEvents.OnAttackStarted.Invoke();
             if(attackCoroutine != null)
                 StopCoroutine(attackCoroutine);
@@ -134,9 +174,9 @@ namespace Lullaby.Entities
             {
                 d.StopMoving();
             }
-            
-            MoveTowardsTarget(target, movementDuration);
-           
+            _player.MoveTowardsTarget(target, movementDuration);
+            //MoveTowardsTarget(target, movementDuration);
+            OnTrajectory?.Invoke(target);
             IEnumerator AttackCoroutine(float duration)
             {
                 //_player.playerEvents.OnAttackStarted?.Invoke();
@@ -147,7 +187,9 @@ namespace Lullaby.Entities
                 yield return new WaitForSeconds(0.2f);
                 _player.SetInputEnabled(true);
                 _player.playerEvents.OnAttackFinished.Invoke();
-               //_player.playerEvents.OnAttackFinished?.Invoke();
+                anim.SetBool("Attacking", false);
+                _dollyModeActive = false;
+                //_player.playerEvents.OnAttackFinished?.Invoke();
             }
 
             IEnumerator FinalBlowCoroutine()
@@ -161,51 +203,44 @@ namespace Lullaby.Entities
             }
         }
         
-        protected void MoveTowardsTarget(Enemy target, float duration)
-        {
-            Debug.Log("Llegamos a instruccion de movimiento");
-            OnTrajectory?.Invoke(target);
-            //transform.DOLookAt(target.transform.position, .2f);
-            //_player.FaceDirectionSmooth(target.transform.position);
-            FaceToEnemy(target.transform);
-            transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
-            //_player.states.Change<AttackPlayerState>();
-        }
-
-        protected void FaceToEnemy(Transform target)
-        {
-            var destination = target.position;
-            var head = destination - transform.position;
-            var upOffset = Vector3.Dot(transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
-           
-            head -= transform.up * upOffset;
-            
-            var distance = head.magnitude;
-            var direction = head / distance; // Normalizamos porque solo nos interesa la direccion
-            var localDirection = Quaternion.FromToRotation(transform.up, Vector3.up) * direction;
-            
-            _player.FaceDirectionSmooth(localDirection);
-
-        }
+        // protected void MoveTowardsTarget(Enemy target, float duration)
+        // {
+        //     Debug.Log("Llegamos a instruccion de movimiento");
+        //     OnTrajectory?.Invoke(target);
+        //     //transform.DOLookAt(target.transform.position, .2f);
+        //     //_player.FaceDirectionSmooth(target.transform.position);
+        //     FaceToEnemy(target.transform);
+        //     transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
+        //     //_player.states.Change<AttackPlayerState>();
+        // }
+        //
+        // protected void FaceToEnemy(Transform target)
+        // {
+        //     var destination = target.position;
+        //     var head = destination - transform.position;
+        //     var upOffset = Vector3.Dot(transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
+        //    
+        //     head -= transform.up * upOffset;
+        //     
+        //     var distance = head.magnitude;
+        //     var direction = head / distance; // Normalizamos porque solo nos interesa la direccion
+        //     var localDirection = Quaternion.FromToRotation(transform.up, Vector3.up) * direction;
+        //     
+        //     _player.FaceDirectionSmooth(localDirection);
+        //
+        // }
         
         protected float TargetDistance(Enemy target)
         {
             return Vector3.Distance(transform.position, target.transform.position);
         }
-        
-        public Vector3 TargetOffset(Enemy target)
-        {
-            Vector3 position;
-            position = target.position;
-            return Vector3.MoveTowards(position, transform.position, .95f);
-        }
 
         private bool IsLastHit()
         {
-            if (lockedTarget == null)
+            if (lockedTarget == null || !(lockedTarget is Dolly))
                 return false;
 
-            return enemyManager.GetAliveEnemyCount() == 1 &&
+            return _enemyManager.GetAliveEnemyCount() == 1 &&
                    (lockedTarget.health.current - _player.stats.current.regularAttackDamage) <= 0;
         }
     }
