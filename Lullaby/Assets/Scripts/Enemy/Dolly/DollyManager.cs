@@ -1,28 +1,31 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Lullaby.Entities.Enemies;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Lullaby.LevelManagement;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
 {
     public class DollyManager : MonoBehaviour
     {
+        public UnityEvent OnEnemiesDefeated;
+
         public EnemieStruct[] allEnemies;
         public float minTimeToAttackAgain = 0.1f;
         public float maxTimeToAttackAgain = 3f;
         public Dolly attackingDolly;
+        public int aliveDollysCount;
         
         private Dolly[] _dollysClones;
         private List<int> enemyIndexes;
         
+        private Player _player;
+            
         [Header("Main Dolly AI Loop - Settings")]
         private Coroutine _AI_LoopCoroutine;
         
-        public int aliveDollysCount;
+        
         
         public void StartAI()
         {
@@ -129,13 +132,18 @@ namespace Lullaby.Entities.Enemies
                     allEnemies[i].enemyAvailability = state;
             }
 
-            if (FindObjectOfType<PlayerEnemyDetector>().CurrentTarget() == enemy)
-                FindObjectOfType<PlayerEnemyDetector>().SetCurrentTarget(null);
+            if (_player.playerEnemyDetector.CurrentTarget() == enemy)
+                _player.playerEnemyDetector.SetCurrentTarget(null);
             if (attackingDolly == enemy)
             {
                 StopCoroutine(AI_Loop(null));
                 if(GetAliveEnemyCount() > 0)
                     StartAI();
+            }
+
+            if (GetAliveEnemyCount() <= 0)
+            {
+                OnEnemiesDefeated?.Invoke();
             }
         }
         
@@ -157,7 +165,7 @@ namespace Lullaby.Entities.Enemies
             _dollysClones = GetComponentsInChildren<Dolly>();
             
             allEnemies = new EnemieStruct[_dollysClones.Length];
-
+            _player = Level.instance.player;
             for (int i = 0; i < allEnemies.Length; i++)
             {
                 allEnemies[i].enemyScript = _dollysClones[i];

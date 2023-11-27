@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Lullaby;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level Respawner")]
     public class LevelRespawner : Singleton<LevelRespawner>

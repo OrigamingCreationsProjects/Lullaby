@@ -3,7 +3,7 @@ using Lullaby.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level Pauser")]
     public class LevelPauser : Singleton<LevelPauser>
