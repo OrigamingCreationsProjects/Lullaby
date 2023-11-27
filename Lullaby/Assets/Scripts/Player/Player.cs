@@ -486,9 +486,10 @@ namespace Lullaby.Entities
         
         public virtual Vector3 TargetOffset(Enemy target)
         {
-            Vector3 position;
-            position = target.position;
-            return Vector3.MoveTowards(position, transform.position, .95f);
+            Vector3 offsetPosition;
+            offsetPosition = target.position;
+            offsetPosition = new Vector3(offsetPosition.x, transform.position.y, offsetPosition.z);
+            return Vector3.MoveTowards(offsetPosition, transform.position, .95f);
         }
 
         //Nos llevamos esto aqui en lugar de en el update del enemy detector para solo hacer las comprobaciones
