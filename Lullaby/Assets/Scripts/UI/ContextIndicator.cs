@@ -13,8 +13,8 @@ namespace Lullaby.UI
         private Sprite buttonReference;
         private void Start()
         {
-            contextIndicatorContainer.SetActive(false);
             RefreshUI();
+            contextIndicatorContainer.SetActive(false);
         }
 
         private void UpdateButtonReference()

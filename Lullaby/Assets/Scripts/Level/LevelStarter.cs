@@ -3,7 +3,7 @@ using Lullaby;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level Starter")]
     public class LevelStarter : Singleton<LevelStarter>

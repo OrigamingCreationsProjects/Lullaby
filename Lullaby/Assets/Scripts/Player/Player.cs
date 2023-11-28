@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using DG.Tweening;
+using Lullaby.Entities.Enemies;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
@@ -46,15 +47,24 @@ namespace Lullaby.Entities
         public PlayerStatsManager stats { get; protected set; }
         
         /// <summary>
-        /// Returns the Health instance
+        /// Returns the Health instance.
         /// </summary>
         public Health health { get; protected set; }
         
         /// <summary>
-        /// Returns the PlayerDialogueTrigger instance
+        /// Returns the PlayerDialogueTrigger instance.
         /// </summary>
         public PlayerDialogueTrigger dialogueTrigger { get; protected set; }
         
+        /// <summary>
+        /// Returns the PlayerEnemyDetector instance.
+        /// </summary>
+        public PlayerEnemyDetector playerEnemyDetector { get; protected set; }
+        
+        /// <summary>
+        /// Returns the PlayerCombat instance.
+        /// </summary>
+        public PlayerCombat playerCombat { get; protected set; }
         
         /// <summary>
         /// Returns true if the Player is holding an object.
@@ -111,6 +121,9 @@ namespace Lullaby.Entities
         protected virtual void InitializeHealth() => health = GetComponent<Health>();
         protected virtual void InitializeDialogueTrigger() => dialogueTrigger = GetComponent<PlayerDialogueTrigger>();
         protected virtual void InitializeTag() => tag = GameTags.Player;
+        protected virtual void InitializePlayerEnemyDetector() => playerEnemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
+        protected virtual void InitializePlayerCombat() => playerCombat = GetComponent<PlayerCombat>();
+        
         
         protected virtual void InitializeRespawn()
         {
@@ -184,6 +197,36 @@ namespace Lullaby.Entities
             //habria que poner estas 2 lineas bajo un if que comprobara que no esta en esa condicion especial
             verticalVelocity = Vector3.up * stats.current.hurtUpwardForce; // Apply a force to the Player to push it up when it gets hit
             states.Change<HurtPlayerState>(); 
+            
+            playerEvents.OnHurt?.Invoke();
+
+            if (health.isEmpty)
+            {
+                //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
+                playerEvents.OnDie?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Applies damage to this Player decreasing its health with proper reaction when a DOLLY attack.
+        /// </summary>
+        /// <param name="damageAmount">The amount of health you want to decrease</param>
+        /// <param name="origin">The origin hit position where we receive damage</param>
+        public void ReceivePunch(int damageAmount, Vector3 origin)
+        {
+            Debug.Log("Se recibe el golpe");
+            if(health.isEmpty || health.recovering) return;
+            
+            health.Damage(damageAmount);
+
+            var head = origin - transform.position; // Get the direction of the hit relative to the Player
+            var upOffset = Vector3.Dot(transform.up, head); // Get the offset of the hit relative to the Player's up direction
+            var damageDir = (head - (transform.up * upOffset)).normalized; // Get the direction of the hit relative to the Player's up direction
+            var localDamageDir = Quaternion.FromToRotation(transform.up, Vector3.up) * damageDir; // Get the direction of the hit relative to the world up direction for face the player to the hit
+            
+            FaceDirection(localDamageDir);
+            
+            states.Change<PunchHitPlayerState>(); 
             
             playerEvents.OnHurt?.Invoke();
 
@@ -388,7 +431,8 @@ namespace Lullaby.Entities
         /// <param name="amount">The amount of jumps.</param>
         public virtual void SetJumps(int amount) => jumpCounter = amount;
 
-
+        #region -- COMBAT METHODS --
+        
         /// <summary>
         /// Method to attack
         /// </summary>
@@ -406,11 +450,63 @@ namespace Lullaby.Entities
                 {
                     airAttackCounter++;
                 }
-                states.Change<AttackPlayerState>();
-                playerEvents.OnAttackStarted?.Invoke();
+                
+                Sequence s = DOTween.Sequence();
+                s.AppendCallback(() => playerCombat.AttackCheck());
+                //s.AppendCallback(() => playerCombat.RegularAttackCheck());
+                //s.AppendCallback(() => states.Change<AttackPlayerState>());
+                //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
+                // states.Change<AttackPlayerState>();
+                // playerEvents.OnAttackStarted?.Invoke();
             }
         }
+        
+        public void MoveTowardsTarget(Enemy target, float duration)
+        {
+            Debug.Log("Nos movemos hacia el objetivo");
+            FaceToTarget(target.transform);
+            transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
+            //_player.states.Change<AttackPlayerState>();
+        }
+        public virtual void FaceToTarget(Transform target)
+        {
+            var destination = target.position;
+            var head = destination - transform.position;
+            var upOffset = Vector3.Dot(transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
+           
+            head -= transform.up * upOffset;
+            
+            var distance = head.magnitude;
+            var direction = head / distance; // Normalizamos porque solo nos interesa la direccion
+            var localDirection = Quaternion.FromToRotation(transform.up, Vector3.up) * direction;
+            
+           FaceDirectionSmooth(localDirection);
 
+        }
+        
+        public virtual Vector3 TargetOffset(Enemy target)
+        {
+            Vector3 offsetPosition;
+            offsetPosition = target.position;
+            offsetPosition = new Vector3(offsetPosition.x, transform.position.y, offsetPosition.z);
+            return Vector3.MoveTowards(offsetPosition, transform.position, .95f);
+        }
+
+        //Nos llevamos esto aqui en lugar de en el update del enemy detector para solo hacer las comprobaciones
+        //en los estados adecuados.
+        public virtual void CheckAttackTarget()
+        {
+            RaycastHit info;
+            if (Physics.SphereCast(transform.position, stats.current.sightDetectionRadius,
+                    inputs.GetMovementCameraDirection(), out info, stats.current.sightMaxDistance, playerEnemyDetector.targetLayerMask))
+            {
+                if (info.collider.transform.GetComponent<Enemy>().IsAlive())
+                    playerEnemyDetector.SetCurrentTarget(info.collider.transform.GetComponent<Enemy>());
+            }
+        }
+        
+        #endregion
+        
         public virtual void PickAndThrow()
         {
             if (stats.current.canPickUp && inputs.GetPickAndDropDown())
@@ -543,6 +639,12 @@ namespace Lullaby.Entities
             skin.localScale = _skinInitialScale;
         }
 
+        public virtual void SetInputEnabled(bool value)
+        {
+            inputs.enabled = value;
+        }
+        
+        
         public virtual void WallDrag(Collider other)
         {
             if(holding || !stats.current.canWallDrag || verticalVelocity.y > 0) return;
@@ -628,7 +730,9 @@ namespace Lullaby.Entities
             InitializeDialogueTrigger();
             InitializeTag();
             InitializeRespawn();
-
+            InitializePlayerEnemyDetector();
+            InitializePlayerCombat();
+            
             entityEvents.OnGroundEnter.AddListener(() =>
             {
                 ResetJumps();

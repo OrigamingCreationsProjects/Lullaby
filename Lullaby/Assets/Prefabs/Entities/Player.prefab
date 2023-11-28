@@ -241,6 +241,56 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &765504176425385915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9101899318047938818}
+  - component: {fileID: 7328364674138740495}
+  m_Layer: 14
+  m_Name: EnemyDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9101899318047938818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765504176425385915}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.91, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1313438923136261701}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7328364674138740495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765504176425385915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d96a2e3b6404ff8a3ca05af68ca8132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  dollyManager: {fileID: 0}
+  currentTarget: {fileID: 0}
+  inputDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &864453225138063651
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +413,7 @@ GameObject:
   - component: {fileID: 7035975592158325138}
   - component: {fileID: 2946508714547011549}
   - component: {fileID: 3542177472270246663}
+  - component: {fileID: 7085064779238428784}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -385,6 +436,7 @@ Transform:
   - {fileID: 5070540766334671618}
   - {fileID: 5471072442364831899}
   - {fileID: 5789791300146211210}
+  - {fileID: 9101899318047938818}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -521,6 +573,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.HurtPlayerState
   - Lullaby.Entities.States.DiePlayerState
   - Lullaby.Entities.States.DialoguePlayerState
+  - Lullaby.Entities.States.PunchHitPlayerState
 --- !u!114 &8697383638212605354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +779,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2f4a8254ee10f47b45c24a877a16b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7085064779238428784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d12ef4045bc4895a05fbfbebf0d5b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockedTarget: {fileID: 0}
+  attackCooldown: 0
+  isAttackingEnemy: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTrajectory:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4517935960329081683
 GameObject:
   m_ObjectHideFlags: 0

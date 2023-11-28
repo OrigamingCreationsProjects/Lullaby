@@ -1,9 +1,8 @@
-﻿using Lullaby;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level Finisher")]
     public class LevelFinisher : Singleton<LevelFinisher>
