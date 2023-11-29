@@ -35,7 +35,7 @@ namespace Lullaby.LevelManagement
             Debug.Log("ShowActionTween");
             Sequence s = DOTween.Sequence();
             s.AppendCallback(() => ChangeHelpingCameraTarget(target));
-            s.AppendInterval(0.5f); 
+            //s.AppendInterval(0.5f); 
             s.AppendCallback(() => ChangeActiveCamera(true));
             s.AppendInterval(helpingSequenceTime);
             s.AppendCallback(() => ChangeActiveCamera(false));
