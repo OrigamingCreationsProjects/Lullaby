@@ -63,7 +63,7 @@ namespace Lullaby.Entities.Enemies
                 if (stats.current.canReceivePushBack)
                 {
                     states.Change<HurtEnemyState>();
-                    //Debug.Log("Deberia cambiar de estado");
+                    // Debug.Log("Deberia cambiar de estado");
                     // verticalVelocity = Vector3.up * stats.current.hurtUpwardsForce;
                     // lateralVelocity = -localForward * stats.current.hurtBackwardsForce;
                 }
