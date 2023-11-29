@@ -1,16 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
 using DG.Tweening;
 using Lullaby.Entities.Enemies;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
-using Systems;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Sequence = DG.Tweening.Sequence;
 using Vector3 = UnityEngine.Vector3;
@@ -199,11 +192,15 @@ namespace Lullaby.Entities
             states.Change<HurtPlayerState>(); 
             
             playerEvents.OnHurt?.Invoke();
-
+            if (holding)
+            {
+                Throw();
+                RemovePickable();
+            }
             if (health.isEmpty)
             {
                 //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
-                playerEvents.OnDie?.Invoke();
+                Die();
             }
         }
 
@@ -233,7 +230,7 @@ namespace Lullaby.Entities
             if (health.isEmpty)
             {
                 //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
-                playerEvents.OnDie?.Invoke();
+                Die();
             }
         }
         
@@ -566,13 +563,13 @@ namespace Lullaby.Entities
         public virtual void LedgeGrab()
         {
             if (stats.current.canLedgeHang && verticalVelocity.y < 0 && !holding &&
-                states.ConstainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+                states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
                 DetectingLedge(stats.current.ledgeMaxForwardDistance,
-                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding añadir si cogemos objetos
+                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding agregar si cogemos objetos
             {
                 Debug.Log("Entrando al metodo ledgeGrab");
-                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el ángulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
-                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una cápsula o una esfera no se puede agarrar. 
+                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el angulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
+                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una capsula o una esfera no se puede agarrar. 
 
                 var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance; // Distancia del borde
                 var lateralOffset = transform.forward * ledgeDistance; // Offset lateral
@@ -584,6 +581,30 @@ namespace Lullaby.Entities
                 playerEvents.OnLedgeGrabbed?.Invoke(); // Invocamos el evento de agarrarse a un borde.
             } 
            
+        }
+        
+        protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
+        {
+            var contactOffset = Physics.defaultContactOffset + positionDelta;
+            var ledgeMaxDistance = radius + forwardDistance; // Maxima distancia del edge en horizontal
+            var ledgeHeightOffset = height * 0.5f + contactOffset; //Offset del edge en vertical
+            var upwardOffset = transform.up * ledgeHeightOffset; // Maxima distancia del edge en vertical
+            var forwardOffset = transform.forward * ledgeMaxDistance; // Maxima distancia del edge en horizontal con direccion
+
+            if (Physics.Raycast(position + upwardOffset, transform.forward, ledgeMaxDistance,
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) || 
+                Physics.Raycast(position + forwardOffset * .01f, transform.up, ledgeHeightOffset, 
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+            {
+                ledgeHit = new RaycastHit();
+                return false;
+            }
+            
+            var origin = position + upwardOffset + forwardOffset; // Posicion del raycast
+            var distance = downwardDistance + contactOffset; // Distancia del raycast
+
+            return Physics.Raycast(origin, -transform.up, out ledgeHit, distance,
+                stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore); // Devuelve true si choca con un ledge
         }
         
         public virtual void Dash()
@@ -692,30 +713,6 @@ namespace Lullaby.Entities
                 var closestPoint = other.ClosestPoint(position); //Sacamos el punto del collider mas proximo a la posicion del player
                 rigidbody.AddForceAtPosition(force, closestPoint);
             }
-        }
-
-        protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
-        {
-            var contactOffset = Physics.defaultContactOffset + positionDelta;
-            var ledgeMaxDistance = radius + forwardDistance; // Maxima distancia del edge en horizontal
-            var ledgeHeightOffset = height * 0.5f + contactOffset; //Offset del edge en vertical
-            var upwardOffset = transform.up * ledgeHeightOffset; // Maxima distancia del edge en vertical
-            var forwardOffset = transform.forward * ledgeMaxDistance; // Maxima distancia del edge en horizontal con direccion
-
-            if (Physics.Raycast(position + upwardOffset, transform.forward, ledgeMaxDistance,
-                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) || 
-                Physics.Raycast(position + forwardOffset * .01f, transform.up, ledgeHeightOffset, 
-                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-            {
-                ledgeHit = new RaycastHit();
-                return false;
-            }
-            
-            var origin = position + upwardOffset + forwardOffset; // Posicion del raycast
-            var distance = downwardDistance + contactOffset; // Distancia del raycast
-
-            return Physics.Raycast(origin, -transform.up, out ledgeHit, distance,
-                stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore); // Devuelve true si choca con un ledge
         }
         
         public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
