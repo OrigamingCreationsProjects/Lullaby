@@ -25,18 +25,18 @@ MonoBehaviour:
   pickDistance: 0.5
   throwVelocityMultiplier: 1.5
   applySlopeFactor: 0
-  acceleration: 16
+  acceleration: 26.7
   deceleration: 30
   friction: 28
   slopeFriction: 18
-  topSpeed: 7.5
+  topSpeed: 10
   turningDrag: 30
   airAcceleration: 32
   brakeThreshold: -0.8
   slopeUpwardForce: 25
   slopeDownwardForce: 28
   runningAcceleration: 20
-  runningTopSpeed: 15
+  runningTopSpeed: 20
   runningTurningDrag: 14
   multiJumps: 2
   coyoteJumpThreshold: 0.15
@@ -47,7 +47,7 @@ MonoBehaviour:
   canAirDash: 1
   canGroundDash: 0
   dashForce: 25
-  dashDuration: 0.3
+  dashDuration: 0.2
   groundDashCoolDown: 0.5
   allowedAirDashes: 1
   sightDetectionRadius: 3
@@ -59,6 +59,7 @@ MonoBehaviour:
   airAttackUpwardForce: 10
   allowedAirAttacks: 1
   regularAttackDamage: 10
+  maxDistanceToAttack: 7
   canWallDrag: 1
   wallJumpLockMovement: 1
   minGroundDistanceToDrag: 0.5
@@ -68,7 +69,7 @@ MonoBehaviour:
     m_Bits: 449
   wallDragSkinOffset: {x: 0, y: 0, z: 0}
   wallDragGravity: 12
-  wallJumpDistance: 8
+  wallJumpDistance: 10
   wallJumpHeight: 15
   hurtUpwardForce: 13
   hurtBackwardsForce: 8
