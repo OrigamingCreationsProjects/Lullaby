@@ -10653,13 +10653,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6733697416035519951, guid: 89dfe70f302302c46b68d72da836e190, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8327773468577487741, guid: 89dfe70f302302c46b68d72da836e190, type: 3}
       propertyPath: states.Array.size
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8327773468577487741, guid: 89dfe70f302302c46b68d72da836e190, type: 3}
       propertyPath: states.Array.data[0]
-      value: Lullaby.Entities.Enemies.States.IdleEnemyState
+      value: Lullaby.Entities.Enemies.States.WaypointEnemyState
       objectReference: {fileID: 0}
     - target: {fileID: 8327773468577487741, guid: 89dfe70f302302c46b68d72da836e190, type: 3}
       propertyPath: states.Array.data[4]
