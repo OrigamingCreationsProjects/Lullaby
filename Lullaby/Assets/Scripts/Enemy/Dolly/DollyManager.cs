@@ -17,7 +17,8 @@ namespace Lullaby.Entities.Enemies
         public Dolly attackingDolly;
         public int aliveDollysCount;
         
-        private Dolly[] _dollysClones;
+        //private Dolly[] _dollysClones;
+        private Enemy[] _dollysClones;
         private List<int> enemyIndexes;
         
         private Player _player;
@@ -159,10 +160,15 @@ namespace Lullaby.Entities.Enemies
             return false;
         }
 
+        public void DebugEventLaunched()
+        {
+            Debug.Log("SE HA LANZADO EL EVENTO DE ENEMIGOS DERROTADOS");
+        }
+        
 
         private void Start()
         {
-            _dollysClones = GetComponentsInChildren<Dolly>();
+            _dollysClones = GetComponentsInChildren<Enemy>();
             
             allEnemies = new EnemieStruct[_dollysClones.Length];
             _player = Level.instance.player;
@@ -171,7 +177,7 @@ namespace Lullaby.Entities.Enemies
                 allEnemies[i].enemyScript = _dollysClones[i];
                 allEnemies[i].enemyAvailability = true;
             }
-            
+            OnEnemiesDefeated.AddListener(DebugEventLaunched);
             StartAI();
         }
     }
