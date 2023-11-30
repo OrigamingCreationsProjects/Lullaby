@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test1
-  m_Shader: {fileID: -6465566751694194690, guid: 07385162a5af17140921570bc5454e5b, type: 3}
+  m_Name: mat_Slash
+  m_Shader: {fileID: -6465566751694194690, guid: 1fba3a8532abd3840bbb6b6acf94d562, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,23 +16,15 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: b669ec6ef5bc4274d83f00b30163d21b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _CustomizableTexture:
-        m_Texture: {fileID: 2800000, guid: 05cb76770cb65124ebc19520574e2a60, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecularMap:
-        m_Texture: {fileID: 0}
+    - _Slash_Tex:
+        m_Texture: {fileID: 2800000, guid: 8608708c3de5c8547a4099549e43b096, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -49,22 +41,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - LIGHTMAP: 0
-    - _LightProbeContribution: 3.5
-    - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
-    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
+    - _A_Scroll_Speed: -0.7
+    - _A_Slash_Size: 10
+    - _B_Scroll_Speed: -0.45
+    - _B_Slash_Size: 5
     - _QueueControl: 0
-    - _QueueOffset: 0
-    - _SHADOWS_SOFT: 0
-    - _Smoothness: 0.9
+    - _QueueOffset: 1
+    - _Slash_Width: 0.1
     m_Colors:
-    - _CustomizableColor: {r: 0.8207547, g: 0.587004, b: 0, a: 0}
-    - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
-    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 2.0473664, g: 0.2857166, b: 6.8831787, a: 0}
+    - _Slash_Width: {r: 0, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3326469420993047756
+--- !u!114 &8991123964664826556
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
