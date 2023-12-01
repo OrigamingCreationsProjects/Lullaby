@@ -20,12 +20,14 @@ namespace Lullaby.Systems.DialogueSystem
         public Image nameBubble;
         public TextMeshProUGUI nameTMP;
         
+        // -- Talker variables --
+        public int currentTalkerIndex = 0; 
+        
         [HideInInspector]
         public NPCDialogueScript currentNPC;
         public Talker currentTalker;
         public Animator currentTalkerAnimator;
         
-        private int dialogueIndex;
         public bool canExit;
         public bool nextDialogue;
         public bool currentDialogueTextFinished;
@@ -40,6 +42,7 @@ namespace Lullaby.Systems.DialogueSystem
         //[Space]
         //public Volume dialogueDof;
 
+        private int dialogueIndex;
 
         private Player _player;
         private void Awake()
@@ -97,7 +100,7 @@ namespace Lullaby.Systems.DialogueSystem
             string auxLine = currentNPC.dialogueText.conversationBlock[auxindex].dialogueLine.GetLocalizedString();
             string currentLine = currentNPC.dialogueText.conversationBlock[dialogueIndex].dialogueLine
                 .GetLocalizedString();
-                
+
             if ((animatedText.maxVisibleCharacters == auxLine.Length) 
                 && nextDialogue)
             {
@@ -107,6 +110,11 @@ namespace Lullaby.Systems.DialogueSystem
                 // Sequence s = DOTween.Sequence();
                 // s.AppendInterval(.8f);
                 // s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
+                if (CurrentTalkerHasChanged)
+                { 
+                    ChangeDialogueCameraTarget();
+                    ChangeUITalker();
+                }
                 animatedText.ReadText(currentLine);
                 currentTalkerAnimator.SetTrigger(_talkHash);
             } 
@@ -147,6 +155,12 @@ namespace Lullaby.Systems.DialogueSystem
             nameTMP.text = currentNPC.data.NPCName;
             nameTMP.color = currentNPC.data.NPCNameColor;
             nameBubble.color = currentNPC.data.NPCColor;
+        } 
+        private void ChangeCharNameAndColor(NPCDialogueData data)
+        {
+            nameTMP.text = data.NPCName;
+            nameTMP.color = data.NPCNameColor;
+            nameBubble.color = data.NPCColor;
         }
         
         public void CameraChange(bool dialogue)
@@ -175,6 +189,7 @@ namespace Lullaby.Systems.DialogueSystem
             //Reseteamos el NPC
             inDialogue = false;
             canExit = false;
+            currentTalkerIndex = 0;
             NotifyDialogueFinished();
         }
         public void FinishDialogue()
@@ -193,6 +208,8 @@ namespace Lullaby.Systems.DialogueSystem
                 canExit = true;
             }
         }
+
+        
         public void NotifyDialogueStarted()
         {
             currentNPC.gameObject.GetComponent<Talker>().talkerEvents.OnDialogueStarted?.Invoke();
@@ -202,6 +219,21 @@ namespace Lullaby.Systems.DialogueSystem
         {
             currentNPC.gameObject.GetComponent<Talker>().talkerEvents.OnDialogueFinished?.Invoke();
         }
+
+        private void ChangeDialogueCameraTarget()
+        {
+            currentTalkerIndex = currentNPC.dialogueText.conversationBlock[dialogueIndex].actorId;
+            _player.GetComponent<PlayerDialogueTrigger>().targetGroup.m_Targets[1].target = 
+                currentTalker.talkersDialogueScripts[currentTalkerIndex].transform;
+        }
+
+        private void ChangeUITalker()
+        {
+            ChangeCharNameAndColor(currentTalker.talkersDialogueScripts[currentTalkerIndex].data);
+        }
+
+        private bool CurrentTalkerHasChanged =>
+            currentTalkerIndex != currentNPC.dialogueText.conversationBlock[dialogueIndex].actorId;
         
     }
 }
