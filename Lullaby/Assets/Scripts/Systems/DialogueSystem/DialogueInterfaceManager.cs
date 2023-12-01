@@ -1,12 +1,17 @@
 ﻿using System;
+using Cinemachine;
 using DG.Tweening;
 using Lullaby.Entities;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
+using MoreMountains.Feedbacks;
+using MoreMountains.FeedbacksForThirdParty;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Sequence = DG.Tweening.Sequence;
 
 namespace Lullaby.Systems.DialogueSystem
 {
@@ -34,14 +39,20 @@ namespace Lullaby.Systems.DialogueSystem
         
         [Space] 
         
-        [Header("Cameras")] 
+        [Header("Cameras")]  
         public GameObject gameCam;
         public GameObject dialogueCam;
+        [Header("Zoom Variables")] 
+        [Range(0, 40)] public float zoomValue = 25;
+        [Range(0, 2)] public float zoomTime = 0.2f;
+        [Range(0, 2)] public float zoomTransitionTime = 0.2f;
 
         protected int _talkHash;
         //[Space]
         //public Volume dialogueDof;
 
+        private MMCinemachineZoom _zoom;
+        
         private int dialogueIndex;
 
         private Player _player;
@@ -59,7 +70,7 @@ namespace Lullaby.Systems.DialogueSystem
             animatedText.onDialogueFinish.AddListener(() => FinishDialogue());
             _player = FindObjectOfType<Player>();
             canvasGroup.interactable = false;
-            
+            _zoom = dialogueCam.GetComponent<MMCinemachineZoom>();
         }
 
         private void Update()
@@ -225,6 +236,15 @@ namespace Lullaby.Systems.DialogueSystem
             currentTalkerIndex = currentNPC.dialogueText.conversationBlock[dialogueIndex].actorId;
             _player.GetComponent<PlayerDialogueTrigger>().targetGroup.m_Targets[1].target = 
                 currentTalker.talkersDialogueScripts[currentTalkerIndex].transform;
+            if (currentNPC.dialogueText.conversationBlock[dialogueIndex].actorId == 1)
+            {
+                _zoom.Zoom(MMCameraZoomModes.Set, zoomValue, zoomTransitionTime, zoomTime, false);
+            }
+            else
+            {
+                _zoom.Zoom(MMCameraZoomModes.Set, 40, zoomTransitionTime, zoomTime, false);
+            }
+
         }
 
         private void ChangeUITalker()
