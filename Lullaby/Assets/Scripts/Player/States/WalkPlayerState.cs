@@ -15,6 +15,7 @@ namespace Lullaby.Entities.States
             player.SnapToGround();
             player.Jump();
             player.Fall();
+            player.CheckAttackTarget();
             player.Attack();
             player.PickAndThrow();
             //player.Dash();

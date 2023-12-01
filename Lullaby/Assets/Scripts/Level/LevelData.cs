@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [Serializable]
     public class LevelData

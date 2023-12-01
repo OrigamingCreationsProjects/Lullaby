@@ -1,15 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
 using DG.Tweening;
+using Lullaby.Entities.Enemies;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
-using Systems;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Sequence = DG.Tweening.Sequence;
 using Vector3 = UnityEngine.Vector3;
@@ -46,15 +40,24 @@ namespace Lullaby.Entities
         public PlayerStatsManager stats { get; protected set; }
         
         /// <summary>
-        /// Returns the Health instance
+        /// Returns the Health instance.
         /// </summary>
         public Health health { get; protected set; }
         
         /// <summary>
-        /// Returns the PlayerDialogueTrigger instance
+        /// Returns the PlayerDialogueTrigger instance.
         /// </summary>
         public PlayerDialogueTrigger dialogueTrigger { get; protected set; }
         
+        /// <summary>
+        /// Returns the PlayerEnemyDetector instance.
+        /// </summary>
+        public PlayerEnemyDetector playerEnemyDetector { get; protected set; }
+        
+        /// <summary>
+        /// Returns the PlayerCombat instance.
+        /// </summary>
+        public PlayerCombat playerCombat { get; protected set; }
         
         /// <summary>
         /// Returns true if the Player is holding an object.
@@ -111,6 +114,9 @@ namespace Lullaby.Entities
         protected virtual void InitializeHealth() => health = GetComponent<Health>();
         protected virtual void InitializeDialogueTrigger() => dialogueTrigger = GetComponent<PlayerDialogueTrigger>();
         protected virtual void InitializeTag() => tag = GameTags.Player;
+        protected virtual void InitializePlayerEnemyDetector() => playerEnemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
+        protected virtual void InitializePlayerCombat() => playerCombat = GetComponent<PlayerCombat>();
+        
         
         protected virtual void InitializeRespawn()
         {
@@ -186,11 +192,45 @@ namespace Lullaby.Entities
             states.Change<HurtPlayerState>(); 
             
             playerEvents.OnHurt?.Invoke();
+            if (holding)
+            {
+                Throw();
+                RemovePickable();
+            }
+            if (health.isEmpty)
+            {
+                //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
+                Die();
+            }
+        }
+
+        /// <summary>
+        /// Applies damage to this Player decreasing its health with proper reaction when a DOLLY attack.
+        /// </summary>
+        /// <param name="damageAmount">The amount of health you want to decrease</param>
+        /// <param name="origin">The origin hit position where we receive damage</param>
+        public void ReceivePunch(int damageAmount, Vector3 origin)
+        {
+            Debug.Log("Se recibe el golpe");
+            if(health.isEmpty || health.recovering) return;
+            
+            health.Damage(damageAmount);
+
+            var head = origin - transform.position; // Get the direction of the hit relative to the Player
+            var upOffset = Vector3.Dot(transform.up, head); // Get the offset of the hit relative to the Player's up direction
+            var damageDir = (head - (transform.up * upOffset)).normalized; // Get the direction of the hit relative to the Player's up direction
+            var localDamageDir = Quaternion.FromToRotation(transform.up, Vector3.up) * damageDir; // Get the direction of the hit relative to the world up direction for face the player to the hit
+            
+            FaceDirection(localDamageDir);
+            
+            states.Change<PunchHitPlayerState>(); 
+            
+            playerEvents.OnHurt?.Invoke();
 
             if (health.isEmpty)
             {
                 //Si al final implementamos que se puedan coger objetos aqui habria que poner que se suelte o lance el objeto
-                playerEvents.OnDie?.Invoke();
+                Die();
             }
         }
         
@@ -388,7 +428,8 @@ namespace Lullaby.Entities
         /// <param name="amount">The amount of jumps.</param>
         public virtual void SetJumps(int amount) => jumpCounter = amount;
 
-
+        #region -- COMBAT METHODS --
+        
         /// <summary>
         /// Method to attack
         /// </summary>
@@ -406,11 +447,63 @@ namespace Lullaby.Entities
                 {
                     airAttackCounter++;
                 }
-                states.Change<AttackPlayerState>();
-                playerEvents.OnAttackStarted?.Invoke();
+                
+                Sequence s = DOTween.Sequence();
+                s.AppendCallback(() => playerCombat.AttackCheck());
+                //s.AppendCallback(() => playerCombat.RegularAttackCheck());
+                //s.AppendCallback(() => states.Change<AttackPlayerState>());
+                //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
+                // states.Change<AttackPlayerState>();
+                // playerEvents.OnAttackStarted?.Invoke();
             }
         }
+        
+        public void MoveTowardsTarget(Enemy target, float duration)
+        {
+            Debug.Log("Nos movemos hacia el objetivo");
+            FaceToTarget(target.transform);
+            transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
+            //_player.states.Change<AttackPlayerState>();
+        }
+        public virtual void FaceToTarget(Transform target)
+        {
+            var destination = target.position;
+            var head = destination - transform.position;
+            var upOffset = Vector3.Dot(transform.up, head); // Sacamos la direccion a la que mirar manteniendo nuestro eje Y
+           
+            head -= transform.up * upOffset;
+            
+            var distance = head.magnitude;
+            var direction = head / distance; // Normalizamos porque solo nos interesa la direccion
+            var localDirection = Quaternion.FromToRotation(transform.up, Vector3.up) * direction;
+            
+           FaceDirectionSmooth(localDirection);
 
+        }
+        
+        public virtual Vector3 TargetOffset(Enemy target)
+        {
+            Vector3 offsetPosition;
+            offsetPosition = target.position;
+            offsetPosition = new Vector3(offsetPosition.x, transform.position.y, offsetPosition.z);
+            return Vector3.MoveTowards(offsetPosition, transform.position, .95f);
+        }
+
+        //Nos llevamos esto aqui en lugar de en el update del enemy detector para solo hacer las comprobaciones
+        //en los estados adecuados.
+        public virtual void CheckAttackTarget()
+        {
+            RaycastHit info;
+            if (Physics.SphereCast(transform.position, stats.current.sightDetectionRadius,
+                    inputs.GetMovementCameraDirection(), out info, stats.current.sightMaxDistance, playerEnemyDetector.targetLayerMask))
+            {
+                if (info.collider.transform.GetComponent<Enemy>().IsAlive())
+                    playerEnemyDetector.SetCurrentTarget(info.collider.transform.GetComponent<Enemy>());
+            }
+        }
+        
+        #endregion
+        
         public virtual void PickAndThrow()
         {
             if (stats.current.canPickUp && inputs.GetPickAndDropDown())
@@ -470,13 +563,13 @@ namespace Lullaby.Entities
         public virtual void LedgeGrab()
         {
             if (stats.current.canLedgeHang && verticalVelocity.y < 0 && !holding &&
-                states.ConstainsStateOfType(typeof(LedgeHangingPlayerState)) &&
+                states.ContainsStateOfType(typeof(LedgeHangingPlayerState)) &&
                 DetectingLedge(stats.current.ledgeMaxForwardDistance,
-                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding añadir si cogemos objetos
+                stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding agregar si cogemos objetos
             {
                 Debug.Log("Entrando al metodo ledgeGrab");
-                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el ángulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
-                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una cápsula o una esfera no se puede agarrar. 
+                if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el angulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
+                if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una capsula o una esfera no se puede agarrar. 
 
                 var ledgeDistance = radius + stats.current.ledgeMaxForwardDistance; // Distancia del borde
                 var lateralOffset = transform.forward * ledgeDistance; // Offset lateral
@@ -488,6 +581,30 @@ namespace Lullaby.Entities
                 playerEvents.OnLedgeGrabbed?.Invoke(); // Invocamos el evento de agarrarse a un borde.
             } 
            
+        }
+        
+        protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
+        {
+            var contactOffset = Physics.defaultContactOffset + positionDelta;
+            var ledgeMaxDistance = radius + forwardDistance; // Maxima distancia del edge en horizontal
+            var ledgeHeightOffset = height * 0.5f + contactOffset; //Offset del edge en vertical
+            var upwardOffset = transform.up * ledgeHeightOffset; // Maxima distancia del edge en vertical
+            var forwardOffset = transform.forward * ledgeMaxDistance; // Maxima distancia del edge en horizontal con direccion
+
+            if (Physics.Raycast(position + upwardOffset, transform.forward, ledgeMaxDistance,
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) || 
+                Physics.Raycast(position + forwardOffset * .01f, transform.up, ledgeHeightOffset, 
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+            {
+                ledgeHit = new RaycastHit();
+                return false;
+            }
+            
+            var origin = position + upwardOffset + forwardOffset; // Posicion del raycast
+            var distance = downwardDistance + contactOffset; // Distancia del raycast
+
+            return Physics.Raycast(origin, -transform.up, out ledgeHit, distance,
+                stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore); // Devuelve true si choca con un ledge
         }
         
         public virtual void Dash()
@@ -543,6 +660,12 @@ namespace Lullaby.Entities
             skin.localScale = _skinInitialScale;
         }
 
+        public virtual void SetInputEnabled(bool value)
+        {
+            inputs.enabled = value;
+        }
+        
+        
         public virtual void WallDrag(Collider other)
         {
             if(holding || !stats.current.canWallDrag || verticalVelocity.y > 0) return;
@@ -591,30 +714,6 @@ namespace Lullaby.Entities
                 rigidbody.AddForceAtPosition(force, closestPoint);
             }
         }
-
-        protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
-        {
-            var contactOffset = Physics.defaultContactOffset + positionDelta;
-            var ledgeMaxDistance = radius + forwardDistance; // Maxima distancia del edge en horizontal
-            var ledgeHeightOffset = height * 0.5f + contactOffset; //Offset del edge en vertical
-            var upwardOffset = transform.up * ledgeHeightOffset; // Maxima distancia del edge en vertical
-            var forwardOffset = transform.forward * ledgeMaxDistance; // Maxima distancia del edge en horizontal con direccion
-
-            if (Physics.Raycast(position + upwardOffset, transform.forward, ledgeMaxDistance,
-                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) || 
-                Physics.Raycast(position + forwardOffset * .01f, transform.up, ledgeHeightOffset, 
-                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-            {
-                ledgeHit = new RaycastHit();
-                return false;
-            }
-            
-            var origin = position + upwardOffset + forwardOffset; // Posicion del raycast
-            var distance = downwardDistance + contactOffset; // Distancia del raycast
-
-            return Physics.Raycast(origin, -transform.up, out ledgeHit, distance,
-                stats.current.ledgeHangingLayers, QueryTriggerInteraction.Ignore); // Devuelve true si choca con un ledge
-        }
         
         public virtual void StartGrind() => states.Change<RailGrindPlayerState>();
 
@@ -628,7 +727,9 @@ namespace Lullaby.Entities
             InitializeDialogueTrigger();
             InitializeTag();
             InitializeRespawn();
-
+            InitializePlayerEnemyDetector();
+            InitializePlayerCombat();
+            
             entityEvents.OnGroundEnter.AddListener(() =>
             {
                 ResetJumps();

@@ -2,7 +2,7 @@
 using Lullaby.Entities;
 using UnityEngine;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level")]
     public class Level : Singleton<Level>

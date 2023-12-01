@@ -11,9 +11,12 @@ namespace Lullaby.Entities
 
     public abstract class EntityStateManager<T> : EntityStateManager where T : Entity<T>
     {
+        //La lista general de todos los estados para pasar de uno a otro por indice
         protected List<EntityState<T>> list = new List<EntityState<T>>(); //Lista de todos los estados
 
+        //Diccionario de estados por tipo que tiene la entidad (para acceder a ellos por tipo)
         protected Dictionary<Type, EntityState<T>> entityStates = new Dictionary<Type, EntityState<T>>(); // Diccionario de estados por tipo
+        
         /// <summary>
         /// Returns the instance of the current Entity State.
         /// </summary>
@@ -88,6 +91,7 @@ namespace Lullaby.Entities
                 Change(entityStates[type]);
             }
         }
+        
         /// <summary>
         /// Changes to a given Entity State based on its instance.
         /// </summary>
@@ -132,7 +136,7 @@ namespace Lullaby.Entities
         /// Returns true if the manager has a State of a given type.
         /// </summary>
         /// <param name="type">The Type of the State you want to find.</param>
-        public virtual bool ConstainsStateOfType(Type type) => entityStates.ContainsKey(type);
+        public virtual bool ContainsStateOfType(Type type) => entityStates.ContainsKey(type);
 
         public virtual void Step()
         {

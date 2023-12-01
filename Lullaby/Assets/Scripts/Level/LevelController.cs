@@ -1,7 +1,6 @@
-﻿using Lullaby;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Level
+namespace Lullaby.LevelManagement
 {
     [AddComponentMenu("Lullaby/Level/Level Controller")]
     public class LevelController : MonoBehaviour

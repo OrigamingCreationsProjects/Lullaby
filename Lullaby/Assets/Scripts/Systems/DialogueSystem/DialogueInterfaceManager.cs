@@ -35,9 +35,7 @@ namespace Lullaby.Systems.DialogueSystem
         [Header("Cameras")] 
         public GameObject gameCam;
         public GameObject dialogueCam;
-        
-        
-        
+
         protected int _talkHash;
         //[Space]
         //public Volume dialogueDof;
