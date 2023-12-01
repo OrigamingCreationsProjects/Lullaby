@@ -168,6 +168,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1953355735601190295}
     m_Modifications:
+    - target: {fileID: 1961768956044411567, guid: 9527c81b7a6c7ad40941fbd68a3325f9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706709539802697198, guid: 9527c81b7a6c7ad40941fbd68a3325f9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6097278131880929440, guid: 9527c81b7a6c7ad40941fbd68a3325f9, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
@@ -229,7 +237,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -2000683248011902629, guid: 9527c81b7a6c7ad40941fbd68a3325f9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9527c81b7a6c7ad40941fbd68a3325f9, type: 3}

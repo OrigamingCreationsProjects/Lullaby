@@ -117,7 +117,7 @@ namespace Lullaby
             _initialRotation = transform.localRotation;
             _initialParent = transform.parent;
             
-            SoundManager.instance.Play("AloraMain");
+            //SoundManager.instance.Play("AloraMain");
                 //SoundManager.instance.FadeBGMClipsVolumes("MainMenu_Music", "Aloras_DanceA(BGM2)", 1f);
             
         }
