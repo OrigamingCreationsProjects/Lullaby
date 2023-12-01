@@ -48,8 +48,8 @@ namespace Lullaby.Systems.DialogueSystem
         [Range(0, 2)] public float zoomTransitionTime = 0.2f;
 
         protected int _talkHash;
-        //[Space]
-        //public Volume dialogueDof;
+        [Space]
+        public Volume dialogueDof;
 
         private MMCinemachineZoom _zoom;
         
@@ -181,12 +181,13 @@ namespace Lullaby.Systems.DialogueSystem
             
             //Depth of field modifier
             float dofWeight = dialogueCam.activeSelf ? 1 : 0;
+            DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
             //Crear DoVirtualFloat Para la mierda del DOF
         }
 
         public void DialogueDOF(float x)
         {
-            //dialogueDof.weight = x;
+            dialogueDof.weight = x;
         }
 
         
