@@ -1,0 +1,1351 @@
+fileFormatVersion: 2
+guid: adedfe89f2c40c64e8f1757a805722ed
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Lulla_Attack_3' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'thigh.R' has translation animation that
+      will be discarded.\n\nClip 'Lulla_Climbing' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'thigh.R' has translation animation that
+      will be discarded.\n\nClip 'Lulla_Slide' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'L_ear_1' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'R_ear_1' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'metarig|Lulla_Slide' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'L_ear_1'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'R_ear_1'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Lulla_Attack_1
+      takeName: Lulla_Attack_1
+      internalID: -6642496966771741839
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.3256851
+        functionName: MeleeAttackStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5337247
+        functionName: MeleeAttackFinish
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Attack_2
+      takeName: Lulla_Attack_2
+      internalID: 2038449852116312599
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.14404078
+        functionName: MeleeAttackStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.41172716
+        functionName: MeleeAttackFinish
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Attack_3
+      takeName: Lulla_Attack_3
+      internalID: 2688544947147382826
+      firstFrame: 0
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.06755895
+        functionName: MeleeAttackStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5105162
+        functionName: MeleeAttackFinish
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 72e665b6d05846f4bdeb1daad7453462, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Climbing
+      takeName: Lulla_Climbing
+      internalID: 2152463774929339559
+      firstFrame: 0
+      lastFrame: 125
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Dash
+      takeName: Lulla_Dash
+      internalID: -2834589674945315104
+      firstFrame: 0
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Death.001
+      takeName: Lulla_Death.001
+      internalID: 9203781416640842632
+      firstFrame: 0
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Double_Jump
+      takeName: Lulla_Double_Jump
+      internalID: -2385635496505827027
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Falling
+      takeName: Lulla_Falling
+      internalID: -1739124021861312353
+      firstFrame: 0
+      lastFrame: 52
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Hanging_Idle
+      takeName: Lulla_Hanging_Idle
+      internalID: -3760419310006373905
+      firstFrame: 0
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Hanging_Wall
+      takeName: Lulla_Hanging_Wall
+      internalID: 675015415376613820
+      firstFrame: 0
+      lastFrame: 75
+      wrapMode: 0
+      orientationOffsetY: 90
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Idle
+      takeName: Lulla_Idle
+      internalID: -4651407440820568185
+      firstFrame: 0
+      lastFrame: 128
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Jump
+      takeName: Lulla_Jump
+      internalID: 5252487620199048964
+      firstFrame: 0
+      lastFrame: 17
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Running
+      takeName: Lulla_Running
+      internalID: 1170022030544599851
+      firstFrame: 0
+      lastFrame: 17
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Walk
+      takeName: Lulla_Walk
+      internalID: 8910425126644840439
+      firstFrame: 0
+      lastFrame: 34
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Wall_Moving
+      takeName: Lulla_Wall_Moving
+      internalID: -427372189850238528
+      firstFrame: 0
+      lastFrame: 42
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: -0.7
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Hit
+      takeName: Lulla_Hit
+      internalID: -85447763815067157
+      firstFrame: 0
+      lastFrame: 34
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Slide
+      takeName: Lulla_Slide
+      internalID: 4295317646730569454
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Brake
+      takeName: Lulla_Brake
+      internalID: -6896537365255725475
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Holding_Object
+      takeName: Lulla_Holding_Object
+      internalID: -4516184802572976434
+      firstFrame: 0
+      lastFrame: 128
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lulla_Slide_Dash
+      takeName: Lulla_Slide_Dash
+      internalID: 5754802950919415333
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Eye_mask.001Action
+      takeName: metarig|Eye_mask.001Action
+      internalID: -4343315046250877690
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Eye_maskAction
+      takeName: metarig|Eye_maskAction
+      internalID: 5248785829688039738
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_Brake
+      takeName: metarig|Lulla_Brake
+      internalID: -3375518392651586553
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_Death.001
+      takeName: metarig|Lulla_Death.001
+      internalID: -4586473385232155207
+      firstFrame: 0
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_Idle
+      takeName: metarig|Lulla_Idle
+      internalID: 8520734993171164022
+      firstFrame: 0
+      lastFrame: 128
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_LPAction
+      takeName: metarig|Lulla_LPAction
+      internalID: 1864566414024398834
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_Slide_Dash
+      takeName: metarig|Lulla_Slide_Dash
+      internalID: 7959150426885429306
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Lulla_Slide
+      takeName: metarig|Lulla_Slide
+      internalID: -5999535835835891633
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: Hips
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: thigh.L
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: thigh.R
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: shin.L
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: shin.R
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: foot.L
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: foot.R
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine_1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Neck
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: shoulder.L
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: shoulder.R
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: upper_arm.L
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: upper_arm.R
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: forearm.L
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: forearm.R
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: hand.L
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: hand.R
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: toe.L
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: toe.R
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_ear_2
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_ear_2
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Chest
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Lulla_GoldAnimations(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Eye_mask
+      parentName: Lulla_GoldAnimations(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.71672326, y: -0.005362071, z: 0.052742116, w: 0.69533974}
+      scale: {x: 99.99999, y: 99.99999, z: 99.99999}
+    - name: Eye_mask.001
+      parentName: Lulla_GoldAnimations(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.71672326, y: -0.005362071, z: 0.052742116, w: 0.69533974}
+      scale: {x: 99.99999, y: 99.99999, z: 99.99999}
+    - name: Lulla_LP
+      parentName: Lulla_GoldAnimations(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.71672326, y: -0.005362071, z: 0.052742116, w: 0.69533974}
+      scale: {x: 99.99999, y: 99.99999, z: 99.99999}
+    - name: metarig
+      parentName: Lulla_GoldAnimations(Clone)
+      position: {x: 0.034340624, y: -0.17940402, z: 0}
+      rotation: {x: -0.5722314, y: 0.3499034, z: 0.25362703, w: 0.696988}
+      scale: {x: 100.00001, y: 100, z: 100.00001}
+    - name: Hips
+      parentName: metarig
+      position: {x: 0.0000145937875, y: 0.001616363, z: 0.0070588426}
+      rotation: {x: 0.589592, y: -0.3508467, z: -0.24162519, w: 0.68622535}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: pelvis.L
+      parentName: Hips
+      position: {x: 8.881784e-18, y: -2.0489097e-10, z: -3.7252902e-11}
+      rotation: {x: -0.32889256, y: 0.6588927, z: 0.30477396, w: 0.6039892}
+      scale: {x: 1.000001, y: 0.99999964, z: 1.0000006}
+    - name: pelvis.R
+      parentName: Hips
+      position: {x: 8.881784e-18, y: -2.0489097e-10, z: -3.7252902e-11}
+      rotation: {x: -0.32889134, y: -0.6588933, z: -0.3047725, w: 0.60399}
+      scale: {x: 1.0000012, y: 0.99999976, z: 1.0000017}
+    - name: Spine
+      parentName: Hips
+      position: {x: 1.7763568e-17, y: 0.0012276175, z: 0}
+      rotation: {x: -0.0014509857, y: -0.00000013411045, z: 0.00000005960464, w: 0.999999}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1}
+    - name: Spine_1
+      parentName: Spine
+      position: {x: -3.259629e-11, y: 0.0025220686, z: -3.213063e-10}
+      rotation: {x: 0.006461209, y: 0.00000010402945, z: -0.000000075220214, w: 0.9999792}
+      scale: {x: 0.9999998, y: 1, z: 0.9999997}
+    - name: Chest
+      parentName: Spine_1
+      position: {x: -4.6566128e-12, y: 0.0024650407, z: 4.33065e-10}
+      rotation: {x: 0.10090307, y: 0.000000045814957, z: -0.000000048016826, w: 0.9948963}
+      scale: {x: 0.99999946, y: 0.9999999, z: 1.0000002}
+    - name: Neck
+      parentName: Chest
+      position: {x: -2.3283063e-11, y: 0.0018557742, z: 3.72529e-10}
+      rotation: {x: -0.16727991, y: 0.000000070339574, z: 0.000000049100137, w: 0.9859095}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999998}
+    - name: L_ear_1
+      parentName: Neck
+      position: {x: -0.005197998, y: 0.009987435, z: -0.0017113579}
+      rotation: {x: -0.03208206, y: -0.08594735, z: 0.84935963, w: 0.5197809}
+      scale: {x: 1.0000013, y: 1.0000006, z: 1.0000001}
+    - name: L_ear_2
+      parentName: L_ear_1
+      position: {x: -3.7252902e-11, y: 0.0019356718, z: 5.9604643e-10}
+      rotation: {x: 0.0044983644, y: -0.00788332, z: 0.049687523, w: 0.9987236}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000011}
+    - name: L_ear_3
+      parentName: L_ear_2
+      position: {x: 0.0000000026123597, y: 0.0018372458, z: 1.4901161e-10}
+      rotation: {x: 0.004767716, y: -0.0067637754, z: 0.04526048, w: 0.998941}
+      scale: {x: 1.0000014, y: 1.0000007, z: 0.9999996}
+    - name: R_ear_1
+      parentName: Neck
+      position: {x: 0.005099819, y: 0.009987436, z: -0.0017113581}
+      rotation: {x: 0.22410277, y: 0.237865, z: -0.8198896, w: 0.4700843}
+      scale: {x: 1.0000006, y: 1.0000011, z: 1.0000007}
+    - name: R_ear_2
+      parentName: R_ear_1
+      position: {x: -0.0000000015646219, y: 0.001935671, z: -0.000000002682209}
+      rotation: {x: -0.029236142, y: 0.06528241, z: 0.04042643, w: -0.99661887}
+      scale: {x: 1.0000007, y: 1.000001, z: 1.0000007}
+    - name: R_ear_3
+      parentName: R_ear_2
+      position: {x: 0.0000000021606683, y: 0.0018372467, z: -0.0000000011920929}
+      rotation: {x: 0.022467716, y: -0.04434016, z: -0.03957853, w: 0.9979794}
+      scale: {x: 1.0000013, y: 1.0000008, z: 1.0000004}
+    - name: shoulder.L
+      parentName: Chest
+      position: {x: -0.00015187144, y: 0.0015105113, z: 0.0009855657}
+      rotation: {x: -0.6012239, y: 0.5281766, z: 0.35049164, w: 0.48653358}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000001}
+    - name: upper_arm.L
+      parentName: shoulder.L
+      position: {x: 0.00035686357, y: 0.004819601, z: -0.0001019816}
+      rotation: {x: 0.0000373125, y: -0.7308274, z: 0.09345887, w: 0.6761337}
+      scale: {x: 1.000001, y: 1.0000018, z: 0.99999976}
+    - name: forearm.L
+      parentName: upper_arm.L
+      position: {x: 4.4237822e-10, y: 0.0035165164, z: -1.11758706e-10}
+      rotation: {x: 0.05645668, y: 0.06591031, z: -0.024528792, w: 0.9959251}
+      scale: {x: 0.9999996, y: 1.0000004, z: 1.0000019}
+    - name: hand.L
+      parentName: forearm.L
+      position: {x: 6.1467287e-10, y: 0.0018335243, z: 0.0000000012200325}
+      rotation: {x: 0.0029328386, y: -0.0071878573, z: 0.02015942, w: 0.99976665}
+      scale: {x: 1.0000005, y: 0.9999996, z: 0.9999987}
+    - name: shoulder.R
+      parentName: Chest
+      position: {x: 0.00015187194, y: 0.0015105107, z: 0.0009855662}
+      rotation: {x: -0.6012239, y: -0.52817655, z: -0.35049164, w: 0.48653382}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1}
+    - name: upper_arm.R
+      parentName: shoulder.R
+      position: {x: -0.00035686346, y: 0.0048195994, z: -0.00010198276}
+      rotation: {x: 0.00003725288, y: 0.73082733, z: -0.09345875, w: 0.6761338}
+      scale: {x: 1, y: 1.0000011, z: 0.9999998}
+    - name: forearm.R
+      parentName: upper_arm.R
+      position: {x: -0, y: 0.0035165155, z: 4.656613e-10}
+      rotation: {x: 0.05645669, y: -0.065910324, z: 0.024528587, w: 0.9959251}
+      scale: {x: 1.000001, y: 1.0000002, z: 1.0000004}
+    - name: hand.R
+      parentName: forearm.R
+      position: {x: -0, y: 0.0018335233, z: 2.6077032e-10}
+      rotation: {x: 0.0029327713, y: 0.007187834, z: -0.02015921, w: 0.99976665}
+      scale: {x: 0.9999986, y: 0.99999946, z: 0.9999999}
+    - name: Tail_1
+      parentName: Hips
+      position: {x: -5.0294263e-10, y: 0.00165757, z: -0.0021094945}
+      rotation: {x: -0.8191465, y: 0.000000119209275, z: -0.000000007217749, w: 0.5735843}
+      scale: {x: 0.9999997, y: 1.0000001, z: 1.0000002}
+    - name: Tail_2
+      parentName: Tail_1
+      position: {x: -5.293319e-17, y: 0.0012751584, z: -1.4901161e-10}
+      rotation: {x: 0.14958945, y: -0.00000023575234, z: -0.000000013876326, w: 0.9887482}
+      scale: {x: 1.0000005, y: 1.0000004, z: 0.9999996}
+    - name: Tail_3
+      parentName: Tail_2
+      position: {x: -1.1066478e-16, y: 0.0015065284, z: -6.519258e-10}
+      rotation: {x: 0.20736341, y: -0.0000000035455796, z: -0.0000000022333246, w: 0.97826403}
+      scale: {x: 0.99999964, y: 0.99999964, z: 1.0000004}
+    - name: thigh.L
+      parentName: Hips
+      position: {x: -0.0021355907, y: -0.0005588518, z: 0.000053278007}
+      rotation: {x: 0.99877, y: -0.0023901162, z: 0.042357337, w: 0.02566449}
+      scale: {x: 1.0000013, y: 1.000002, z: 1.000001}
+    - name: shin.L
+      parentName: thigh.L
+      position: {x: 1.6763806e-10, y: 0.0024683727, z: -1.7695129e-10}
+      rotation: {x: -0.002705015, y: -0.040812038, z: 0.00031259234, w: 0.99916315}
+      scale: {x: 0.99999917, y: 1, z: 1.0000008}
+    - name: foot.L
+      parentName: shin.L
+      position: {x: 1.6763806e-10, y: 0.0014319433, z: -1.862645e-10}
+      rotation: {x: 0.044741508, y: -0.5366304, z: -0.011921305, w: 0.84254605}
+      scale: {x: 1.0000001, y: 1.0000017, z: 1.0000004}
+    - name: toe.L
+      parentName: foot.L
+      position: {x: -5.401671e-10, y: 0.00085037417, z: -1.2572854e-10}
+      rotation: {x: -0.32865655, y: 0.5744647, z: -0.70480084, w: -0.25540376}
+      scale: {x: 1.0000021, y: 0.99999934, z: 0.99999934}
+    - name: thigh.R
+      parentName: Hips
+      position: {x: 0.0021355907, y: -0.0005588512, z: 0.000053276955}
+      rotation: {x: 0.99877, y: 0.0023901162, z: -0.042357694, w: 0.02566443}
+      scale: {x: 1.0000014, y: 1.000001, z: 1.000002}
+    - name: shin.R
+      parentName: thigh.R
+      position: {x: -0, y: 0.002468373, z: -7.4505804e-11}
+      rotation: {x: -0.0027051063, y: 0.040812127, z: -0.00031260258, w: 0.99916315}
+      scale: {x: 0.9999991, y: 1.0000014, z: 1}
+    - name: foot.R
+      parentName: shin.R
+      position: {x: -2.2351741e-10, y: 0.0014319432, z: 1.4901161e-10}
+      rotation: {x: 0.044741612, y: 0.5366376, z: 0.011920923, w: 0.8425415}
+      scale: {x: 1.0000005, y: 1.0000024, z: 1.0000025}
+    - name: toe.R
+      parentName: foot.R
+      position: {x: -1.11758706e-10, y: 0.0008503739, z: 2.0023434e-10}
+      rotation: {x: 0.32865626, y: 0.57446474, z: -0.7048009, w: 0.25540376}
+      scale: {x: 1.0000043, y: 1.0000004, z: 1.000002}
+    - name: Mouth_mask
+      parentName: Lulla_GoldAnimations(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.71672326, y: -0.005362071, z: 0.052742116, w: 0.69533974}
+      scale: {x: 99.99999, y: 99.99999, z: 99.99999}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
