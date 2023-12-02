@@ -17,7 +17,7 @@ namespace Systems.SoundSystem
         [SerializeField] private AudioMixerGroup musicMixer;
         [Header("Music Settings")]
         [SerializeField] [Range(0.0f, 1.0f)] private float BGM_MusicVolume;
-        [SerializeField] [Range(0.0f, 2.0f)] private float fadeDuration = 1f;
+        [SerializeField] [Range(0.0f, 5.0f)] private float fadeDuration = 2.5f;
         public SoundList currentPlaylist;
         public Sound currentSong;
         public Sound lastSong;
