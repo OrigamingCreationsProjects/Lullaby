@@ -22,6 +22,7 @@ namespace Lullaby.Entities.Enemies.States
             
             dir = (entity.player.position - entity.transform.position);
             lastPos = entity.position;
+            lastPos.y = BossEnemy.MainBoss.position.y;
             timePersecuting = entity.stats.current.FsPursuitTime;
             playerPosUpdateDelay =  entity.stats.current.FSPlayerPosUpdateDelay;
 

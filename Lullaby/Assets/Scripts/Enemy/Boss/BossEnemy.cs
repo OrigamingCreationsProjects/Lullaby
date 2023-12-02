@@ -1,7 +1,14 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
+using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
+using Lullaby.Entities.States;
+using OpenCover.Framework.Model;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -79,19 +86,11 @@ namespace Lullaby.Entities.Enemies
 
         protected virtual void InitializePlayer() => player = FindObjectOfType<Player>();
         protected virtual void InitializeRotationComponent() => rotateAnimComponent = GetComponentInChildren<Rotate>();
-
-        protected virtual void SuscribeToManagerEvents()
-        {
-            bossManager.OnEnemyAttacking += EnemyAttackingHandler;
-        }
-        #endregion
         
+        #endregion
         #region EVENT HANDLERS
 
-        private void EnemyAttackingHandler(object sender, BossEntityManager.OnEnemyAttackingArgs args)
-        {
-            enemyAttacking = args.value;
-        }
+   
         #endregion
         #region -- MONOBEHAVIOURS --
 
@@ -109,9 +108,9 @@ namespace Lullaby.Entities.Enemies
 
         void Start()
         {
-            SuscribeToManagerEvents();
             CreateBullet();
-
+            if (MainBoss != this) return;
+            health.Set(300);
         }
 
         protected override void Update()
@@ -141,11 +140,10 @@ namespace Lullaby.Entities.Enemies
 
         #endregion
 
-        #region -- Getters&Setters --
+        #region Getters&Setters
+
         public virtual Transform GetBody() { return body.transform; }    
-        
         #endregion
-        
         #region -- PARENT OVERRIDES --
 
         public virtual void FaceDirectionSmooth(Vector3 direction) => FaceDirectionSmooth(direction, stats.current.rotationSpeed);
@@ -154,7 +152,6 @@ namespace Lullaby.Entities.Enemies
         public virtual void Decelerate() => Decelerate(stats.current.deceleration);
         
         #endregion
-        
         #region -- PARTICULAR FUNCTIONS --
         
         /// <summary>
@@ -247,7 +244,7 @@ namespace Lullaby.Entities.Enemies
             var distanceToPlayer = (player.position - position).magnitude;
             if (distanceToPlayer < stats.current.spotRange)
             {
-                enemyEvents.OnPlayerDetected?.Invoke();
+                enemyEvents.HandlePlayerSeen(true);
                 invoked = true;
             }
             
@@ -282,7 +279,7 @@ namespace Lullaby.Entities.Enemies
                 else
                 {
                     if (stats.current.contactPushback) // Si puede mandar para atras al jugador
-                        lateralVelocity = -localForward * stats.current.contactPushBackForce; // Empujamos al jugador hacia atras
+                    lateralVelocity = -localForward * stats.current.contactPushBackForce; // Empujamos al jugador hacia atras
                     player.ApplyDamage(stats.current.contactDamage, transform.position);
                     enemyEvents.OnPlayerContact?.Invoke();
                 }
@@ -293,10 +290,10 @@ namespace Lullaby.Entities.Enemies
         {
             if (health.current <= stats.current.secondStageThreshold && health.current > stats.current.finalStageThreshold)
             {
-                enemyEvents.OnSecondStage?.Invoke();
+                enemyEvents.HandleSecondStage();
             } else if (health.current <= stats.current.finalStageThreshold && health.current > 0)
             {
-               enemyEvents.OnFinalStage?.Invoke();
+               enemyEvents.HandleFinalStage();
             }
         }
 
@@ -327,9 +324,11 @@ namespace Lullaby.Entities.Enemies
             if (IsInvincible)
             {
              // bossManager.InstantiateBosses(bossManager.AliveBossCount());
-                  bossManager.ReviveBosses();
-                  bossManager.DisableBossGameObjects();
-                  bossManager.Retreat();
+              bossManager.ReviveBosses();
+              bossManager.DisableBossGameObjects();
+              bossManager.Retreat();
+             
+               
             }
         }
 

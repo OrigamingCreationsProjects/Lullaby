@@ -10,66 +10,70 @@ using Lullaby;
 using Lullaby.Entities;
 using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine.UIElements;
 
 public class BossEntityManager : MonoBehaviour
 {
-    public event EventHandler<OnEnemyAttackingArgs> OnEnemyAttacking;
-
-    public class OnEnemyAttackingArgs : EventArgs
-    {
-        public bool value;
-    }
     /// <summary>
     /// Returns the total number of Boss instances in the scene to be generated. Includes the main instance of the Boss.
     /// </summary>
-    [Header("Boss Configuration")]
-    [SerializeField, Range(0,12)] private int numOfBosses = 3;
-    /// <summary>
-    /// Returns the division time for each boss copy.
-    /// </summary>
+    [Header("Boss Manager Configuration")]
+    [SerializeField, Range(0,12)] 
+    private int numOfBosses = 3;
+    [SerializeField, Range(0f, 360f), Tooltip("Defines the rotation speed of the object.")] 
+    private float rotationSpeed;
+    [SerializeField,Tooltip("Defines the time a boss takes to reach retreat position.")] 
+    private float retreatTime = 3f;
+    
     [Header("Spawn Configuration"), Space(2f)]
-    [Tooltip("Defines how much time a boss division takes."), SerializeField, Range(0f,10f)] private float spawnTime = 1.5f;
-
-    [SerializeField, Range(1f, 10f)] private float spawnTimeMultiplier;
-    [SerializeField, Range(0f,2f)] private float inPositionThreshold;
-    [Range(0f, 360f)] public float rotationSpeed;
-    [HideInInspector]public float yAngle;
+    
+    [Tooltip("Defines how much time a boss division takes."), SerializeField, Range(0f,10f)] 
+    private float spawnTime = 1.5f;
+    [SerializeField, Range(1f, 10f), Tooltip("Number by which the spawnTime is divided when updating the position in the tweener.")] 
+    private float spawnTimeMultiplier;
+    [SerializeField, Range(0f,2f), Tooltip("Threshold in which the tweener decides if destination has been reached.")] 
+    private float inPositionThreshold;
+    
+    
     [Header("Objects Assignation"), Space(2f)]
-    [SerializeField] private GameObject bossPrefab;
+    [SerializeField] 
+    private GameObject bossPrefab;
 
-    private bool firstEncounter = true;
     [SerializeField, Tooltip("Main Boss should be already in scene so include only materials for copies.")] 
     private Material[] bossMaterials;
     [SerializeField] 
     private List<Transform> bossSlots;
-    [SerializeField] 
-    private Transform retreatPos;
-    [SerializeField] 
-    private Transform bossStartPos;
-    [HideInInspector]public Vector3 moveDirection;
-    private Coroutine MovementCoroutine;
-    [Header("Additional Parameters")]
-    [SerializeField] private float retreatTime = 3f;
-
+    
+   
+   
+    /// <summary>
+    /// Flags to notify one enemy is attacking or retreating.
+    /// </summary>
     public bool enemyAttacking { get; private set;}
     public bool enemyRetreating { get; private set; }
-    
+    /// <summary>
+    /// Flag to notify the player has been seen;
+    /// </summary>
+    public bool playerSeen { get; private set; }
+    /// <summary>
+    /// Defines positions in a circle. Equal distance between them.
+    /// </summary>
     private float[] CirclePos = new []{0, Mathf.PI/2, Mathf.PI, (3*Mathf.PI)/2,  60*Mathf.PI/180, 120*Mathf.PI/180, 240*Mathf.PI/180,300*Mathf.PI/180,30*Mathf.PI/180,150*Mathf.PI/180,210*Mathf.PI/180,330*Mathf.PI/180 };
-    private List<int> enemyIndexes;
-    private bool step = true; 
+    
     /// <summary>
     /// Returns a List containing all boss' instances.
     /// </summary>
     private List<BossEnemy> bossBuffer;
     private List<BossEnemy> deadBossBuffer;
-    /// <summary>
-    /// Keeps a reference to the main Boss script.
-    /// </summary>
+    private List<int> enemyIndexes;
+    private Transform retreatPos;
+    private Transform bossStartPos;
     private BossEnemy mainBoss;
     private Coroutine AI_Loop_Coroutine;
     private Player player;
-    private Vector3 lastPlayerPos;
+    private float yAngle;
+    
     
     #region -- INITIALIZERS --
     /// <summary>
@@ -94,6 +98,13 @@ public class BossEntityManager : MonoBehaviour
         {
             if (boss.TryGetComponent(out BossEnemy script))
             {
+                bossStartPos = boss.transform;
+                retreatPos = boss.transform;
+                script.enemyEvents.OnPlayerSeen += PlayerIsDetected;
+                script.enemyEvents.OnAttack += AnEnemyIsAttacking;
+                script.enemyEvents.OnRetreat += AnEnemyIsRetreating;
+                script.enemyEvents.OnSecondStageReached += OnSecondStage;
+                script.enemyEvents.OnFinalStageReached += OnFinalStage;
                 bossBuffer.Add(script);
                 bossCount++; 
             }
@@ -111,6 +122,7 @@ public class BossEntityManager : MonoBehaviour
             boss.GetComponent<BossEnemy>().GetBody().GetComponent<MeshRenderer>().material = bossMaterials[i%bossMaterials.Length] ;
             boss.GetComponent<BossEnemy>().enemyEvents.OnRetreat += AnEnemyIsRetreating;
             boss.GetComponent<BossEnemy>().enemyEvents.OnAttack += AnEnemyIsAttacking;
+            boss.GetComponent<BossEnemy>().enemyEvents.OnPlayerSeen += PlayerIsDetected;
             bossBuffer.Add(boss.GetComponent<BossEnemy>());
             boss.SetActive(false);
             //boss.GetComponent<BossEnemy>().enabled = false;
@@ -137,9 +149,9 @@ public class BossEntityManager : MonoBehaviour
             var circleCoord = new Vector2(Mathf.Cos(CirclePos[i]),Mathf.Sin(CirclePos[i]));
             circleCoord = circleCoord.normalized;
             circleCoord *= mainBoss.stats.current.FsMaxDistToPlayer;
-            
-            emptyObj.transform.position = new Vector3(circleCoord.x, mainBoss.position.y,circleCoord.y);
             emptyObj.transform.parent = transform;
+            emptyObj.transform.localPosition = new Vector3(circleCoord.x, mainBoss.position.y,circleCoord.y);
+          
             bossSlots.Add(emptyObj.transform);
         }
         mainBoss.transform.position = bossStartPos.position;
@@ -156,12 +168,10 @@ public class BossEntityManager : MonoBehaviour
 
     void Start()
     {
-        MovementCoroutine = StartCoroutine(EnemyMovement());
     }
 
     void Update()
     {
-        
         if (player != null)
         {
             
@@ -199,13 +209,11 @@ public class BossEntityManager : MonoBehaviour
         bossBuffer[idx].Disable();
         if(BossEnemy.MainBoss != bossBuffer[idx]) 
             bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
-        bossBuffer[idx].slot = bossSlots[idx];
+        bossBuffer[idx].slot = bossSlots[bossBuffer.Count-1-idx];
         bossBuffer[idx].stage = mainBoss.stage;
         bossBuffer[idx].states.Change<BEIdleState>();
         bossBuffer[idx].gameObject.SetActive(true);
-        
         if (idx == bossBuffer.Count - 1) bossBuffer[idx].IsInvincible = false;
-        
         Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
         tween.OnUpdate(delegate
         {
@@ -223,24 +231,6 @@ public class BossEntityManager : MonoBehaviour
                 yAngle = rotationSpeed;
             }
         });
-        /*
-        for (int index = 0; index < bossBuffer.Count; index++)
-        {
-            bossBuffer[index].step = false;
-            bossBuffer[index].enabled = false;
-            if(BossEnemy.MainBoss != bossBuffer[index]) 
-                bossBuffer[index].transform.position = BossEnemy.MainBoss.position;
-            bossBuffer[index].slot = bossSlots[index];
-            bossBuffer[index].stage = mainBoss.stage;
-            bossBuffer[index].states.Change<BEIdleState>();
-            bossBuffer[index].SetController(false);
-            if (index == bossBuffer.Count - 1) bossBuffer[index].IsInvincible = false;
-            bossBuffer[index].gameObject.SetActive(true);
-            //Tweener tweener = bossBuffer[index].transform.DOMove(bossSlots[index].position, spawnTime);
-            //UpdateTween(tweener, bossSlots[index].transform, bossBuffer[index].transform, 0.1f);
-            bossBuffer[index].transform.position = bossBuffer[index].slot.position;
-         
-        }*/
     }
     
     public void CheckInvincibilityStatus()
@@ -258,6 +248,7 @@ public class BossEntityManager : MonoBehaviour
             bossBuffer[index].step = true;
             bossBuffer[index].enabled = true;
             bossBuffer[index].rotateAnimComponent.enabled = true;
+            bossBuffer[index].states.Change<CirculatingState>();
         }
     }
 
@@ -269,9 +260,13 @@ public class BossEntityManager : MonoBehaviour
             if (BossEnemy.MainBoss == boss)
             {
                 mainBoss.enemyEvents.OnDivisonFinished?.Invoke();
+                EnableBosses();
                 StartAI();
             } 
         }
+        
+       
+          
     }
     public void Retreat()
     {
@@ -373,30 +368,20 @@ public class BossEntityManager : MonoBehaviour
 
     #endregion
 
-    #region -- COROUTINES --
-    IEnumerator EnemyMovement()
+    private BossEnemy GetEnemy()
     {
-            
-        //yield return new WaitWhile(() => states.current != null); // Check if this corresponds to polling and consumes too much.
-        //yield return new WaitWhile(() => states.current.ToString() != CIRCULATING_STATE); // Same as above.
-        //int randomChance = Random.Range(0, 2);
+        BossEnemy boss = null;
+        foreach (var VARIABLE in bossBuffer) {
+                        if (!VARIABLE.IsInvincible)
+                        {
+                            boss = VARIABLE;
+                        }
+                    }
 
-        //if (randomChance == 1)
-        //{
-        int randomDir = Random.Range(0, 2);
-        moveDirection = randomDir == 1 ? Vector3.right : Vector3.left;
-        //moveDirection = Vector3.right;
-        //}
-        /*else
-        {
-            moveDirection = default;
-            Decelerate();
-        }*/
-
-        yield return new WaitForSeconds(10f);
-
-       
+        return boss;
     }
+    #region -- COROUTINES --
+    
     IEnumerator AI_Loop(BossEnemy boss)
     {
         if (AliveBossCount() == 0)
@@ -406,10 +391,7 @@ public class BossEntityManager : MonoBehaviour
         }
 
         Debug.Log("AI LOOP RUNNING");
-
-       // Debug.Log(AnEnemyIsAttacking(BossEnemy.MainBoss.stats.current.maxSimultaenousAttackers));
-       
-      
+        
         yield return new WaitUntil(() => EnemyCloseEnough());
         Debug.Log("ENEMIES ARE CLOSE ENOUGH");
         yield return new WaitWhile(()=> enemyAttacking);
@@ -428,16 +410,12 @@ public class BossEntityManager : MonoBehaviour
         
         if (attackingEnemy == null)
             yield break;
+        attackingEnemy = GetEnemy();
         Debug.Log($"The attacking enemy is: {attackingEnemy}");
+        
         yield return new WaitUntil(()=> attackingEnemy.states.current is CirculatingState);
-        //yield return new WaitWhile(() => CheckRetreat());
+      
         attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
-        MovementCoroutine = StartCoroutine(EnemyMovement());
-       // yield return new WaitUntil(() => attackingEnemy.IsPreparingAttack() == false);
-
-        //attackingEnemy.SetRetreat();
-
-       // yield return new WaitForSeconds(Random.Range(1f,2f));
         
         if (AliveBossCount() > 0)
             AI_Loop_Coroutine = StartCoroutine(AI_Loop(attackingEnemy));
@@ -446,15 +424,21 @@ public class BossEntityManager : MonoBehaviour
 
     #endregion
 
-    #region AI_CHECKERS
-    
+    #region AI_CHECKERS & EVENT HANDLERS
+    /// <summary>
+    /// Returns a bool in case one enemy is close enough to attack the player.
+    /// </summary>
+    /// <returns>bool</returns>
     private bool EnemyCloseEnough()
     {
         foreach (var boss in bossBuffer)
         {
+            // Computes the distance to the player from each boss. Takes only into account the distance in the
+            // circunference around the player. Not the distance in component y.
             var playerPos = player.position;
             playerPos.y = boss.position.y;
             var distFromPlayer = (playerPos - boss.position).magnitude;
+            // Checks the distance to the player is enough to attack it. This check only happens in the First Stage.
             if (distFromPlayer <= boss.stats.current.FsMinDistToPlayer || boss.stage != BossStages.FirstStage)
             {
                 return true;
@@ -463,50 +447,44 @@ public class BossEntityManager : MonoBehaviour
     
         return false;
     }
-    public bool AnEnemyIsAttacking()
-    {
-      
-        foreach (var boss in bossBuffer)
-        {
-            if (boss.states.current is BEAttackingState)
-            {
-                step = false;
-                OnEnemyAttacking?.Invoke(this, new OnEnemyAttackingArgs{value = true});
-                return true;
-            }
-        }
-        OnEnemyAttacking?.Invoke(this, new OnEnemyAttackingArgs{value = false});
-        step = true;
-        return false; 
-    
-       
-    }
-    
-    public bool AnEnemyIsRetreating()
-    {
-        foreach(BossEnemy boss in bossBuffer)
-        {
-            if(boss.retreating)
-            {
-                step = false;
-                return true;
-            }
-        }
-
-        step = true;
-        return false;
-    }
-
+   
+    /// <summary>
+    /// Flags a bool in case one of the enemy clones is attacking.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
     private void AnEnemyIsAttacking(object sender, OnValueChange args)
     {
+        Debug.Log("AN ENEMY IS ATTACKING");
         enemyAttacking = args.value;
     }
-
+    /// <summary>
+    /// Flags a bool in case one of the enemy clones is retreating.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
     private void AnEnemyIsRetreating(object sender, OnValueChange args)
     {
         enemyRetreating = args.value;
     }
+
+    private void PlayerIsDetected(object sender, OnValueChange args)
+    {
+       InitializeBossSlots();
+    }
+
+    private void OnSecondStage(object sender, EventArgs args)
+    {
+        UpdateSlotsPosition();
+        Retreat();
+    }
+
+    private void OnFinalStage(object sender, EventArgs args)
+    {
+        ReviveBosses();
+        Retreat();
+    }
     #endregion
-  
+    
     
 }

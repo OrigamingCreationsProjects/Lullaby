@@ -37,7 +37,7 @@ Transform:
   - {fileID: 2803634644569126566}
   - {fileID: 1469509934489006396}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &904970189940328355
 MonoBehaviour:
@@ -54,7 +54,7 @@ MonoBehaviour:
   slopeLimit: 45
   stepOffset: 0.3
   skinWidth: 0.005
-  center: {x: 0, y: 0, z: 0}
+  center: {x: 0, y: 1, z: 0}
   radius: 1.12
   height: 2
   collisionLayer:
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial: 100
-  max: 100
+  max: 300
   coolDown: 1
   onChange:
     m_PersistentCalls:
@@ -146,20 +146,7 @@ MonoBehaviour:
   enemyEvents:
     OnPlayerDetected:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1138571835435834373}
-          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
-            Assembly-CSharp
-          m_MethodName: Change
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnPlayerEscaped:
       m_PersistentCalls:
         m_Calls:
@@ -193,7 +180,19 @@ MonoBehaviour:
           m_CallState: 2
     OnDamage:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 6575159405354025176}
+          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
+          m_MethodName: CheckStage
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnDie:
       m_PersistentCalls:
         m_Calls: []
@@ -240,7 +239,20 @@ MonoBehaviour:
         m_Calls: []
     OnFinalStage:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 6575159405354025176}
+          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
+          m_MethodName: UpdateInvincibilityStatus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  rotateAnimComponent: {fileID: 0}
   step: 1
   invoked: 0
 --- !u!114 &5752765102690203379

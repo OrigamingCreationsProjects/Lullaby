@@ -39,9 +39,18 @@ namespace Systems.SoundSystem
                 playlists.Add(musicPlaylists[i].musicType, musicPlaylists[i]);
             }
             currentPlaylist = playlists[MusicType.MainMenu];
-            PlayRandomPlaylistSong(currentPlaylist.musicType);
+            PlaySongFirsTime(currentPlaylist.musicType);
         }
 
+        private void PlaySongFirsTime(MusicType musicType)
+        {
+            SoundList playlist = playlists[musicType];
+            int randomIndex = Random.Range(0, playlist.sounds.Length);
+            Sound randomSong = playlist.sounds[randomIndex];
+            currentSong = randomSong;
+            currentSong.Play();
+        }
+        
         public void PlayRandomPlaylistSong(MusicType musicType)
         {
             SoundList playlist = playlists[musicType];
@@ -62,6 +71,9 @@ namespace Systems.SoundSystem
                     auxList.Add(i);
             }
             int randomIndex = Random.Range(0, auxList.Count);
+            Debug.Log($"La longitud de auxlist es{auxList.Count}");
+            Debug.Log($"La longitud de PLAYLIST es{playlist.sounds.Length}");
+            Debug.Log($"La cancion escogida es{auxList[randomIndex]}");
             Sound randomSong = playlist.sounds[auxList[randomIndex]];
             //currentSong.Stop(); // O transicion suave entre las canciones
             lastSong = currentSong;
@@ -86,7 +98,12 @@ namespace Systems.SoundSystem
 
         public void FadeMusicBetweenPlaylist(Sound songOut, Sound songIn, float duration)
         {
+            StopAllCoroutines();
             songIn.Play();
+            if (!currentSong.loop && currentPlaylist.sounds.Length > 1)
+            {
+                StartCoroutine(SongPlayingCoroutine());
+            }
             songOut.audioSource.DOFade(0, duration).onComplete += () => StopSong(songOut);
             songIn.audioSource.DOFade(BGM_MusicVolume, duration);
         } 
@@ -96,6 +113,16 @@ namespace Systems.SoundSystem
             song.Stop();
         }
         
+        IEnumerator SongPlayingCoroutine()
+        {
+            yield return new WaitForSeconds(GetCurrentSongDuration() - 7f);
+            PlayRandomPlaylistSongExcludingOne(currentPlaylist.musicType, currentSong);
+        }
+        
+        public float GetCurrentSongDuration()
+        {
+            return currentSong.GetDuration();
+        }
         public float GetSoundDuration(string name)
         {
             return sounds[name].GetDuration();
