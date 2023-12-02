@@ -7,34 +7,18 @@ using UnityEngine.Audio;
 namespace Systems.SoundSystem
 {
     [AddComponentMenu("Systems/Sound System/Sound Manager")]
-    public class SoundManager : Singleton<SoundManager>
+    public class MusicManager : Singleton<MusicManager>
     {
-        public SoundList[] lists;
         public SoundList[] musicPlaylists;
         private Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
         private Dictionary<MusicType, SoundList> playlists = new Dictionary<MusicType, SoundList>();
         [SerializeField] private AudioMixerGroup masterMixer;
         [SerializeField] private AudioMixerGroup musicMixer;
         [SerializeField] [Range(0.0f, 1.0f)] private float BGM_MusicVolume;
-        
+        public SoundList currentPlaylist;
+        public Sound currentSong;
         private void Start()
         {
-            for (int i = 0; i < lists.Length; i++)
-            {
-                for (int j = 0; j < lists[i].sounds.Length; j++)
-                {
-                    Sound sound = lists[i].sounds[j];
-                    sound.audioSource = gameObject.AddComponent<AudioSource>();
-                    sound.audioSource.clip = sound.soundClip;
-                    sound.audioSource.volume = sound.volume;
-                    sound.audioSource.pitch = sound.pitch;
-                    sound.audioSource.loop = sound.loop;
-                    sound.audioSource.outputAudioMixerGroup = sound.mixerGroup;
-                    sounds.Add(sound.name, sound);
-                    //Debug.Log($"Pooled {sound.name}");
-                }
-            }
-            
             for (int i = 0; i < musicPlaylists.Length; i++)
             {
                 for (int j = 0; j < musicPlaylists[i].sounds.Length; j++)
@@ -51,7 +35,17 @@ namespace Systems.SoundSystem
             }
             
             
-            Play("MainMenu_Music");
+            //Play("MainMenu_Music");
+        }
+        
+        public void PlayRandomPlaylistSong(MusicType musicType)
+        {
+            SoundList playlist = playlists[musicType];
+            int randomIndex = Random.Range(0, playlist.sounds.Length);
+            Sound randomSong = playlist.sounds[randomIndex];
+            currentSong.Stop(); // O transicion suave entre las canciones
+            currentSong = randomSong;
+            currentSong.Play();
         }
         
         public void Play(string name)
