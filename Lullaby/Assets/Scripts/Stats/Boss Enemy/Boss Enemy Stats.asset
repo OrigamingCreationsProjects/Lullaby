@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24bc2684be3f974db7d012f3d971588, type: 3}
+  m_Name: Boss Enemy Stats
+  m_EditorClassIdentifier: 
+  gravity: 35
+  snapForce: 1
+  rotationSpeed: 675.5
+  deceleration: 300
+  friction: 16
+  turningDrag: 46.5
+  canAttackOnContact: 1
+  contactPushback: 1
+  contactOffset: 0.68
+  contactDamage: 1
+  contactPushBackForce: 18
+  contactSteppingTolerance: 0.1
+  attackLaunchSpeed: 30
+  attackLaunchAcceleration: 40
+  attackMaxWaitingTime: 6.17
+  attackMinWaitingTime: 4.99
+  distAttackMaxWaitingTime: 2.5
+  distAttackMinWaitingTime: 1
+  maxSimultaenousAttackers: 1
+  spotRange: 20
+  followAcceleration: 1
+  accelerationBuff: 50
+  decelerationNerf: 0.5
+  followTopSpeed: 2.12
+  topSpeedBuff: 10
+  DestinyReachedThreshold: 0.25
+  detectOtherBosses: 0
+  bossDetectionRadius: 4
+  goBackIntoSlot: 1
+  waitForRetreat: 1
+  FsMinDistToPlayer: 8
+  FsMaxDistToPlayer: 15
+  FSApproachTime: 10
+  FsPursuitTime: 1
+  FSPlayerPosUpdateDelay: 0.4
+  returnToPosTime: 1.15
+  SsMinDistToPlayer: 10
+  SsMaxDistToPlayer: 15
+  secondStageThreshold: 200
+  finalStageThreshold: 100

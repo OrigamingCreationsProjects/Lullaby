@@ -4,6 +4,7 @@
     {
         Boss,
         Combat,
+        MainMenu,
         Platforming,
         Puzzle,
         None
