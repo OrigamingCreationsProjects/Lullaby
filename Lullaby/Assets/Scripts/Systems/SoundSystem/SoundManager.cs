@@ -10,7 +10,6 @@ namespace Systems.SoundSystem
     public class SoundManager : Singleton<SoundManager>
     {
         public SoundList[] lists;
-        public SoundList[] musicPlaylists;
         private Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
         private Dictionary<MusicType, SoundList> playlists = new Dictionary<MusicType, SoundList>();
         [SerializeField] private AudioMixerGroup masterMixer;
@@ -35,23 +34,7 @@ namespace Systems.SoundSystem
                 }
             }
             
-            for (int i = 0; i < musicPlaylists.Length; i++)
-            {
-                for (int j = 0; j < musicPlaylists[i].sounds.Length; j++)
-                {
-                    musicPlaylists[i].sounds[j].audioSource = gameObject.AddComponent<AudioSource>();
-                    musicPlaylists[i].sounds[j].audioSource.clip = musicPlaylists[i].sounds[j].soundClip;
-                    musicPlaylists[i].sounds[j].audioSource.volume = musicPlaylists[i].sounds[j].volume;
-                    musicPlaylists[i].sounds[j].audioSource.pitch = musicPlaylists[i].sounds[j].pitch;
-                    musicPlaylists[i].sounds[j].audioSource.loop = musicPlaylists[i].sounds[j].loop;
-                    musicPlaylists[i].sounds[j].audioSource.outputAudioMixerGroup = musicPlaylists[i].sounds[j].mixerGroup;
-                    //Debug.Log($"Pooled {sound.name}");
-                }
-                playlists.Add(musicPlaylists[i].musicType, musicPlaylists[i]);
-            }
-            
-            
-            Play("MainMenu_Music");
+            //Play("MainMenu_Music");
         }
         
         public void Play(string name)
