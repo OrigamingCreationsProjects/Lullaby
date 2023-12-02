@@ -95,25 +95,7 @@ namespace Systems.SoundSystem
         {
             song.Stop();
         }
-
-        public void Play(string name)
-        {
-            sounds[name]?.Play();
-        }
-
-        public void PlayOneShot(string name)
-        {
-            sounds[name]?.PlayOneShot();
-        }
-        public void PlayDelayed(string name, float delay)
-        {
-            sounds[name]?.PlayDelayed(delay);
-        }
-        public void Stop(string name)
-        {
-            sounds[name]?.Stop();
-        }
-
+        
         public float GetSoundDuration(string name)
         {
             return sounds[name].GetDuration();
