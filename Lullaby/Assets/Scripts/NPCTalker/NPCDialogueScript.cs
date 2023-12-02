@@ -9,7 +9,6 @@ namespace Lullaby.Entities.NPC
         public NPCDialogueData data;
         public DialogueTextData dialogueText;
 
-
         private TMP_Animated _animatedText;
         //Audio
         //Animaciones

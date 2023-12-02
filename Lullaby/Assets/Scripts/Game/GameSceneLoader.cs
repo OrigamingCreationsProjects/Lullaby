@@ -93,11 +93,11 @@ namespace Lullaby
             {
                 // SoundManager.instance.Stop("MainMenu_Music");
                 // SoundManager.instance.Play("Aloras_DanceA(BGM2)");
-                SoundManager.instance.FadeBGMClipsVolumes("MainMenu_Music", "AloraMain", 1f);
+                MusicManager.instance.ChangeCurrentPlaylist(MusicType.Platforming);
             }
             else if(scene == "MainMenu" && currentScene == "Level1_Beta")
             {
-                SoundManager.instance.FadeBGMClipsVolumes("AloraMain", "MainMenu_Music", 1f);
+                MusicManager.instance.ChangeCurrentPlaylist(MusicType.MainMenu);
             }
         }
     }
