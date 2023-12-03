@@ -571,6 +571,7 @@ namespace Lullaby.Entities
 
             }
         }
+        
         /// <summary>
         /// Rotate the Player towards to a given direction SMOOTHLY.
         /// </summary>

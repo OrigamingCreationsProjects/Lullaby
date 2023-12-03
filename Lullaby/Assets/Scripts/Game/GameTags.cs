@@ -13,7 +13,8 @@ namespace Lullaby
 		public static string Spring = "Spring";
 		public static string Hitbox = "Hitbox";
 		public static string InteractiveRail = "Interactive/Rail";
-
+		public static string MoonLauncher = "Moon/Launcher";
+		public static string MoonCameraTrigger = "Moon/CameraTrigger";
 		public static bool IsEntity(Collider collider) =>
 			collider.CompareTag(Player) || collider.CompareTag(Enemy);
 

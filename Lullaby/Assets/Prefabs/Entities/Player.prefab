@@ -288,7 +288,6 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 2048
-  dollyManager: {fileID: 0}
   currentTarget: {fileID: 0}
   inputDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &864453225138063651
@@ -574,6 +573,7 @@ MonoBehaviour:
   - Lullaby.Entities.States.DiePlayerState
   - Lullaby.Entities.States.DialoguePlayerState
   - Lullaby.Entities.States.PunchHitPlayerState
+  - Lullaby.Entities.States.MoonFlyPlayerState
 --- !u!114 &8697383638212605354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,6 +794,8 @@ MonoBehaviour:
   lockedTarget: {fileID: 0}
   attackCooldown: 0
   isAttackingEnemy: 0
+  lastHitCamera: {fileID: 0}
+  lastHitFocusObject: {fileID: 0}
   OnHit:
     m_PersistentCalls:
       m_Calls: []
