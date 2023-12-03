@@ -6,5 +6,6 @@ namespace Systems.SoundSystem
     public class SoundList : ScriptableObject
     {
         public Sound[] sounds;
+        public MusicType musicType = MusicType.None;
     }
 }

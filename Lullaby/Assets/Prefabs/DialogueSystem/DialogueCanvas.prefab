@@ -229,7 +229,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &349981677577875956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,12 +264,18 @@ MonoBehaviour:
   animatedText: {fileID: 2037415045441537674}
   nameBubble: {fileID: 8481042215773242798}
   nameTMP: {fileID: 7434048179286616812}
+  currentTalkerIndex: 0
   currentNPC: {fileID: 0}
+  currentTalker: {fileID: 0}
+  currentTalkerAnimator: {fileID: 0}
   canExit: 0
   nextDialogue: 0
   currentDialogueTextFinished: 0
   gameCam: {fileID: 0}
   dialogueCam: {fileID: 0}
+  zoomValue: 25
+  zoomTime: 0.1
+  zoomTransitionTime: 0.35
 --- !u!1 &4463256562336954071
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,8 +597,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
