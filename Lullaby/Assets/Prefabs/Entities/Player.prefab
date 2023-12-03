@@ -358,6 +358,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d846f1a73177f1441a81c840563482eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1795929277631367469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3366492725870470781}
+  m_Layer: 14
+  m_Name: Particles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3366492725870470781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795929277631367469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1313438923136261701}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2359829018202412647
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,6 +465,7 @@ Transform:
   m_Children:
   - {fileID: 5070540766334671618}
   - {fileID: 5471072442364831899}
+  - {fileID: 3366492725870470781}
   - {fileID: 5789791300146211210}
   - {fileID: 9101899318047938818}
   m_Father: {fileID: 0}
