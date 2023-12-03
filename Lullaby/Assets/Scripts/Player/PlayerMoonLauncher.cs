@@ -29,17 +29,20 @@ public class PlayerMoonLauncher : MonoBehaviour
     [Header("Public References")]
     public CinemachineDollyCart moonPathCart;
     public Transform playerParent;
-
+    public CinemachineImpulseSource impulseSource;
     [Space]
     [Header("Launch Preparation Sequence")]
     public float prepMoveDuration = .15f;
     public float launchInterval = .5f;
+    
+    
     
     // Start is called before the first frame update
     void Start()
     {
         moonPathCart = GameObject.FindGameObjectWithTag(GameTags.MoonPathCart).GetComponent<CinemachineDollyCart>();
         playerParent = GameObject.FindGameObjectWithTag(GameTags.MoonCartParent).transform;
+        impulseSource = FindObjectOfType<CinemachineImpulseSource>();
     }
     
     public void StartCenterLaunch()
@@ -122,6 +125,7 @@ public class PlayerMoonLauncher : MonoBehaviour
 
          flying = false;
          almostFinished = false;
+         impulseSource.GenerateImpulse();
          // animator.SetBool("flying", false);
          //
          // followParticles.Stop();
