@@ -37,7 +37,7 @@ namespace Lullaby.Entities.Enemies
         /// Returns the instance of the Player on the Enemies sight.
         /// </summary>
         public Player player { get; protected set; }
-
+        
 
         #region -- INITIALIZERS --
         
@@ -63,12 +63,12 @@ namespace Lullaby.Entities.Enemies
                 if (stats.current.canReceivePushBack)
                 {
                     states.Change<HurtEnemyState>();
-                    //Debug.Log("Deberia cambiar de estado");
+                    // Debug.Log("Deberia cambiar de estado");
                     // verticalVelocity = Vector3.up * stats.current.hurtUpwardsForce;
                     // lateralVelocity = -localForward * stats.current.hurtBackwardsForce;
                 }
                 
-                Debug.Log("Enemigo dañado");
+                //Debug.Log("Enemigo dañado");
                 if (health.isEmpty)
                 {
                     //controller.enabled = false;
@@ -82,7 +82,7 @@ namespace Lullaby.Entities.Enemies
                 }
             }
         }
-
+        
         public virtual void Revive()
         {
             if(!health.isEmpty) return;
@@ -152,6 +152,11 @@ namespace Lullaby.Entities.Enemies
         {
             gameObject.SetActive(false);
             enemyEvents.OnDisappear?.Invoke();
+        }
+
+        public virtual bool IsAlive()
+        {
+            return health.current > 0;
         }
         
         /// <summary>

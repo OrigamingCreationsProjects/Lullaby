@@ -140,6 +140,7 @@ namespace Lullaby.Entities.Weapons
 
         protected virtual void HandleEntityAttack(Entity other)
         {
+            Debug.Log("HANDLEENTITYATTACK");
             other.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
         }
         

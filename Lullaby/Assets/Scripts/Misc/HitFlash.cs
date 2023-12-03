@@ -28,12 +28,12 @@ namespace Lullaby
         {
             var elapsedTime = 0f;
             var flashColor = this.flashColor;
-            var initialColor = material.color;
+            var initialColor = material.GetColor("_Tint");
 
             while (elapsedTime < flashDuration)
             {
                 elapsedTime += Time.deltaTime;
-                material.color = Color.Lerp(flashColor, initialColor, elapsedTime / flashDuration);
+                material.SetColor("_Tint", Color.Lerp(flashColor, initialColor, elapsedTime / flashDuration)); 
                 yield return null;
             }
 

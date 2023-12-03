@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Lullaby.Entities.Events;
-using Lullaby.Interfaces;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -109,7 +105,6 @@ namespace Lullaby.Entities
         #endregion
 
         #region -- TIMES AND BOOLEANS --
-
 
         /// <summary>
         /// Returns the last frame this Entity was grounded.
@@ -356,7 +351,7 @@ namespace Lullaby.Entities
                 ExitRail();
             }
         }
-        // IMPLEMENTAR ALEJANDRO
+        
         protected virtual void HandleGround()
         {
             if(onRails) return;
@@ -390,17 +385,17 @@ namespace Lullaby.Entities
             var skinOffset = controller.skinWidth + Physics.defaultContactOffset;
             var overlaps = OverlapEntity(_contactBuffer, skinOffset); // Obtenemos en numero de colliders que
                                                                      // estan en contacto con el personaje
-           for (int i = 0; i < overlaps; i++)
-           {
+            for (int i = 0; i < overlaps; i++)
+            {
                 if(_contactBuffer[i].transform == transform) continue; // Si el collider es el mismo que el del personaje
                                                                      // continuamos con el siguiente collider
                 OnContact(_contactBuffer[i]);
-                
+
                 _contactListeners = _contactBuffer[i].GetComponents<IEntityContact>();
                 foreach (var contact in _contactListeners)
                     contact.OnEntityContact((T)this);
-                
-           }    
+
+            }    
         }
 
         protected virtual void HandlePosition()

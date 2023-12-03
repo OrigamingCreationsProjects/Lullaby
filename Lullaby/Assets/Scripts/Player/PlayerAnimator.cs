@@ -130,7 +130,7 @@ namespace Lullaby.Entities
             animator.SetBool(_isHoldingHash, _player.holding);
             if (_player.inputs.GetAttackDown())
             {
-                animator.SetTrigger(_attackTriggerHash);
+                //animator.SetTrigger(_attackTriggerHash);
             }
         }
 

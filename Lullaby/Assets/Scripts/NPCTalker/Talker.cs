@@ -11,6 +11,8 @@ namespace Lullaby.Entities.NPC
     {
         public TalkerEvents talkerEvents;
         
+        public NPCDialogueScript[] talkersDialogueScripts;
+        
         protected Player _player;
 
         protected Collider[] sightOverlaps = new Collider[1024];

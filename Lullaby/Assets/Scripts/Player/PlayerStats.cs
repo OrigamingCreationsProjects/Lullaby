@@ -65,6 +65,11 @@ namespace Lullaby.Entities
 		// public float crawlingTopSpeed = 2.5f;
 		// public float crawlingTurningSpeed = 3f;
 		
+		[Header("Sight Stats")]
+		public float sightDetectionRadius = 3f;
+		public float sightMaxDistance = 10f;
+		public float enemyDetectionTreshold = .2f;
+		
 		[Header("Attack Stats")]
 		public bool canAttack = true;
 		public bool canAirAttack = false;
@@ -72,6 +77,7 @@ namespace Lullaby.Entities
 		public float airAttackUpwardForce = 10f;
 		public int allowedAirAttacks = 1;
 		public int regularAttackDamage = 10;
+		public float maxDistanceToAttack = 7f;
 		
 		[Header("Wall Drag Stats")]
 		public bool canWallDrag = true;
@@ -83,16 +89,6 @@ namespace Lullaby.Entities
 		public float wallDragGravity = 12f;
 		public float wallJumpDistance = 8f; //Distancia máxima en salto de pared
 		public float wallJumpHeight = 15f; //Altura máxima en salto de pared
-
-		// [Header("Pole Climb Stats")]
-		// public bool canPoleClimb = true;
-		// public Vector3 poleClimbSkinOffset;
-		// public float climbUpSpeed = 3f;
-		// public float climbDownSpeed = 8f;
-		// public float climbRotationSpeed = 2f;
-		// public float poleJumpDistance = 8f;
-		// public float poleJumpHeight = 15f;
-		
 
 		[Header("Hurt Stats")]
 		public float hurtUpwardForce = 10f;

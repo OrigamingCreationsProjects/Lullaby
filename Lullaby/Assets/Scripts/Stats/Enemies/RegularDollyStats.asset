@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeff695203c14b3bb2043a3564d39b93, type: 3}
+  m_Name: RegularDollyStats
+  m_EditorClassIdentifier: 
+  gravity: 35
+  snapForce: 15
+  rotationSpeed: 970
+  deceleration: 28
+  friction: 16
+  turningDrag: 28
+  timeBeforeMoveAgain: 3
+  backAfterAttackTime: 0.3
+  backAfterAttackDelay: 0.1
+  forwardSpeed: 8
+  chanceToMoveLaterally: 7
+  lateralSpeedMultiplier: 0.5
+  retreatPreparationTime: 0.5
+  minDistanceToStopRetreating: 10
+  retreatSpeed: 5
+  attackDamage: 15
+  attackMovementDuration: 0.5
+  attackPreparationTime: 0.2
+  minDistanceToAttack: 2
+  damageMovementDuration: 0.3
+  damageMovementDelay: 0.1

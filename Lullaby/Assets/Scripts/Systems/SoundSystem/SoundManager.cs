@@ -6,11 +6,12 @@ using UnityEngine.Audio;
 
 namespace Systems.SoundSystem
 {
-    [AddComponentMenu("Systems/SoundSystem/SoundManager")]
+    [AddComponentMenu("Systems/Sound System/Sound Manager")]
     public class SoundManager : Singleton<SoundManager>
     {
         public SoundList[] lists;
         private Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
+        private Dictionary<MusicType, SoundList> playlists = new Dictionary<MusicType, SoundList>();
         [SerializeField] private AudioMixerGroup masterMixer;
         [SerializeField] private AudioMixerGroup musicMixer;
         [SerializeField] [Range(0.0f, 1.0f)] private float BGM_MusicVolume;
@@ -32,7 +33,8 @@ namespace Systems.SoundSystem
                     //Debug.Log($"Pooled {sound.name}");
                 }
             }
-            Play("MainMenu_Music");
+            
+            //Play("MainMenu_Music");
         }
         
         public void Play(string name)
