@@ -111,9 +111,15 @@ namespace Lullaby.Entities
 
         #region -- MOON LAUNCH --
         
+        /// <summary>
+        /// Returns the PlayerMoonLauncher instance.
+        /// </summary>
+        public PlayerMoonLauncher moonLauncher { get; protected set; }
+        
         public virtual CinemachineDollyCart moonPathCart { get; set; }
 
         public virtual Transform launchObject { get; protected set; }
+        
         
         Sequence CenterSequence()
         {
@@ -151,6 +157,7 @@ namespace Lullaby.Entities
         protected virtual void InitializeTag() => tag = GameTags.Player;
         protected virtual void InitializePlayerEnemyDetector() => playerEnemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
         protected virtual void InitializePlayerCombat() => playerCombat = GetComponent<PlayerCombat>();
+        protected virtual void InitializeMoonLauncher() => moonLauncher = GetComponent<PlayerMoonLauncher>();
         
         
         protected virtual void InitializeRespawn()
@@ -669,7 +676,7 @@ namespace Lullaby.Entities
             }
         }
         
-        public virtual void HandleMoonLauncher()
+        public virtual void HandleMoonLauncherDetection()
         {
             var distance = 5f; //Cambiar por variable
 
@@ -677,7 +684,7 @@ namespace Lullaby.Entities
                     QueryTriggerInteraction.Collide) && hit.collider.CompareTag(GameTags.MoonLauncher))
             {
                 Debug.Log("Detectamos Launcher");
-                if (inputs.GetInteractDown())
+                if (inputs.GetDashDown())
                 {
                     Debug.Log("Detectamos Interact");
                     states.Change<MoonFlyPlayerState>();   
@@ -781,6 +788,7 @@ namespace Lullaby.Entities
             InitializeRespawn();
             InitializePlayerEnemyDetector();
             InitializePlayerCombat();
+            InitializeMoonLauncher();
             moonPathCart = FindObjectOfType<CinemachineDollyCart>();
             launchObject = objectLauncherTest;
             entityEvents.OnGroundEnter.AddListener(() =>
