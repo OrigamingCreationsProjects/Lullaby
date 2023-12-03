@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: 64e28bf6778bb89428bd06ac6eadb3ff, type: 3}
+        m_Texture: {fileID: 2800000, guid: b669ec6ef5bc4274d83f00b30163d21b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CustomizableTexture:
-        m_Texture: {fileID: 2800000, guid: 845a9b477a80e454093db315f33a2672, type: 3}
+        m_Texture: {fileID: 2800000, guid: 05cb76770cb65124ebc19520574e2a60, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -51,11 +51,14 @@ Material:
     m_Floats:
     - LIGHTMAP: 0
     - _LightProbeContribution: 3.5
+    - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SHADOWS_SOFT: 0
     - _Smoothness: 0.9
     m_Colors:
-    - _CustomizableColor: {r: 0, g: 1, b: 0.9499974, a: 0}
+    - _CustomizableColor: {r: 0.8207547, g: 0.587004, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
