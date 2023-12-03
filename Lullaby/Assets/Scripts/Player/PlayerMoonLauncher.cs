@@ -6,6 +6,7 @@ using Lullaby;
 using Lullaby.Entities;
 using Lullaby.Entities.States;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMoonLauncher : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerMoonLauncher : MonoBehaviour
     public AnimationCurve pathCurve;
     [Range(0,50)]
     public float speed = 10f;
-    float speedModifier = 1;
+    private float speedModifier = 1;
 
     [Space]
     [Header("Booleans")]
@@ -21,12 +22,12 @@ public class PlayerMoonLauncher : MonoBehaviour
     public bool flying;
     public bool almostFinished;
 
-    private Transform launchObject;
+    [HideInInspector] public Transform launchObject;
 
+    [FormerlySerializedAs("dollyCart")]
     [Space]
     [Header("Public References")]
-    public CinemachineDollyCart dollyCart;
-    float cameraRotation;
+    public CinemachineDollyCart moonPathCart;
     public Transform playerParent;
 
     [Space]
@@ -37,7 +38,8 @@ public class PlayerMoonLauncher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        moonPathCart = GameObject.FindGameObjectWithTag(GameTags.MoonPathCart).GetComponent<CinemachineDollyCart>();
+        playerParent = GameObject.FindGameObjectWithTag(GameTags.MoonCartParent).transform;
     }
 
     // Update is called once per frame
@@ -47,21 +49,21 @@ public class PlayerMoonLauncher : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.B))
             {
                 GetComponent<Player>().states.Change<MoonFlyPlayerState>();
-                StartCoroutine(CenterLaunch());
+                //StartCoroutine(CenterLaunch());
             }
 
 
         if (flying)
         {
             //animator.SetFloat("Path", dollyCart.m_Position);
-            playerParent.transform.position = dollyCart.transform.position;
+            playerParent.transform.position = moonPathCart.transform.position;
             if (!almostFinished)
             {
-                playerParent.transform.rotation = dollyCart.transform.rotation;
+                playerParent.transform.rotation = moonPathCart.transform.rotation;
             }
         }
 
-        if(dollyCart.m_Position > .7f && !almostFinished && flying)
+        if(moonPathCart.m_Position > .7f && !almostFinished && flying)
         {
             almostFinished = true;
             //thirdPersonCamera.m_XAxis.Value = cameraRotation;
@@ -72,35 +74,40 @@ public class PlayerMoonLauncher : MonoBehaviour
            
         }
     }
+    
+    public void StartCenterLaunch()
+    {
+        StartCoroutine(CenterLaunch());
+    }
+    
     IEnumerator CenterLaunch()
     {
         // movement.enabled = false;
         //transform.parent = null;
         DOTween.KillAll();
-
+        
         //Checks to see if there is a Camera Trigger at the DollyTrack object - if there is activate its camera
         if (launchObject.GetComponent<CameraTrigger>() != null)
             launchObject.GetComponent<CameraTrigger>().SetCamera();
-        //
-        // //Checks to see if there is a Camera Trigger at the DollyTrack object - if there is activate its camera
-        // if (launchObject.GetComponent<SpeedModifier>() != null)
-        //     speedModifier = launchObject.GetComponent<SpeedModifier>().modifier;
+        
+        if (launchObject.GetComponent<SpeedModifier>() != null)
+            speedModifier = launchObject.GetComponent<SpeedModifier>().modifier;
         //
         // //Checks to see if there is a Star Animation at the DollyTrack object
         // if (launchObject.GetComponentInChildren<StarAnimation>() != null)
         //     starAnimation = launchObject.GetComponentInChildren<StarAnimation>();
 
-        dollyCart.m_Position = 0;
-        dollyCart.m_Path = null;
-        dollyCart.m_Path = launchObject.GetComponent<CinemachineSmoothPath>();
-        dollyCart.enabled = true;
+        moonPathCart.m_Position = 0;
+        moonPathCart.m_Path = null;
+        moonPathCart.m_Path = launchObject.GetComponent<CinemachineSmoothPath>();
+        moonPathCart.enabled = true;
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
         Sequence CenterLaunch = DOTween.Sequence();
-        CenterLaunch.Append(transform.DOMove(dollyCart.transform.position, .2f));
-        CenterLaunch.Join(transform.DORotate(dollyCart.transform.eulerAngles + new Vector3(90, 0, 0), .2f));
+        CenterLaunch.Append(transform.DOMove(moonPathCart.transform.position, .2f));
+        CenterLaunch.Join(transform.DORotate(moonPathCart.transform.eulerAngles + new Vector3(90, 0, 0), .2f));
         //CenterLaunch.Join(starAnimation.Reset(.2f));
         CenterLaunch.OnComplete(() => LaunchSequence());
     }
@@ -129,7 +136,7 @@ public class PlayerMoonLauncher : MonoBehaviour
         //s.AppendCallback(() => trail.emitting = true);
         //s.AppendCallback(() => followParticles.Play());
         Debug.Log("Vamos a empezar la traslacion");
-        s.Append(DOVirtual.Float(dollyCart.m_Position, 1, finalSpeed, PathSpeed).SetEase(pathCurve));                // Lerp the value of the Dolly Cart position from 0 to 1
+        s.Append(DOVirtual.Float(moonPathCart.m_Position, 1, finalSpeed, PathSpeed).SetEase(pathCurve));                // Lerp the value of the Dolly Cart position from 0 to 1
         //s.Join(starAnimation.PunchStar(.5f));
         s.Join(transform.DOLocalMove(new Vector3(0,0,-.5f), .5f));                                                   // Return player's Y position
         s.Join(transform.DOLocalRotate(new Vector3(0, 360, 0),                                                       // Slow rotation for when player is flying
@@ -141,8 +148,8 @@ public class PlayerMoonLauncher : MonoBehaviour
      void Land()
      {
          playerParent.DOComplete();
-         dollyCart.enabled = false;
-         dollyCart.m_Position = 0;
+         moonPathCart.enabled = false;
+         moonPathCart.m_Position = 0;
          //movement.enabled = true;
          transform.parent = null;
 
@@ -156,16 +163,16 @@ public class PlayerMoonLauncher : MonoBehaviour
      }
      public void PathSpeed(float x)
      {
-         dollyCart.m_Position = x;
+         moonPathCart.m_Position = x;
      }
      
      private void OnTriggerEnter(Collider other)
      {
-         if (other.CompareTag(GameTags.MoonLauncher))
-         {
-             insideLaunchStar = true;
-             launchObject = other.transform;
-         }
+         // if (other.CompareTag(GameTags.MoonLauncher))
+         // {
+         //     insideLaunchStar = true;
+         //     launchObject = other.transform;
+         // }
 
          if (other.CompareTag(GameTags.MoonCameraTrigger))
              other.GetComponent<CameraTrigger>().SetCamera();

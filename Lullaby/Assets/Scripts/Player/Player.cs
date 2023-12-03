@@ -23,7 +23,7 @@ namespace Lullaby.Entities
         public PlayerEvents playerEvents;
         public Transform pickableSlot; //Slot para posicionar el objeto que se puede recoger
         public Transform skin;
-        public Transform objectLauncherTest;
+        //public Transform objectLauncherTest;
         
         protected Vector3 _respawnPosition;
         protected Quaternion _respawnRotation;
@@ -116,34 +116,8 @@ namespace Lullaby.Entities
         /// </summary>
         public PlayerMoonLauncher moonLauncher { get; protected set; }
         
-        public virtual CinemachineDollyCart moonPathCart { get; set; }
+        //public virtual CinemachineDollyCart moonPathCart { get; set; }
 
-        public virtual Transform launchObject { get; protected set; }
-        
-        
-        Sequence CenterSequence()
-        {
-            SetInputEnabled(false);
-            Sequence s = DOTween.Sequence();
-            s.Append(transform.DOLocalMove(new Vector3(0, 0, -.5f), .5f));
-            s.Join(transform.DOLocalRotate(new Vector3(90, 0, 0), .5f));
-            s.Append(LaunchSequence());
-            return s;
-        }
-        
-        Sequence LaunchSequence()
-        {
-            Sequence s = DOTween.Sequence();
-            s.AppendCallback(() => DOVirtual.Float(0, 1, 3, PathPosition).SetEase(Ease.InOutSine));
-            return s;
-        }
-        
-        
-        void PathPosition(float x)
-        {
-            moonPathCart.m_Position = x;
-        }
-        
         #endregion
         
         
@@ -158,6 +132,7 @@ namespace Lullaby.Entities
         protected virtual void InitializePlayerEnemyDetector() => playerEnemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
         protected virtual void InitializePlayerCombat() => playerCombat = GetComponent<PlayerCombat>();
         protected virtual void InitializeMoonLauncher() => moonLauncher = GetComponent<PlayerMoonLauncher>();
+        //protected virtual void InitializeMoonPathCart() => moonPathCart = moonLauncher.dollyCart;
         
         
         protected virtual void InitializeRespawn()
@@ -676,15 +651,17 @@ namespace Lullaby.Entities
             }
         }
         
-        public virtual void HandleMoonLauncherDetection()
+        public virtual void HandleMoonLauncher()
         {
             var distance = 5f; //Cambiar por variable
 
             if (SphereCast(transform.forward, distance, out var hit, Physics.DefaultRaycastLayers, 
                     QueryTriggerInteraction.Collide) && hit.collider.CompareTag(GameTags.MoonLauncher))
             {
-                Debug.Log("Detectamos Launcher");
-                if (inputs.GetDashDown())
+                //Debug.Log("Detectamos Launcher");
+                
+                moonLauncher.launchObject = hit.transform;
+                if (inputs.GetPickAndDropDown())
                 {
                     Debug.Log("Detectamos Interact");
                     states.Change<MoonFlyPlayerState>();   
@@ -789,8 +766,8 @@ namespace Lullaby.Entities
             InitializePlayerEnemyDetector();
             InitializePlayerCombat();
             InitializeMoonLauncher();
-            moonPathCart = FindObjectOfType<CinemachineDollyCart>();
-            launchObject = objectLauncherTest;
+            //InitializeMoonPathCart();
+            //launchObject = objectLauncherTest;
             entityEvents.OnGroundEnter.AddListener(() =>
             {
                 ResetJumps();

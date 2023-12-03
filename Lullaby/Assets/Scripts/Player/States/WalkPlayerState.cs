@@ -19,7 +19,7 @@ namespace Lullaby.Entities.States
             player.Attack();
             player.PickAndThrow();
             player.Talk();
-            player.HandleMoonLauncherDetection();
+            player.HandleMoonLauncher();
             //player.Dash();
             player.RegularSlopeFactor();
             
