@@ -19,7 +19,7 @@ namespace Lullaby.Entities.States
             player.Attack();
             player.PickAndThrow();
             player.Talk();
-            player.HandleMoonLauncher();
+            
             //player.Dash();
             player.RegularSlopeFactor();
             
@@ -27,6 +27,7 @@ namespace Lullaby.Entities.States
 
             if (inputDirection.sqrMagnitude > 0)
             {
+                player.HandleMoonLauncher();
                 var dot = Vector3.Dot(inputDirection, player.lateralVelocity); // Difference between input direction and current velocity
 
                 if (dot >= player.stats.current.brakeThreshold)

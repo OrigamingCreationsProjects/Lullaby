@@ -41,39 +41,6 @@ public class PlayerMoonLauncher : MonoBehaviour
         moonPathCart = GameObject.FindGameObjectWithTag(GameTags.MoonPathCart).GetComponent<CinemachineDollyCart>();
         playerParent = GameObject.FindGameObjectWithTag(GameTags.MoonCartParent).transform;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (insideLaunchStar)
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                GetComponent<Player>().states.Change<MoonFlyPlayerState>();
-                //StartCoroutine(CenterLaunch());
-            }
-
-
-        if (flying)
-        {
-            //animator.SetFloat("Path", dollyCart.m_Position);
-            playerParent.transform.position = moonPathCart.transform.position;
-            if (!almostFinished)
-            {
-                playerParent.transform.rotation = moonPathCart.transform.rotation;
-            }
-        }
-
-        if(moonPathCart.m_Position > .7f && !almostFinished && flying)
-        {
-            almostFinished = true;
-            //thirdPersonCamera.m_XAxis.Value = cameraRotation;
-
-            playerParent.DORotate(new Vector3(360 + 180, 0, 0), .5f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)
-                .OnComplete(() => playerParent.DORotate(
-                    new Vector3(-90, playerParent.eulerAngles.y, playerParent.eulerAngles.z), .2f));
-           
-        }
-    }
     
     public void StartCenterLaunch()
     {
