@@ -34,15 +34,17 @@ public class PlayerMoonLauncher : MonoBehaviour
     [Header("Launch Preparation Sequence")]
     public float prepMoveDuration = .15f;
     public float launchInterval = .5f;
-    
-    
-    
+
+    private MoonAnimation _moonAnimation;
+
+    private TrailRenderer _flyTrail;
     // Start is called before the first frame update
     void Start()
     {
         moonPathCart = GameObject.FindGameObjectWithTag(GameTags.MoonPathCart).GetComponent<CinemachineDollyCart>();
         playerParent = GameObject.FindGameObjectWithTag(GameTags.MoonCartParent).transform;
         impulseSource = FindObjectOfType<CinemachineImpulseSource>();
+        _flyTrail = moonPathCart.GetComponentInChildren<TrailRenderer>();
     }
     
     public void StartCenterLaunch()
@@ -62,10 +64,9 @@ public class PlayerMoonLauncher : MonoBehaviour
         
         if (launchObject.GetComponent<SpeedModifier>() != null)
             speedModifier = launchObject.GetComponent<SpeedModifier>().modifier;
-        //
-        // //Checks to see if there is a Star Animation at the DollyTrack object
-        // if (launchObject.GetComponentInChildren<StarAnimation>() != null)
-        //     starAnimation = launchObject.GetComponentInChildren<StarAnimation>();
+        //Checks to see if there is a Star Animation at the DollyTrack object
+        if (launchObject.GetComponentInChildren<MoonAnimation>() != null)
+            _moonAnimation = launchObject.GetComponentInChildren<MoonAnimation>();
 
         moonPathCart.m_Position = 0;
         moonPathCart.m_Path = null;
@@ -78,7 +79,7 @@ public class PlayerMoonLauncher : MonoBehaviour
         Sequence CenterLaunch = DOTween.Sequence();
         CenterLaunch.Append(transform.DOMove(moonPathCart.transform.position, .2f));
         CenterLaunch.Join(transform.DORotate(moonPathCart.transform.eulerAngles + new Vector3(90, 0, 0), .2f));
-        //CenterLaunch.Join(starAnimation.Reset(.2f));
+        CenterLaunch.Join(_moonAnimation.Reset(.2f));
         CenterLaunch.OnComplete(() => LaunchSequence());
     }
     Sequence LaunchSequence()
@@ -101,13 +102,13 @@ public class PlayerMoonLauncher : MonoBehaviour
         Debug.Log("Vamos a empezar el movimiento");
         s.Append(transform.DOMove(transform.localPosition - transform.up, prepMoveDuration));                        // Pull player a little bit back
         s.Join(transform.DOLocalRotate(new Vector3(0, 360 * 2, 0), prepMoveDuration, RotateMode.LocalAxisAdd).SetEase(Ease.OutQuart));
-        //s.Join(starAnimation.PullStar(prepMoveDuration));
+        s.Join(_moonAnimation.PullMoon(prepMoveDuration));
         s.AppendInterval(launchInterval);                                                                            // Wait for a while before the launch
-        //s.AppendCallback(() => trail.emitting = true);
+        s.AppendCallback(() => _flyTrail.emitting = true);
         //s.AppendCallback(() => followParticles.Play());
         Debug.Log("Vamos a empezar la traslacion");
         s.Append(DOVirtual.Float(moonPathCart.m_Position, 1, finalSpeed, PathSpeed).SetEase(pathCurve));                // Lerp the value of the Dolly Cart position from 0 to 1
-        //s.Join(starAnimation.PunchStar(.5f));
+        s.Join(_moonAnimation.PunchMoon(.5f)); //QUIZA CAMBIAR POR VARIABLE
         s.Join(transform.DOLocalMove(new Vector3(0,0,-.5f), .5f));                                                   // Return player's Y position
         s.Join(transform.DOLocalRotate(new Vector3(0, 360, 0),                                                       // Slow rotation for when player is flying
             (finalSpeed/1.3f), RotateMode.LocalAxisAdd)).SetEase(Ease.InOutSine); 
@@ -120,7 +121,6 @@ public class PlayerMoonLauncher : MonoBehaviour
          playerParent.DOComplete();
          moonPathCart.enabled = false;
          moonPathCart.m_Position = 0;
-         //movement.enabled = true;
          transform.parent = null;
 
          flying = false;
@@ -129,7 +129,7 @@ public class PlayerMoonLauncher : MonoBehaviour
          // animator.SetBool("flying", false);
          //
          // followParticles.Stop();
-         // trail.emitting = false;
+         _flyTrail.emitting = false;
          GetComponent<Player>().states.Change<FallPlayerState>();
      }
      public void PathSpeed(float x)

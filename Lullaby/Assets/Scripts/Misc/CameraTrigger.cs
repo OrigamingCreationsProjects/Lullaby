@@ -18,7 +18,6 @@ namespace Lullaby
         {
             _camerasGroup = GameObject.Find("LauncherCameras").transform;
             _cameraBrain = Camera.main.GetComponent<CinemachineBrain>();
-            Debug.Log("CAMERA BRAIN ES " + _cameraBrain);
         }
 
         public void SetCamera()
