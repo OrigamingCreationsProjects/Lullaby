@@ -1,4 +1,5 @@
-﻿using Lullaby.Entities.Enemies.States;
+﻿using DG.Tweening;
+using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
 using UnityEngine;
 
@@ -12,8 +13,8 @@ namespace Lullaby.Entities.Enemies
     public class Enemy : Entity<Enemy>
     {
         //Eventos del enemigo (publicos al poder asignarse en el inspector)
-        public EnemyEvents enemyEvents; 
-        
+        public EnemyEvents enemyEvents;
+        public Transform skin;
         protected Player _player;
 
         protected Collider[] sightOverlaps = new Collider[1024];
@@ -126,9 +127,9 @@ namespace Lullaby.Entities.Enemies
         {
             if(!other.CompareTag(GameTags.Player)) return;
             if(!other.TryGetComponent(out Player player)) return;
-
+            
             var stepping = controller.bounds.max + Vector3.down * stats.current.contactSteppingTolerance; // Posicion del enemigo en el suelo
-
+            
             if (player.isGrounded || !BoundsHelper.IsBellowPoint(controller.collider, stepping)) // Si el jugador esta en el suelo y no está por encima del enemigo
             {
                 if (stats.current.contactPushback) // Si puede mandar para atras al jugador
@@ -150,10 +151,19 @@ namespace Lullaby.Entities.Enemies
         //(quiza mejor invocar el evento de desaparicion y que el componente de particulas se encargue de ello)
         public virtual void Disappear()
         {
-            gameObject.SetActive(false);
-            enemyEvents.OnDisappear?.Invoke();
+            Sequence s = DOTween.Sequence();
+            s.AppendCallback(() => controller.enabled = false);
+            s.AppendCallback(() => enemyEvents.OnDisappear?.Invoke());
+            s.AppendCallback(() => skin.gameObject.SetActive(false));
+            s.AppendCallback(() => this.gameObject.layer = 0);
+            
+            s.AppendCallback(() => this.enabled = false);
+            s.AppendInterval(3.5f); 
+            s.AppendCallback(() => gameObject.SetActive(false));
+            
         }
-
+        
+        
         public virtual bool IsAlive()
         {
             return health.current > 0;

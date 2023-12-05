@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Lullaby.Entities.Weapons
@@ -11,7 +11,10 @@ namespace Lullaby.Entities.Weapons
     {
         protected Player _player;
         public int damage = 10;
+        public ParticleSystem[] appearParticles;
+        public ParticleSystem[] hitParticles;
         
+        private Transform _feathersOriginalParent;
         [Serializable]
         public class AttackPoint
         {
@@ -69,11 +72,30 @@ namespace Lullaby.Entities.Weapons
         {
             _owner = owner;
         }
-
+        
+        public void SetFeathersParent(Transform parent)
+        {
+            Sequence s = DOTween.Sequence();
+            s.AppendInterval(2f);
+            s.AppendCallback(() => hitParticles[0].transform.parent = parent);
+        }
+        
+        public void ChangeSimulationSpaceFeatherParticle(ParticleSystemSimulationSpace space)
+        {
+            var mainModule = hitParticles[0].main;
+            mainModule.simulationSpace = space;
+        }
+        
+        
         public void BeginAttack(bool throwingAttack)
         {
             //FALTA comprobar que no se esté reproduciendo el clip de ataque y entonces reproducir
-
+            if (hitParticles[0].isPlaying)
+            {
+                hitParticles[0].Stop();
+                //ChangeSimulationSpaceFeatherParticle(ParticleSystemSimulationSpace.World);
+                hitParticles[0].Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
             throwingHit = throwingAttack;
 
             inAttack = true;
@@ -120,7 +142,7 @@ namespace Lullaby.Entities.Weapons
             } 
             else if(other.TryGetComponent(out Breakable breakable))
             {
-                b = breakable;
+                b = breakable; 
                 HandleBreakableObject(breakable);
                 return true;
             }
@@ -138,14 +160,25 @@ namespace Lullaby.Entities.Weapons
             return true;
         }
 
+        protected virtual void PlayParticlesArray(ParticleSystem[] p)
+        {
+            foreach (ParticleSystem particle in p)
+            {
+                particle.Play();
+            }
+        }
+
         protected virtual void HandleEntityAttack(Entity other)
         {
-            Debug.Log("HANDLEENTITYATTACK");
+            ChangeSimulationSpaceFeatherParticle(ParticleSystemSimulationSpace.Local);
+            PlayParticlesArray(hitParticles);
             other.ApplyDamage(_player.stats.current.regularAttackDamage, transform.position);
         }
         
         protected virtual void HandleBreakableObject(Breakable breakable)
         {
+            ChangeSimulationSpaceFeatherParticle(ParticleSystemSimulationSpace.Local);
+            PlayParticlesArray(hitParticles);
             breakable.Break();
         }
         
@@ -153,6 +186,7 @@ namespace Lullaby.Entities.Weapons
         protected virtual void Awake()
         {
             _player = GetComponentInParent<Player>();
+            _feathersOriginalParent = hitParticles[0].transform.parent;
         }
 
         private void FixedUpdate()
@@ -189,7 +223,6 @@ namespace Lullaby.Entities.Weapons
                     for (int k = 0; k < contacts; ++k)
                     {
                         Collider col = raycastHitCache[k].collider; //Cogemos el collider del objeto con el que ha colisionado el rayo esferico
-
                         if (col != null) CheckDamage(col, pts); //Comprobamos si el collider tiene el componente IDamageable y si lo tiene le hacemos daño
                     }
 

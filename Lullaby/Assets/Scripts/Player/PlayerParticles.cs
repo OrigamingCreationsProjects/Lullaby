@@ -19,6 +19,7 @@ namespace Lullaby.Entities
         public ParticleSystem grindTrails;
         public ParticleSystem jumpDust;
         public ParticleSystem jumpRing;
+        public ParticleSystem pillowSpawn;
 
         protected Player _player;
 
@@ -111,6 +112,7 @@ namespace Lullaby.Entities
             _player.playerEvents.OnDashStarted.AddListener(OnDashStarted);
             _player.playerEvents.OnDashEnded.AddListener(OnDashEnded);
             _player.playerEvents.OnJump.AddListener(HandleJumpParticle);
+            //_player.playerEvents.OnAttackStarted.AddListener(pillowSpawn.Play);
         }
 
         protected void Update()

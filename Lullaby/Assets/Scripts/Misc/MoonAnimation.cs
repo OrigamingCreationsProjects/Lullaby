@@ -64,7 +64,7 @@ namespace Lullaby
             s.Append(_smallMoon.DOLocalMove(Vector3.zero, .8f).SetEase(punchCurve));
             s.Join(_smallMoon.DOLocalRotate(new Vector3(0, 0, 360 * 2), .8f).SetEase(Ease.OutBack));
             s.AppendInterval(.8f);
-            s.AppendCallback(() => _animator.enabled = true);
+            //s.AppendCallback(() => _animator.enabled = true);
 
             return s;
         }
