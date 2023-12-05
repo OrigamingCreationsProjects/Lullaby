@@ -1,1 +1,0 @@
-En los spritesheets está la cara alrevés porque las UVs de la cara de Lulla está bocaabajo.
