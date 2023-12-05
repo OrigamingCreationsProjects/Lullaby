@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4005948375790985206}
   - component: {fileID: 3617602381505309446}
-  - component: {fileID: 4770932853110007903}
-  - component: {fileID: 3053913931400084555}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Untagged
@@ -34,7 +32,7 @@ Transform:
   - {fileID: 6762260947167001016}
   - {fileID: 2321814938397053294}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3617602381505309446
 MonoBehaviour:
@@ -81,42 +79,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!65 &4770932853110007903
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8350104447942774399}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.2407463, y: 0.9920766, z: 2.0645835}
-  m_Center: {x: 0.033982534, y: 0.5088029, z: -0.0388283}
---- !u!114 &3053913931400084555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8350104447942774399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e70286b6b549a38ea2f79da9a5a3e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSolid: 1
-  damageOnlyFromAbove: 1
-  damage: 5
 --- !u!1001 &2860356547151099525
 PrefabInstance:
   m_ObjectHideFlags: 0
