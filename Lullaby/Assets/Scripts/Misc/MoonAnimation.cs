@@ -20,14 +20,14 @@ namespace Lullaby
         
         private void Start()
         {
-            // _animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
             _bigMoon = transform.GetChild(0);
             _smallMoon = transform.GetChild(1);
         }
         
         public Sequence Reset(float time)
         {
-            // _animator.enabled = false;
+            _animator.enabled = false;
             Sequence s = DOTween.Sequence();
             s.Append(_bigMoon.DOLocalRotate(Vector3.zero, time).SetEase(Ease.InOutSine));
             s.Join(_smallMoon.DOLocalRotate(Vector3.zero, time).SetEase(Ease.InOutSine));
@@ -36,8 +36,8 @@ namespace Lullaby
 
         public Sequence PullMoon(float pullTime)
         {
-            // glowParticle.Play();
-            // chargeParticle.Play();
+            glowParticle.Play();
+            chargeParticle.Play();
 
             Sequence s = DOTween.Sequence();
 
@@ -54,17 +54,17 @@ namespace Lullaby
         {
             CinemachineImpulseSource[] impulses = FindObjectsOfType<CinemachineImpulseSource>();
 
-            // _animator.enabled = false;
+            _animator.enabled = false;
 
             Sequence s = DOTween.Sequence();
             
-            // s.AppendCallback(() => explodeParticle.Play());
-            // s.AppendCallback(() => smokeParticle.Play());
+            s.AppendCallback(() => explodeParticle.Play());
+            s.AppendCallback(() => smokeParticle.Play());
             s.AppendCallback(() => impulses[0].GenerateImpulse());
             s.Append(_smallMoon.DOLocalMove(Vector3.zero, .8f).SetEase(punchCurve));
             s.Join(_smallMoon.DOLocalRotate(new Vector3(0, 0, 360 * 2), .8f).SetEase(Ease.OutBack));
             s.AppendInterval(.8f);
-            //s.AppendCallback(() => _animator.enabled = true);
+            s.AppendCallback(() => _animator.enabled = true);
 
             return s;
         }
