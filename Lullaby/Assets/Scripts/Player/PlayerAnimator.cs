@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lullaby.Entities.States;
 using Lullaby.Entities.Weapons;
 using UnityEngine;
 
@@ -37,6 +38,7 @@ namespace Lullaby.Entities
         public string isHoldingName = "IsHolding";
         public string onStateChangedName = "OnStateChanged";
         public string attackTriggerName = "AttackTrigger";
+        public string railDashTriggerName = "RailDashTrigger";
         
         [Header("Settings")] 
         public float minLateralAnimationSpeed = 0.5f;
@@ -53,6 +55,7 @@ namespace Lullaby.Entities
         protected int _isHoldingHash;
         protected int _onStateChangedHash;
         protected int _attackTriggerHash;
+        protected int _railDashTriggerHash;
 
         protected Dictionary<int, ForcedTransition> m_forcedTransitions;
 
@@ -99,6 +102,7 @@ namespace Lullaby.Entities
             _isHoldingHash = Animator.StringToHash(isHoldingName);
             _onStateChangedHash = Animator.StringToHash(onStateChangedName);
             _attackTriggerHash = Animator.StringToHash(attackTriggerName);
+            _railDashTriggerHash = Animator.StringToHash(railDashTriggerName);
         }
 
         protected virtual void HandleForcedTransitions()
@@ -131,6 +135,11 @@ namespace Lullaby.Entities
             if (_player.inputs.GetAttackDown())
             {
                 //animator.SetTrigger(_attackTriggerHash);
+            }
+
+            if (_player.inputs.GetDashDown() && _player.states.IsCurrentOfType(typeof(RailGrindPlayerState)))
+            {
+                animator.SetTrigger(_railDashTriggerHash);
             }
         }
 
