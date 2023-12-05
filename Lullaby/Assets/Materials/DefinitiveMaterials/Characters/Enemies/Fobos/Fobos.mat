@@ -11,7 +11,10 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 39bab4a0e1706034ba9593be6791d2db, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MAIN_LIGHT_CALCULATE_SHADOWS
+  - _MAIN_LIGHT_SHADOWS_CASCADE
+  - _SHADOWS_SOFT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -77,8 +80,11 @@ Material:
     - _Cull: 2
     - _DstBlend: 0
     - _LightProbeContribution: 3.5
+    - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SHADOWS_SOFT: 1
     - _Smoothness: 0.9
     - _SrcBlend: 1
     - _Surface: 0
@@ -89,8 +95,8 @@ Material:
     - _MainColor: {r: 0.03804016, g: 0, b: 0.06603771, a: 0}
     - _Main_Color: {r: 0.17298706, g: 0.056229968, b: 0.254717, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _Primary_Color: {r: 0.1123364, g: 0.03107866, b: 0.1698113, a: 0}
-    - _Secondary_Color: {r: 0.5097721, g: 0.1844428, b: 0.6226415, a: 0}
+    - _Primary_Color: {r: 0.050238512, g: 0.012388747, b: 0.0754717, a: 0}
+    - _Secondary_Color: {r: 0.34940603, g: 0, b: 0.4716981, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
