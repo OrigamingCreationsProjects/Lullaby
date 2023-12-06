@@ -36,6 +36,7 @@ namespace Lullaby.Entities.States
         {
             player.ApplyGravity();
             player.SnapToGround();
+            
             //player.AccelerateToInputDirection();
             //player.transform.position = _skinAttackPosSlot.GetComponentInChildren<Animator>().transform.position;
             // MANEJAREMOS ESTO DESDE EL ANIMATOR
