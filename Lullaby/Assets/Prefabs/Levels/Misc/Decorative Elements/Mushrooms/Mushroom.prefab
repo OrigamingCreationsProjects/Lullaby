@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6644320132089642436}
+  - component: {fileID: 2417285782144832286}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Untagged
@@ -25,13 +26,34 @@ Transform:
   m_GameObject: {fileID: 73168830670881893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.96082, y: -624.80884, z: 787.13605}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7361573256446326160}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2417285782144832286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73168830670881893}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.8410797, y: 4.026123, z: 4.54541}
+  m_Center: {x: 0.42017365, y: 2.5374756, z: 0.7089844}
 --- !u!1001 &7035527116133421691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,9 +106,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: 0e5f7b630110f7e4ba418d2d6adaa756, type: 3}
+      propertyPath: m_Name
+      value: FlatShroom
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 0e5f7b630110f7e4ba418d2d6adaa756, type: 3}
+      propertyPath: m_Name
+      value: PeakShroom
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0e5f7b630110f7e4ba418d2d6adaa756, type: 3}
       propertyPath: m_Name
       value: mushroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: 0e5f7b630110f7e4ba418d2d6adaa756, type: 3}
+      propertyPath: m_Name
+      value: SmallShroom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
