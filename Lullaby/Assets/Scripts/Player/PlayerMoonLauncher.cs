@@ -34,7 +34,10 @@ public class PlayerMoonLauncher : MonoBehaviour
     [Header("Launch Preparation Sequence")]
     public float prepMoveDuration = .15f;
     public float launchInterval = .5f;
-
+    
+    [Header("Particles")]
+    public ParticleSystem followParticles;
+    
     private MoonAnimation _moonAnimation;
 
     private TrailRenderer _flyTrail;
@@ -105,7 +108,7 @@ public class PlayerMoonLauncher : MonoBehaviour
         s.Join(_moonAnimation.PullMoon(prepMoveDuration));
         s.AppendInterval(launchInterval);                                                                            // Wait for a while before the launch
         s.AppendCallback(() => _flyTrail.emitting = true);
-        //s.AppendCallback(() => followParticles.Play());
+        s.AppendCallback(() => followParticles.Play());
         Debug.Log("Vamos a empezar la traslacion");
         s.Append(DOVirtual.Float(moonPathCart.m_Position, 1, finalSpeed, PathSpeed).SetEase(pathCurve));                // Lerp the value of the Dolly Cart position from 0 to 1
         s.Join(_moonAnimation.PunchMoon(.5f)); //QUIZA CAMBIAR POR VARIABLE
@@ -128,7 +131,7 @@ public class PlayerMoonLauncher : MonoBehaviour
          impulseSource.GenerateImpulse();
          // animator.SetBool("flying", false);
          //
-         // followParticles.Stop();
+         followParticles.Stop();
          _flyTrail.emitting = false;
          GetComponent<Player>().states.Change<FallPlayerState>();
      }
