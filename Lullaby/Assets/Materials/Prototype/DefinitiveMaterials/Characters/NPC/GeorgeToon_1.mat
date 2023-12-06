@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: b0d535e7eff1038418546b470d4b463f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -53,7 +53,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
-    - _LightProbeContribution: 2.7
+    - _LightProbeContribution: 1.8
     - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
@@ -69,7 +69,7 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 1, g: 0.5226415, b: 0.96638316, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7554392168775407601
 MonoBehaviour:
