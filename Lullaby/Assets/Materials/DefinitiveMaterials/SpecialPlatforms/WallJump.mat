@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pillar
-  m_Shader: {fileID: -6465566751694194690, guid: fe51aa67625991448be270e0565383d8, type: 3}
+  m_Name: WallJump
+  m_Shader: {fileID: -6465566751694194690, guid: e8c08ba2a705b7a4ca51a31ac0448dff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,7 +37,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: 2f900881a23efbf4d9be41c38ef4d78f, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5b6b5fade0176944aa7055dba6001d3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -67,8 +67,10 @@ Material:
     - _QueueOffset: 0
     - _SHADOWS_SOFT: 0
     - _Smoothness: 0.9
-    - _Tiling: 15
+    - _Tiling: 25
     m_Colors:
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Tiling: {r: 8, g: 4, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
