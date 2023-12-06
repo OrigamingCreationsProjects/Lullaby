@@ -61,7 +61,7 @@ namespace Lullaby
             s.AppendCallback(() => explodeParticle.Play());
             s.AppendCallback(() => smokeParticle.Play());
             s.AppendCallback(() => impulses[0].GenerateImpulse());
-            s.Append(_smallMoon.DOLocalMove(Vector3.zero, .8f).SetEase(punchCurve));
+            s.Append(_smallMoon.DOLocalMove(_smallMoon.transform.localPosition, .8f).SetEase(punchCurve));
             s.Join(_smallMoon.DOLocalRotate(new Vector3(0, 0, 360 * 2), .8f).SetEase(Ease.OutBack));
             s.AppendInterval(.8f);
             s.AppendCallback(() => _animator.enabled = true);
