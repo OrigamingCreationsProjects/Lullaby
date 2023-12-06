@@ -22,40 +22,52 @@ namespace Lullaby.Entities.Enemies.States
 
     public override void OnStep(BossEnemy boss)
     {   
+        
         if(!boss.step) return;
-        if(boss.bossManager.enemyAttacking)
-        {
-            Debug.Log($"{boss.name} IS DECELERATING. AN ENEMY IS ATTACKING");boss.Decelerate(); return;
-            
-        }
-
-        if (boss.bossManager.enemyRetreating)
-        {
-            Debug.Log($"{boss.name} IS DECELERATING. AN ENEMY IS RETREATING");boss.Decelerate(); return;
-        }
+        if(boss.bossManager.enemyAttacking || boss.bossManager.enemyRetreating) { boss.Decelerate(); return; }
       
         Vector3 dir = Vector3.zero;
         var aux = ComputeDirections(boss);
-        //if(boss.stats.current.detectOtherBosses)//dir += 
-         //   DetectOtherBosses(boss);//*(1 - boss.stats.current.bossCollisionTolerance);
         dir = aux;
-        //Debug.DrawRay(boss.transform.position, aux *2f, Color.blue);
-        Debug.DrawRay(boss.transform.position, dir *2f, Color.green);
+        //Debug.DrawRay(boss.transform.position, dir *2f, Color.green);
         var playerPos = boss.player.position;
         playerPos.y = boss.position.y;
-        Debug.DrawRay(boss.transform.position,
-            (playerPos - boss.transform.position).normalized * (playerPos - boss.transform.position).magnitude, Color.red);
+        // Debug.DrawRay(boss.transform.position,
+        //     (playerPos - boss.transform.position).normalized * (playerPos - boss.transform.position).magnitude, Color.red);
         float distFromPlayer = (playerPos-boss.transform.position).magnitude;
         if(timeRemaining > 0) {
-            speed = (distFromPlayer - boss.stats.current.FsMinDistToPlayer) /
+            speed = Mathf.Abs((distFromPlayer - boss.stats.current.FsMinDistToPlayer)) /
                     timeRemaining;
             acceleration = speed/timeRemaining;
             timeRemaining -= Time.deltaTime;}
-      
-        if(distFromPlayer > boss.stats.current.FsMinDistToPlayer)
-            boss.Accelerate(dir.normalized, acceleration, speed); 
-        else
-            boss.Decelerate();
+       
+        switch (boss.stage)
+        {
+            case BossStages.FirstStage:
+                if(distFromPlayer > boss.stats.current.FsMinDistToPlayer)
+                    boss.Accelerate(dir.normalized, acceleration, speed); 
+                else
+                    boss.Decelerate();
+                break;
+            case BossStages.FinalStage:
+                //Debug.Log("WE ARE IN CIRCULATIN STATE FINAL STAGE");
+                if (boss.moveDirection != Vector3.zero)
+                {
+                    boss.Accelerate(dir.normalized, boss.stats.current.followAcceleration, boss.stats.current.followTopSpeed);
+                    //Debug.Log("WE ARE IN CIRCULATIN STATE FINAL STAGE ACCELERATING"); 
+                }
+                else
+                {
+                    boss.Decelerate();
+                    //Debug.Log("WE ARE IN CIRCULATIN STATE FINAL STAGE DECELERATING"); 
+                }
+                  
+                break;
+            case BossStages.SecondStage:
+                boss.Decelerate();
+                break;
+        }
+        
         
       
     }
@@ -67,20 +79,21 @@ namespace Lullaby.Entities.Enemies.States
     private Vector3 ComputeDirections(BossEnemy boss)
     {
         if(!boss.player) boss.enemyEvents.OnPlayerEscaped?.Invoke();
-
+        var moveDirection = boss.moveDirection;
         var playerPos = boss.player.position;
         playerPos.y = boss.position.y;
-        Vector3 dir = playerPos - boss.transform.position;
-        Vector3 normDir = dir.normalized;
-        Vector3 pDir = Quaternion.AngleAxis(90, Vector3.up) * normDir; //Vector perpendicular to direction
+        Vector3 dir;
+        Vector3 normDir;
+        Vector3 pDir; //Vector perpendicular to direction
         Vector3 finalDirection = new Vector3();
-       
-        
         
         //else finalDirection =  (normDir + pDir * moveDirection.normalized.x).normalized;
         switch(boss.stage)
             {
                 case BossStages.FirstStage:
+                    dir = playerPos - boss.transform.position;
+                    normDir = dir.normalized; 
+                    pDir = Quaternion.AngleAxis(90, Vector3.up) * normDir; 
                     finalDirection = normDir;
                 /*if (distFromPlayer < boss.stats.current.FsMinDistToPlayer) 
                     finalDirection = (-normDir + pDir * moveDirection.normalized.x).normalized;
@@ -88,6 +101,12 @@ namespace Lullaby.Entities.Enemies.States
                     finalDirection =  (normDir + pDir * moveDirection.normalized.x).normalized;
                 else
                     finalDirection = pDir * moveDirection.normalized.x;*/
+                    break;
+                case BossStages.FinalStage:
+                    dir = boss.bossManager.fightPlatform.position - boss.transform.position;
+                    normDir = dir.normalized;
+                    pDir = Quaternion.AngleAxis(90, Vector3.up) * normDir; 
+                    finalDirection = pDir * moveDirection.normalized.x;
                     break;
                 default:
                /*if (distFromPlayer < boss.stats.current.SsMinDistToPlayer) 
@@ -103,7 +122,7 @@ namespace Lullaby.Entities.Enemies.States
         return finalDirection;
     }
 
-    private void DetectOtherBosses(BossEnemy boss)
+   /* private void DetectOtherBosses(BossEnemy boss)
     {
         Collider[] collisions = Physics.OverlapSphere(boss.position,boss.stats.current.bossDetectionRadius);
         List<Vector3> directionsToBosses = new List<Vector3>(); 
@@ -132,7 +151,7 @@ namespace Lullaby.Entities.Enemies.States
         if(directionsToBosses.Count > 0)AccelerateOrDecelerate(directionMean, boss);
         //return -directionMean;
     }
-
+*/
     private void AccelerateOrDecelerate(Vector3 bossesDirections, BossEnemy boss)
     {
         //Check whether on my right or left 

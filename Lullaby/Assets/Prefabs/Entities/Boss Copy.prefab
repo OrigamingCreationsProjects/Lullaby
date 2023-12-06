@@ -37,7 +37,7 @@ Transform:
   - {fileID: 2803634644569126566}
   - {fileID: 1469509934489006396}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &904970189940328355
 MonoBehaviour:
@@ -139,10 +139,9 @@ MonoBehaviour:
   body: {fileID: 8743161578731930035}
   model: {fileID: 5286419560117750071}
   slot: {fileID: 0}
-  retreating: 0
   stage: 0
   IsInvincible: 1
-  numBullets: 4
+  numBullets: 1
   enemyEvents:
     OnPlayerDetected:
       m_PersistentCalls:

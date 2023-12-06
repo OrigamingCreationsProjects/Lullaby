@@ -9,5 +9,6 @@ namespace Lullaby.Systems.DialogueSystem
         public Color NPCColor;
         public Color NPCNameColor;
         public DialogueTextData dialogue;
+        public AudioClip barkClip;
     }
 }
