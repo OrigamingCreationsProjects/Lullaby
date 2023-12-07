@@ -20,6 +20,7 @@ namespace Lullaby.Entities.States
             player.PickAndThrow();
             player.LedgeGrab();
             player.Dash();
+            player.HandleMoonLauncher();
             //player.Glide(); //De momento desactivamos al no haber planeo (de momento)
             
             if (player.isGrounded)
