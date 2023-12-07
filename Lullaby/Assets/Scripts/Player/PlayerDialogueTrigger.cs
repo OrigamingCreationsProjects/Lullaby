@@ -70,7 +70,6 @@ namespace Lullaby.Entities
             {
                 if (sphereHit.transform.gameObject.CompareTag("Talker"))
                 {
-                    Debug.Log("George asignado");
                     _currentTalker = sphereHit.transform.gameObject.GetComponent<Talker>();
                     talker = _currentTalker;
                     targetGroup.m_Targets[1].target = _currentTalker.transform;

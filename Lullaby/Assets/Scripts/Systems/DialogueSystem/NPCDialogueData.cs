@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Lullaby.Systems.DialogueSystem
 {
@@ -9,5 +10,7 @@ namespace Lullaby.Systems.DialogueSystem
         public Color NPCColor;
         public Color NPCNameColor;
         public DialogueTextData dialogue;
+        public Texture2D pattern;
+        public AudioClip barkClip;
     }
 }
