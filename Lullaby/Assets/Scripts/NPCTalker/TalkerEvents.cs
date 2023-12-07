@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Lullaby.Entities.Events
@@ -30,5 +31,10 @@ namespace Lullaby.Entities.Events
         /// Called when this Talker finish a dialogue with the Player.
         /// </summary>
         public UnityEvent OnDialogueFinished;
+        
+        /// <summary>
+        /// Called when this Talker reproduce one dialogue line.
+        /// </summary>
+        public UnityEvent<AudioClip> OnDialogueBark;
     }
 }

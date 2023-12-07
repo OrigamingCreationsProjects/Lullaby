@@ -9,7 +9,7 @@ namespace Lullaby.Entities
     {
         protected MeleeWeapon _meleeWeapon;
         protected Player _player;
-
+        
         protected virtual void EquipMeleeWeapon(bool equip)
         {
             _meleeWeapon.gameObject.SetActive(equip);
@@ -18,6 +18,12 @@ namespace Lullaby.Entities
         protected virtual void ActivateWeapon()
         {
             EquipMeleeWeapon(true);
+            _meleeWeapon.ChangeSimulationSpaceFeatherParticle(ParticleSystemSimulationSpace.World);
+            foreach (ParticleSystem p in  _meleeWeapon.appearParticles)
+            {
+                p.Play();
+            }
+           
         }
         
         protected virtual void DeactivateWeapon()

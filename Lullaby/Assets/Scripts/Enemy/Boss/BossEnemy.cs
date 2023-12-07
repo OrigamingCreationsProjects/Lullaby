@@ -6,7 +6,6 @@ using DG.Tweening;
 using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
-using OpenCover.Framework.Model;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,8 +21,7 @@ namespace Lullaby.Entities.Enemies
         public float yAngle;
         [Header("Prefab Assignment")] [SerializeField]
         public GameObject bulletPrefab;
-
-        public bool enemyAttacking;
+        
         [SerializeField] private GameObject body;
         [SerializeField] private GameObject model;
 
@@ -44,14 +42,12 @@ namespace Lullaby.Entities.Enemies
         /// </summary>
 
         [HideInInspector] public Transform slot;
-
-
+        
         public Health health { get; protected set; }
-        public bool retreating = false;
         public Coroutine MovementCoroutine;
 
         public static BossEnemy MainBoss;
-        [HideInInspector] public BossStages stage = BossStages.FirstStage;
+        public BossStages stage = BossStages.FirstStage;
         [HideInInspector] public bool IsInvincible = true;
         public int numBullets = 4;
 
@@ -66,7 +62,10 @@ namespace Lullaby.Entities.Enemies
         public bool step = true;
         public int index { get; private set; }
         [HideInInspector] public bool invoked = false;
-
+        private bool controlled = true;
+        public Vector3 moveDirection { get; private set; }
+        [HideInInspector] public float angleAssigned;
+        [HideInInspector] public Vector2 dirFacing;
         #region -- INITIALIZERS --
 
         protected virtual void InitializeStatsManager() => stats = GetComponent<BEStatsManager>();
@@ -115,12 +114,34 @@ namespace Lullaby.Entities.Enemies
 
         protected override void Update()
         {
-            base.Update();
+            HandleController();
+            HandleStates();
+            HandleContacts();
+            OnUpdate();
             LookAtPlayer(model.transform);
             LookAtPlayerSmooth(transform);
         }
         protected override void OnUpdate()
         {
+            // if (stage == BossStages.FinalStage)
+            // {
+            //     var enemyPos = new Vector2(position.x, position.z);
+            //     var platformPos = new Vector2(bossManager.fightPlatform.position.x,
+            //         bossManager.fightPlatform.position.z);
+            //     var dirToEnemy = (enemyPos - platformPos).normalized;
+            //     if (Vector2.Angle(dirFacing, dirToEnemy) > (angleAssigned - stats.current.angleOffset)/ 2 && !controlled)
+            //     {
+            //         Debug.Log($"BOSS {name} IS OUTSIDE OF HIS ZONE");
+            //         moveDirection *= -1;
+            //         controlled = true;
+            //     }
+            //     else if(Vector2.Angle(dirFacing, dirToEnemy) < (angleAssigned - stats.current.angleOffset) / 2)
+            //     {
+            //         Debug.Log($"BOSS {name} IS INSIDE OF HIS ZONE");
+            //         controlled = false;    
+            //     }
+            // }
+            
             if (MainBoss != this) return;
             DetectPlayer();
             SetStages();
@@ -202,7 +223,7 @@ namespace Lullaby.Entities.Enemies
                 bullet.SetActive(false);
                 bullet.GetComponent<MeshRenderer>().material = body.GetComponent<MeshRenderer>().material;
                 var bulletScript = bullet.GetComponent<BulletBehaviour>();
-                bulletScript.parentBoss = this;
+                bulletScript.SetParentBoss(this);
                 bullets.Add(bulletScript);
             }
         }
@@ -220,7 +241,6 @@ namespace Lullaby.Entities.Enemies
 
         private void SetStages()
         {
-           
             if (health.current > 200) stage = BossStages.FirstStage;
             if (health.current > 100 && health.current < 200) stage = BossStages.SecondStage;
             if (health.current < 100) stage = BossStages.FinalStage;
@@ -229,6 +249,14 @@ namespace Lullaby.Entities.Enemies
         public void Disable()
         {
             step = false;
+            if (stage != BossStages.FirstStage)
+            {
+                foreach (var bullet in bullets)
+                {
+                    bullet.gameObject.SetActive(false);
+                }
+            }
+          
             //enabled = false;
             controller.enabled = false;
             //rotateAnimComponent.enabled = false;
@@ -250,7 +278,19 @@ namespace Lullaby.Entities.Enemies
             
         }
 
-       
+        public IEnumerator EnemyMovement(Vector3 movement = default)
+        {
+            Debug.Log("ENEMY MOVEMENT RUNNING " + name);
+            if (movement == default)
+            {
+                int randomDir = Random.Range(0, 2);
+                moveDirection = randomDir == 1 ? Vector3.right : Vector3.left;
+                Debug.Log($"MOVE DIRECTION OF {name} IS " + moveDirection);
+            }
+
+            yield return null;
+
+        }
         #endregion 
         
 
@@ -270,10 +310,7 @@ namespace Lullaby.Entities.Enemies
             {
                 if (bullet)
                 {
-                    var dir = (transform.position - player.transform.position).normalized;
-                    bullet.speed = bullet.stats.reboundSpeed;
-                    bullet.followBoss = true;
-                    bullet.SetMovingDirection(dir);
+                    bullet.Rebound();
                     player.ApplyDamage(stats.current.contactDamage, transform.position);
                 }
                 else
@@ -291,9 +328,11 @@ namespace Lullaby.Entities.Enemies
             if (health.current <= stats.current.secondStageThreshold && health.current > stats.current.finalStageThreshold)
             {
                 enemyEvents.HandleSecondStage();
+                
             } else if (health.current <= stats.current.finalStageThreshold && health.current > 0)
             {
                enemyEvents.HandleFinalStage();
+              
             }
         }
 
@@ -312,6 +351,7 @@ namespace Lullaby.Entities.Enemies
                 if (health.isEmpty)
                 {
                     enemyEvents.HandleAttack(false);
+                    enemyEvents.HandleRetreat(false);
                     controller.enabled = false;
                     bossManager.RemoveBossFromBuffer(this);
                     bossManager.CheckInvincibilityStatus();

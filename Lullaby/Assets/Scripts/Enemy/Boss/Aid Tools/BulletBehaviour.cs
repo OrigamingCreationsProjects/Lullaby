@@ -7,22 +7,38 @@ namespace Lullaby.Entities.Enemies
 {
     public class BulletBehaviour : MonoBehaviour
     {
-        public BossEnemy parentBoss;
+        public BossEnemy _parentBoss { get; private set;}
         public CapsuleCollider collider {get; private set;}
-        public bool followBoss = false;
+       
         public ProjectileStats stats;
         public Vector3 dir { get; private set; }
         public bool shot {get; private set;}
+        
+        private bool followBoss = false;
         private float currentTime;
         public float speed;
+        private float time;
+
+        #region SET
+
+        public void SetParentBoss(BossEnemy parent)
+        {
+            if (_parentBoss == null) _parentBoss = parent;
+        }
+        
+        protected void SetShotStatus(bool value) => shot = value;
+
+        #endregion
         protected virtual void InitializeCollider() => collider = GetComponent<CapsuleCollider>();
-        protected virtual void MoveProjectile(float speed) => transform.position += dir * (Time.deltaTime * speed);
 
         protected virtual void HandleTimeAlive()
         {
-            
-            if(currentTime <= 0f){ UpdateShotStatus(false); 
-                currentTime = stats.timeAlive; gameObject.SetActive(false); }
+            if (currentTime <= 0f)
+            { 
+                SetShotStatus(false); 
+                currentTime = stats.timeAlive; 
+                gameObject.SetActive(false); 
+            }
             else currentTime -= Time.deltaTime;
         }
 
@@ -31,24 +47,35 @@ namespace Lullaby.Entities.Enemies
             if (direction != default) {
                 dir = direction;
             }
+            else if(time < 0f)
+            {
+                var dirPlayer = (_parentBoss.player.transform.position - transform.position).normalized;
+                dir += dirPlayer * stats.curveSpeed;
+                time = stats.playerPosUpdateDelay;
+            }
             else
-                dir = (parentBoss.player.transform.position - parentBoss.transform.position).normalized;
-            UpdateShotStatus(true);
+            {
+                time -= Time.deltaTime;
+            }
+
+            dir = dir.normalized;
+            transform.position += dir.normalized * (Time.deltaTime * speed);
+           
         }
-        protected void UpdateShotStatus(bool value) => shot = value;
-        protected virtual void ContactAttack(Collider other){parentBoss.ContactAttack(other, collider.bounds, this);}
+     
+        protected virtual void ContactAttack(Collider other){_parentBoss.ContactAttack(other, collider.bounds, this);}
 
         protected void CenterAtParent()
         {
-            var offset = (parentBoss.player.position - parentBoss.position).normalized * 5f;
-            transform.position = parentBoss.position + offset;
+            var offset = (_parentBoss.player.position - _parentBoss.position).normalized * stats.distanceFromBoss;
+            transform.position = _parentBoss.position + offset;
         }
         
-        protected void CheckPlayerCollision(Collider other) {
-            if(!other.CompareTag(GameTags.Player)) return; 
-            if(!other.TryGetComponent(out Player player)) return; 
-            UpdateShotStatus(false);
-            gameObject.SetActive(false);
+        public void Rebound()
+        {
+            followBoss = true;
+            speed = stats.reboundSpeed;
+            currentTime = stats.timeAlive;
         }
         
         #region -- MONOBEHAVIOUR --
@@ -57,49 +84,49 @@ namespace Lullaby.Entities.Enemies
         { 
             InitializeCollider();
             currentTime = stats.timeAlive;
-            UpdateShotStatus(false);
+            SetShotStatus(false);
         }
         
         void Start()
         {
             speed = stats.projectileSpeed;
-           //SetMovingDirection();
+            time = -1f;
         }
         void Update()
         {
-            MoveProjectile(speed);
+            if(followBoss) SetMovingDirection((_parentBoss.position - transform.position).normalized);
+            else SetMovingDirection();
             HandleTimeAlive();
-            if(followBoss) SetMovingDirection((parentBoss.position - transform.position).normalized);
+           
         }
         private void OnTriggerEnter(Collider other)
         {
-            var dir = (parentBoss.position - parentBoss.player.position).normalized;
             if (other.TryGetComponent<BossEnemy>(out BossEnemy enemy))
             {
-                if(enemy == parentBoss) enemy.ApplyDamage(101);
-                UpdateShotStatus(false);
+                if(enemy == _parentBoss && followBoss) enemy.ApplyDamage(101);
+                SetShotStatus(false);
                 gameObject.SetActive(false);
-                followBoss = false;
             }
-            if(!other.CompareTag(GameTags.Player)) return; 
          
             ContactAttack(other);
-            //CheckPlayerCollision(other);
         }
 
         private void OnEnable()
         {
             CenterAtParent();
-            SetMovingDirection();
+            followBoss = false;
+            dir = Vector3.zero;
+            SetShotStatus(true);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-           UpdateShotStatus(false);
+           SetShotStatus(false);
            gameObject.SetActive(false);
            
         }
 
+    
         #endregion
         
     }

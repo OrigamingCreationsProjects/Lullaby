@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using Lullaby.Entities.Enemies;
 using Lullaby.Entities.Events;
@@ -22,6 +23,7 @@ namespace Lullaby.Entities
         public PlayerEvents playerEvents;
         public Transform pickableSlot; //Slot para posicionar el objeto que se puede recoger
         public Transform skin;
+        //public Transform objectLauncherTest;
         
         protected Vector3 _respawnPosition;
         protected Quaternion _respawnRotation;
@@ -107,6 +109,19 @@ namespace Lullaby.Entities
         /// </summary>
         public virtual bool canStandUp => !SphereCast(transform.up, originalHeight * 0.5f);
 
+        #region -- MOON LAUNCH --
+        
+        /// <summary>
+        /// Returns the PlayerMoonLauncher instance.
+        /// </summary>
+        public PlayerMoonLauncher moonLauncher { get; protected set; }
+        
+        //public virtual CinemachineDollyCart moonPathCart { get; set; }
+
+        #endregion
+        
+        
+        
         #region -- INITIALIZERS --
         
         protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
@@ -116,6 +131,8 @@ namespace Lullaby.Entities
         protected virtual void InitializeTag() => tag = GameTags.Player;
         protected virtual void InitializePlayerEnemyDetector() => playerEnemyDetector = GetComponentInChildren<PlayerEnemyDetector>();
         protected virtual void InitializePlayerCombat() => playerCombat = GetComponent<PlayerCombat>();
+        protected virtual void InitializeMoonLauncher() => moonLauncher = GetComponent<PlayerMoonLauncher>();
+        //protected virtual void InitializeMoonPathCart() => moonPathCart = moonLauncher.dollyCart;
         
         
         protected virtual void InitializeRespawn()
@@ -448,8 +465,7 @@ namespace Lullaby.Entities
                     airAttackCounter++;
                 }
                 
-                Sequence s = DOTween.Sequence();
-                s.AppendCallback(() => playerCombat.AttackCheck());
+                playerCombat.AttackCheck();
                 //s.AppendCallback(() => playerCombat.RegularAttackCheck());
                 //s.AppendCallback(() => states.Change<AttackPlayerState>());
                 //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
@@ -633,6 +649,24 @@ namespace Lullaby.Entities
                 playerEvents.OnDialogueStarted?.Invoke();
             }
         }
+        
+        public virtual void HandleMoonLauncher()
+        {
+            var distance = 5f; //Cambiar por variable
+            if (SphereCast(transform.forward, distance, out var hit, Physics.DefaultRaycastLayers, 
+                    QueryTriggerInteraction.Collide) && hit.collider.CompareTag(GameTags.MoonLauncher))
+            {
+                //Debug.Log("Detectamos Launcher");
+                
+                moonLauncher.launchObject = hit.transform;
+                if (inputs.GetPickAndDropDown())
+                {
+                    Debug.Log("Detectamos Interact");
+                    states.Change<MoonFlyPlayerState>();   
+                }
+            }
+        }
+        
         public virtual void Glide()
         {
             // if(!isGrounded && inputs.GetGlide() && 
@@ -729,7 +763,9 @@ namespace Lullaby.Entities
             InitializeRespawn();
             InitializePlayerEnemyDetector();
             InitializePlayerCombat();
-            
+            InitializeMoonLauncher();
+            //InitializeMoonPathCart();
+            //launchObject = objectLauncherTest;
             entityEvents.OnGroundEnter.AddListener(() =>
             {
                 ResetJumps();

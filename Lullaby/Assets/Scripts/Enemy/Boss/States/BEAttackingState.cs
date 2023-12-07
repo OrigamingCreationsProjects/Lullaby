@@ -16,29 +16,28 @@ namespace Lullaby.Entities.Enemies.States
         private float playerPosUpdateDelay;
         protected override void OnEnter(BossEnemy entity)
         {
-            entity.enemyEvents.HandleAttack(true);
+            //entity.enemyEvents.HandleAttack(true);
             retreat = false;
             //entity.transform.parent = null;
             
             dir = (entity.player.position - entity.transform.position);
             lastPos = entity.position;
-            lastPos.y = BossEnemy.MainBoss.position.y;
+            lastPos.y = 0f;
             timePersecuting = entity.stats.current.FsPursuitTime;
             playerPosUpdateDelay =  entity.stats.current.FSPlayerPosUpdateDelay;
 
             if (entity.stage == BossStages.FirstStage) return;
        
             Sequence s = DOTween.Sequence();
-            entity.ShootBullet(entity.index);
-            s.AppendInterval(3f);
+            s.AppendCallback(() => entity.ShootBullet(entity.index));
             s.AppendCallback(() => entity.enemyEvents.OnAttackPerformed?.Invoke());
-           
         }
 
         protected override void OnExit(BossEnemy entity)
         {
-            entity.enemyEvents.HandleAttack(false);
+           
             entity.lateralVelocity = Vector3.zero;
+            if(entity.stage != BossStages.FirstStage)entity.enemyEvents.HandleAttack(false);
             if (!retreat) return;
             Sequence s = DOTween.Sequence();
             // s.AppendCallback(() => entity.transform.parent = BossEnemy.MainBoss.transform);
@@ -48,9 +47,9 @@ namespace Lullaby.Entities.Enemies.States
                 {
                     //if(entity.stats.current.goBackIntoSlot)
                     //{
-                        entity.transform.DOMove(lastPos,entity.stats.current.returnToPosTime);
+                    entity.transform.position = lastPos;
+                       // entity.transform.DOMove(lastPos,entity.stats.current.returnToPosTime);
                         //if(entity.stats.current.waitForRetreat)
-                        entity.retreating = true;
                         entity.enemyEvents.HandleRetreat(true);
                     //}
 
@@ -60,8 +59,8 @@ namespace Lullaby.Entities.Enemies.States
             s.AppendCallback(() => entity.SetController(false));
             s.AppendInterval(entity.stats.current.returnToPosTime);
             s.AppendCallback(() => entity.SetController(true));
-            s.AppendCallback(() => entity.retreating = false);
             s.AppendCallback(() => entity.enemyEvents.HandleRetreat(false));
+            s.AppendCallback(() => entity.enemyEvents.HandleAttack(false));
             //entity.transform.position = entity.slot.position;
             //entity.transform.parent = BossEnemy.MainBoss.transform;   
         }
@@ -73,7 +72,7 @@ namespace Lullaby.Entities.Enemies.States
             {
                 if(playerPosUpdateDelay < 0f) {
                     dir = (entity.player.position - entity.transform.position);
-                    playerPosUpdateDelay =  entity.stats.current.FSPlayerPosUpdateDelay;
+                    playerPosUpdateDelay = entity.stats.current.FSPlayerPosUpdateDelay;
                 }
                 var dist = (entity.player.position - entity.transform.position).magnitude;
                 if (dist < entity.stats.current.DestinyReachedThreshold || timePersecuting <= 0f)

@@ -21,13 +21,14 @@ namespace Lullaby.Entities.Enemies
         public int contactDamage = 1;
         public float contactPushBackForce = 18f;
         public float contactSteppingTolerance = 0.1f;
+        
+        [Header("Attack Stats")]
         public float attackLaunchSpeed = 30f;
         public float attackLaunchAcceleration = 40f;
         public float attackMaxWaitingTime = 6f;
         public float attackMinWaitingTime = 4f;
         public float distAttackMaxWaitingTime = 2.5f; 
         public float distAttackMinWaitingTime = 1f;
-        public int maxSimultaenousAttackers = 1;
      
         [Header("View Stats")]
         public float spotRange = 5f;
@@ -35,16 +36,9 @@ namespace Lullaby.Entities.Enemies
 
         [Header("Follow Stats")]
         public float followAcceleration = 10f;
-        public float accelerationBuff = 1000f;
-          public float decelerationNerf = 30f;
         public float followTopSpeed = 4f;
-        public float topSpeedBuff = 10f;
         public float DestinyReachedThreshold = 2f;
-        public bool detectOtherBosses = true;
-        public float bossDetectionRadius = 3f;
-        public bool goBackIntoSlot = true;
-        public bool waitForRetreat = true;
-       // public float bossCollisionTolerance = 0.1f;
+       
 
         [Header("Stages Parameters")] 
 
@@ -57,12 +51,10 @@ namespace Lullaby.Entities.Enemies
         public float returnToPosTime = 1.15f;
    
         [Header("Rest of Stages")]
-        public float SsMinDistToPlayer = 5f;
         public float SsMaxDistToPlayer = 10f;
         public int secondStageThreshold = 200;
-
+        public float angleOffset = 20f;
         public int finalStageThreshold = 100;
-    
-       
+
     }   
 }

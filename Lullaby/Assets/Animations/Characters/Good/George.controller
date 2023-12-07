@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Speak
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -814417751153490954}
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6844148031619992127, guid: aee8252e34407694db5d0736f49bcc33, type: 3}
+  m_Motion: {fileID: -1923030924476262201, guid: 52a9ca9d731d327429af60c8c27c0207, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -41,9 +41,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.8064516
+  m_TransitionDuration: 0.12185395
+  m_TransitionOffset: 0.038443826
+  m_ExitTime: 0.96022683
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -63,7 +63,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -91,7 +91,7 @@ AnimatorStateMachine:
     m_Position: {x: 340, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8801398011346779444}
-    m_Position: {x: 380, y: -20, z: 0}
+    m_Position: {x: 400, y: -60, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -123,7 +123,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6517714258327031822, guid: aee8252e34407694db5d0736f49bcc33, type: 3}
+  m_Motion: {fileID: -3100369314251171874, guid: 52a9ca9d731d327429af60c8c27c0207, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
