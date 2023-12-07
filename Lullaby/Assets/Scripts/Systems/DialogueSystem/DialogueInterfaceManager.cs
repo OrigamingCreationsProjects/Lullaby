@@ -24,6 +24,7 @@ namespace Lullaby.Systems.DialogueSystem
         public TMP_Animated animatedText;
         public Image nameBubble;
         public TextMeshProUGUI nameTMP;
+        public RawImage patternImage;
         
         // -- Talker variables --
         public int currentTalkerIndex = 0; 
@@ -42,12 +43,14 @@ namespace Lullaby.Systems.DialogueSystem
         [Header("Cameras")]  
         public GameObject gameCam;
         public GameObject dialogueCam;
+        
         [Header("Zoom Variables")] 
         [Range(0, 40)] public float zoomValue = 25;
         [Range(0, 2)] public float zoomTime = 0.2f;
         [Range(0, 2)] public float zoomTransitionTime = 0.2f;
 
         protected int _talkHash;
+        
         [Space]
         public Volume dialogueDof;
 
@@ -56,6 +59,8 @@ namespace Lullaby.Systems.DialogueSystem
         private int dialogueIndex;
 
         private Player _player;
+        
+        private AudioClip _barkClip;
         private void Awake()
         {
             if (Instance == null)
@@ -122,12 +127,14 @@ namespace Lullaby.Systems.DialogueSystem
                 // s.AppendInterval(.8f);
                 // s.AppendCallback(() => animatedText.ReadText(currentNPC.dialogueText.conversationBlock[dialogueIndex]));
                 if (CurrentTalkerHasChanged)
-                { 
+                {
                     ChangeDialogueCameraTarget();
                     ChangeUITalker();
+                    SetCurrentAnimator();
                 }
                 animatedText.ReadText(currentLine);
                 currentTalkerAnimator.SetTrigger(_talkHash);
+                currentTalker.talkerEvents.OnDialogueBark?.Invoke(_barkClip);
             } 
             else if(animatedText.maxVisibleCharacters != currentLine.Length)
             {
@@ -150,9 +157,9 @@ namespace Lullaby.Systems.DialogueSystem
             fadeSequence.Append(canvasGroup.DOFade(show ? 1 : 0, time));
             if (show)
             {
-                currentTalkerAnimator = currentTalker.GetComponentInChildren<Animator>();
-                _talkHash = Animator.StringToHash("Talk");
+                SetCurrentAnimator();
                 currentTalkerAnimator.SetTrigger(_talkHash);
+                currentTalker.talkerEvents.OnDialogueBark?.Invoke(_barkClip);
                 dialogueIndex = 0;
                 fadeSequence.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
                 //fadeSequence.AppendCallback(() => animatedText.text = currentNPC.dialogueText.conversationBlock[dialogueIndex]);
@@ -161,17 +168,28 @@ namespace Lullaby.Systems.DialogueSystem
             }
         }
 
+        public void SetCurrentAnimator()
+        {
+            NPCDialogueScript s = currentTalker.talkersDialogueScripts[currentTalkerIndex];
+            currentTalkerAnimator = s.gameObject.GetComponentInChildren<Animator>();
+            _talkHash = Animator.StringToHash("Talk");
+        }
+        
         public void SetCharNameAndColor()
         {
             nameTMP.text = currentNPC.data.NPCName;
             nameTMP.color = currentNPC.data.NPCNameColor;
             nameBubble.color = currentNPC.data.NPCColor;
+            patternImage.texture = currentNPC.data.pattern;
+            _barkClip = currentNPC.data.barkClip;
         } 
         private void ChangeCharNameAndColor(NPCDialogueData data)
         {
             nameTMP.text = data.NPCName;
             nameTMP.color = data.NPCNameColor;
             nameBubble.color = data.NPCColor;
+            patternImage.texture = data.pattern;
+            _barkClip = data.barkClip;
         }
         
         public void CameraChange(bool dialogue)
@@ -182,7 +200,6 @@ namespace Lullaby.Systems.DialogueSystem
             //Depth of field modifier
             float dofWeight = dialogueCam.activeSelf ? 1 : 0;
             DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
-            //Crear DoVirtualFloat Para la mierda del DOF
         }
 
         public void DialogueDOF(float x)
@@ -211,7 +228,6 @@ namespace Lullaby.Systems.DialogueSystem
             {
                 dialogueIndex++;
                 nextDialogue = true;
-                Debug.Log($"INDICE DE DIALOGO ACTUAL {dialogueIndex}");
             }
             else
             {

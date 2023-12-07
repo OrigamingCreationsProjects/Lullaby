@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 namespace Lullaby
 {
@@ -11,7 +12,7 @@ namespace Lullaby
         public MeshRenderer[] renderers;
         public Color flashColor = Color.red;
         public float flashDuration = 0.5f;
-
+        public MaterialType materialType = MaterialType.Unlit;
         protected Health _health;
 
         public virtual void Flash()
@@ -27,14 +28,28 @@ namespace Lullaby
         protected virtual IEnumerator FlashRoutine(Material material)
         {
             var elapsedTime = 0f;
-            var flashColor = this.flashColor;
-            var initialColor = material.color;
+            var localFlashColor = this.flashColor;
+            bool isSpecial = materialType != MaterialType.Unlit;
+            string propertyName = materialType == MaterialType.Toon ? "_Tint" : "_Primary_Color";
+            var initialColor = isSpecial? material.GetColor(propertyName) : material.color;
 
-            while (elapsedTime < flashDuration)
+            if (!isSpecial)
             {
-                elapsedTime += Time.deltaTime;
-                material.color = Color.Lerp(flashColor, initialColor, elapsedTime / flashDuration);
-                yield return null;
+                while (elapsedTime < flashDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    material.color = Color.Lerp(localFlashColor, initialColor, elapsedTime / flashDuration);
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (elapsedTime < flashDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    material.SetColor(propertyName, Color.Lerp(localFlashColor, initialColor, elapsedTime / flashDuration)); 
+                    yield return null;
+                }
             }
 
             material.color = initialColor;
@@ -45,5 +60,11 @@ namespace Lullaby
             _health = GetComponent<Health>();
             _health.onDamage.AddListener(Flash);
         }
+    }
+    public enum MaterialType
+    {
+        Unlit,
+        Toon, 
+        Fobos
     }
 }

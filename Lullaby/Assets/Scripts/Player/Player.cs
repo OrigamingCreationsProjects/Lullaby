@@ -465,8 +465,7 @@ namespace Lullaby.Entities
                     airAttackCounter++;
                 }
                 
-                Sequence s = DOTween.Sequence();
-                s.AppendCallback(() => playerCombat.AttackCheck());
+                playerCombat.AttackCheck();
                 //s.AppendCallback(() => playerCombat.RegularAttackCheck());
                 //s.AppendCallback(() => states.Change<AttackPlayerState>());
                 //s.AppendCallback(() => playerEvents.OnAttackStarted?.Invoke());
@@ -654,7 +653,6 @@ namespace Lullaby.Entities
         public virtual void HandleMoonLauncher()
         {
             var distance = 5f; //Cambiar por variable
-
             if (SphereCast(transform.forward, distance, out var hit, Physics.DefaultRaycastLayers, 
                     QueryTriggerInteraction.Collide) && hit.collider.CompareTag(GameTags.MoonLauncher))
             {
