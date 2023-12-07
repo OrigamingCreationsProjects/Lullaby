@@ -31,7 +31,7 @@ Transform:
   - {fileID: 6884465970170573447}
   - {fileID: 379050160880841043}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &727692428964493384
 PrefabInstance:
@@ -41,6 +41,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8205547130574328042}
     m_Modifications:
+    - target: {fileID: 5502149599951733310, guid: 9cca10023a798f045af1930ca31eeea4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c75cb2320ff093f44b07d772862d2657, type: 2}
     - target: {fileID: 6166484776403552975, guid: 9cca10023a798f045af1930ca31eeea4, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -107,6 +111,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8205547130574328042}
     m_Modifications:
+    - target: {fileID: 5502149599951733310, guid: 9cca10023a798f045af1930ca31eeea4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c75cb2320ff093f44b07d772862d2657, type: 2}
     - target: {fileID: 6166484776403552975, guid: 9cca10023a798f045af1930ca31eeea4, type: 3}
       propertyPath: m_RootOrder
       value: 0
