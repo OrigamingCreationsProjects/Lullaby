@@ -157,6 +157,11 @@ namespace Lullaby.Entities.Enemies
             s.AppendCallback(() => skin.gameObject.SetActive(false));
             s.AppendCallback(() => this.gameObject.layer = 0);
             
+            s.AppendInterval(0.8f); 
+            if (GetComponentInParent<DollyManager>() != null)
+            {
+                s.AppendCallback(() => GetComponentInParent<DollyManager>().SetEnemyAvailability(this, false));
+            }
             s.AppendCallback(() => this.enabled = false);
             s.AppendInterval(3.5f); 
             s.AppendCallback(() => gameObject.SetActive(false));
