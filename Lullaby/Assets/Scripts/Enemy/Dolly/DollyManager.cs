@@ -26,7 +26,7 @@ namespace Lullaby.Entities.Enemies
         [Header("Main Dolly AI Loop - Settings")]
         private Coroutine _AI_LoopCoroutine;
         
-        
+        public int GetAliveEnemiesCount() => aliveDollysCount;
         
         public void StartAI()
         {
@@ -35,7 +35,7 @@ namespace Lullaby.Entities.Enemies
 
         IEnumerator AI_Loop(Dolly dolly)
         {
-            if (GetAliveEnemyCount() == 0)
+            if (GetAliveEnemiesCount() == 0)
             {
                 Debug.Log("PARAMOS EL AI LOOP");
                 StopCoroutine(AI_Loop(null));
@@ -68,7 +68,7 @@ namespace Lullaby.Entities.Enemies
 
             yield return new WaitForSeconds(Random.Range(minTimeToAttackAgain, maxTimeToAttackAgain));
             
-            if(GetAliveEnemyCount() > 0)
+            if(GetAliveEnemiesCount() > 0)
                 _AI_LoopCoroutine = StartCoroutine(AI_Loop(attackingDolly));
         }
 
@@ -113,7 +113,7 @@ namespace Lullaby.Entities.Enemies
             return randomDolly;
         }
         
-        public int GetAliveEnemyCount()
+        public int CheckAliveEnemyCount()
         {
             int count = 0;
             for (int i = 0; i < allEnemies.Length; i++)
@@ -125,6 +125,8 @@ namespace Lullaby.Entities.Enemies
             return count;
         }
         
+        public void DecreaseAliveEnemyCount() => aliveDollysCount--;
+        
         public void SetEnemyAvailability(Enemy enemy, bool state)
         {
             for (int i = 0; i < allEnemies.Length; i++)
@@ -133,16 +135,19 @@ namespace Lullaby.Entities.Enemies
                     allEnemies[i].enemyAvailability = state;
             }
 
-            if (_player.playerEnemyDetector.CurrentTarget() == enemy)
+            if (!state) DecreaseAliveEnemyCount();
+
+            if (_player.playerEnemyDetector.GetCurrentTarget() == enemy)
                 _player.playerEnemyDetector.SetCurrentTarget(null);
+            
             if (attackingDolly == enemy)
             {
                 StopCoroutine(AI_Loop(null));
-                if(GetAliveEnemyCount() > 0)
+                if(GetAliveEnemiesCount() > 0)
                     StartAI();
             }
 
-            if (GetAliveEnemyCount() <= 0)
+            if (GetAliveEnemiesCount() <= 0)
             {
                 OnEnemiesDefeated?.Invoke();
             }
@@ -176,6 +181,7 @@ namespace Lullaby.Entities.Enemies
             {
                 allEnemies[i].enemyScript = _dollysClones[i];
                 allEnemies[i].enemyAvailability = true;
+                aliveDollysCount++;
             }
             OnEnemiesDefeated.AddListener(DebugEventLaunched);
             StartAI();
