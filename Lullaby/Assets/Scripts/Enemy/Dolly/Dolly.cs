@@ -217,7 +217,7 @@ namespace Lullaby.Entities.Enemies
             if (Vector3.Distance(transform.position, player.transform.position) < dollyStats.current.minDistanceToAttack)
             {
                 StopMoving();
-                if(!player.GetComponent<PlayerCombat>().isAttackingEnemy) //(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
+                if(!player.GetComponent<PlayerCombat>().isAttackingEnemy && player.GetComponent<PlayerCombat>().lockedTarget != this) //(!player.states.IsCurrentOfType(typeof(AttackPlayerState)))
                     Attack();
                 else
                     PrepareAttack(false);
@@ -229,7 +229,7 @@ namespace Lullaby.Entities.Enemies
             transform.DOMove(transform.position + (transform.forward / 1), dollyStats.current.attackMovementDuration);
             //Lanzar trigger de ataque o puño o lo que sea del animator
             _animator.SetTrigger(_punchHash);
-            Debug.Log("Dolly Attack");
+            //Debug.Log("Dolly Attack");
         }
 
         public void SetRetreat()
@@ -249,7 +249,7 @@ namespace Lullaby.Entities.Enemies
                 StopMoving();
 
                 isWaiting = true;
-                Debug.Log("IsWaiting seteado a true");
+                //Debug.Log("IsWaiting seteado a true");
                 MovementCoroutine = StartCoroutine(DollyMovement());
             }
         }
@@ -257,10 +257,9 @@ namespace Lullaby.Entities.Enemies
         void Death()
         {
             StopActiveCoroutines();
-
+            player.GetComponentInChildren<PlayerEnemyDetector>().SetCurrentTarget(null);
             controller.enabled = false;
             _animator.SetTrigger(_deathHash);
-            Debug.Log($"Mi dolly manager es {_dollyManager}");
             _dollyManager.SetEnemyAvailability(this, false);
             this.enabled = false;
         }

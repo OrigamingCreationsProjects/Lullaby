@@ -32,7 +32,7 @@ namespace Lullaby.Entities
             
         }
 
-        public Enemy CurrentTarget()
+        public Enemy GetCurrentTarget()
         {
             return currentTarget;
         }
@@ -53,8 +53,8 @@ namespace Lullaby.Entities
             Gizmos.DrawRay(transform.position, inputDirection);
             Gizmos.DrawSphere(transform.position + inputDirection, .2f);
             Gizmos.DrawWireSphere(transform.position, 1);
-            if (CurrentTarget() != null)
-                Gizmos.DrawSphere(CurrentTarget().stepPosition, 0.5f);
+            if (GetCurrentTarget() != null)
+                Gizmos.DrawSphere(GetCurrentTarget().stepPosition, 0.5f);
         }
     }
 }

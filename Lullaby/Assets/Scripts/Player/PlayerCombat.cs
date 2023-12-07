@@ -17,7 +17,7 @@ namespace Lullaby.Entities
         private PlayerAnimator _playerAnimator;
         private Player _player;
         [Header("Target")] 
-        [SerializeField] private Enemy lockedTarget;
+        [SerializeField] public Enemy lockedTarget;
 
         [Header("Combat Settings")] 
         [SerializeField] private float attackCooldown = 0.7f;
@@ -59,7 +59,7 @@ namespace Lullaby.Entities
                 return;
             Debug.Log("Se llega a AttackCheck");
             //Check to see if the detection behavior has an enemy set
-            if (_enemyDetector.CurrentTarget() == null)
+            if (_enemyDetector.GetCurrentTarget() == null)
             {
                 //¿Asignamos que no se ataque a nadie?
                 Attack(null, 0);
@@ -69,11 +69,11 @@ namespace Lullaby.Entities
             else
             {
                 //Si hay un enemigo asignado, atacamos a ese
-                lockedTarget = _enemyDetector.CurrentTarget();
+                lockedTarget = _enemyDetector.GetCurrentTarget();
             }
 
             if (_enemyDetector.GetInputMagnitude() > _player.stats.current.enemyDetectionTreshold)
-                lockedTarget = _enemyDetector.CurrentTarget();
+                lockedTarget = _enemyDetector.GetCurrentTarget();
 
             Debug.Log("A la linea de attack se se llega");
             //ATACAMOS AL TONTO QUE TOCA. AGREGAR METODO
@@ -89,8 +89,9 @@ namespace Lullaby.Entities
             _dollyModeActive = true;
             Debug.Log("Se llega a AttackCheck");
             //Check to see if the detection behavior has an enemy set
-            if (_enemyDetector.CurrentTarget() == null)
+            if (_enemyDetector.GetCurrentTarget() == null)
             {
+                //lockedTarget = null;
                 //¿Asignamos que no se ataque a nadie?
                 Attack(null, 0);
                 Debug.Log("No hay target asignado vivos");
@@ -111,11 +112,11 @@ namespace Lullaby.Entities
             else
             {
                 //Si hay un enemigo asignado, atacamos a ese
-                lockedTarget = _enemyDetector.CurrentTarget();
+                lockedTarget = _enemyDetector.GetCurrentTarget();
             }
 
             if (_enemyDetector.GetInputMagnitude() > _player.stats.current.enemyDetectionTreshold)
-                lockedTarget = _enemyDetector.CurrentTarget();
+                lockedTarget = _enemyDetector.GetCurrentTarget();
 
             if (lockedTarget == null)
                 lockedTarget = _enemyManager.RandomDolly();
@@ -237,10 +238,12 @@ namespace Lullaby.Entities
 
         private bool IsLastHit()
         {
-            if (lockedTarget == null || !(lockedTarget is Dolly))
+            Debug.Log("Comprobamos si si se puede saber que es el ultimo golpe");
+            if (lockedTarget == null || !(lockedTarget is Dolly) || !lockedTarget.IsAlive())
                 return false;
-
-            return _enemyManager.GetAliveEnemyCount() == 1 &&
+            Debug.Log("Comprobamos si es el ultimo golpe");
+            
+            return _enemyManager.CheckAliveEnemyCount() == 1 &&
                    (lockedTarget.health.current - _player.stats.current.regularAttackDamage) <= 0;
         }
     }
