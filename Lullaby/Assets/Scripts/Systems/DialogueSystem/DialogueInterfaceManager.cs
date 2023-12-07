@@ -24,6 +24,7 @@ namespace Lullaby.Systems.DialogueSystem
         public TMP_Animated animatedText;
         public Image nameBubble;
         public TextMeshProUGUI nameTMP;
+        public RawImage patternImage;
         
         // -- Talker variables --
         public int currentTalkerIndex = 0; 
@@ -179,6 +180,7 @@ namespace Lullaby.Systems.DialogueSystem
             nameTMP.text = currentNPC.data.NPCName;
             nameTMP.color = currentNPC.data.NPCNameColor;
             nameBubble.color = currentNPC.data.NPCColor;
+            patternImage.texture = currentNPC.data.pattern;
             _barkClip = currentNPC.data.barkClip;
         } 
         private void ChangeCharNameAndColor(NPCDialogueData data)
@@ -186,6 +188,7 @@ namespace Lullaby.Systems.DialogueSystem
             nameTMP.text = data.NPCName;
             nameTMP.color = data.NPCNameColor;
             nameBubble.color = data.NPCColor;
+            patternImage.texture = data.pattern;
             _barkClip = data.barkClip;
         }
         
