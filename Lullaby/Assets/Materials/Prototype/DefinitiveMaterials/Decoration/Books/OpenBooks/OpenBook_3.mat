@@ -20,11 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Book_2
+  m_Name: OpenBook_3
   m_Shader: {fileID: -6465566751694194690, guid: e8c08ba2a705b7a4ca51a31ac0448dff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MAIN_LIGHT_CALCULATE_SHADOWS
+  - _MAIN_LIGHT_SHADOWS_CASCADE
+  - _SHADOWS_SOFT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -37,7 +40,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: b57d5a417f93f5740ae0f70be99c2191, type: 3}
+        m_Texture: {fileID: 2800000, guid: df4bc89a755ca5f45b6df16b07f8fe24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -61,13 +64,13 @@ Material:
     - LIGHTMAP: 0
     - _Blend: 0
     - _LightProbeContribution: 2.3
-    - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
-    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
+    - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SHADOWS_SOFT: 0
+    - _SHADOWS_SOFT: 1
     - _Smoothness: 0.9
-    - _Tiling: 25
+    - _Tiling: 2.5
     m_Colors:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
