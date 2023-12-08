@@ -7,6 +7,7 @@ using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.States;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Lullaby.Entities.Enemies
@@ -23,6 +24,8 @@ namespace Lullaby.Entities.Enemies
         [SerializeField] private GameObject body;
         [SerializeField] public GameObject model;
 
+        public Animator animator;
+        
         /// <summary>
         /// Returns the Boss Enemy Stats Manager instance.
         /// </summary>
@@ -67,6 +70,7 @@ namespace Lullaby.Entities.Enemies
         public Vector3 moveDirection { get; private set; }
         [HideInInspector] public float angleAssigned;
         [HideInInspector] public Vector2 dirFacing;
+        
         #region -- INITIALIZERS --
 
         protected virtual void InitializeStatsManager() => stats = GetComponent<BEStatsManager>();
@@ -85,12 +89,30 @@ namespace Lullaby.Entities.Enemies
         }
 
         protected virtual void InitializePlayer() => player = FindObjectOfType<Player>();
+        protected virtual void InitializeAnimator() => animator = GetComponentInChildren<Animator>();
         protected virtual void InitializeRotationComponent() => rotateAnimComponent = GetComponentInChildren<Rotate>();
         
+        protected virtual void InitializeParametersHash()
+        {
+            _cloningHash = Animator.StringToHash(cloningName);
+            _shootHash = Animator.StringToHash(shootName);
+            _turningHash = Animator.StringToHash(turningName);
+        }
+        
         #endregion
-        #region EVENT HANDLERS
 
-   
+        #region -- ANIMATIONS --
+        [Header("Parameters Names")] 
+        public string cloningName = "Cloning";
+        public string shootName = "Shoot";
+        public string turningName = "TurningBitch";
+        
+        //HASHES
+        protected int _cloningHash;
+        protected int _shootHash;
+        protected int _turningHash;
+
+
         #endregion
         #region -- MONOBEHAVIOURS --
 
@@ -104,7 +126,8 @@ namespace Lullaby.Entities.Enemies
             InitializeBody();
             InitializePlayer();
             InitializeRotationComponent();
-          
+            InitializeAnimator();
+            InitializeParametersHash();
         }
 
         void Start()
@@ -217,6 +240,7 @@ namespace Lullaby.Entities.Enemies
             {
                 if (bullets[i].shot) {index = i; continue;} 
                 //bullets[i].gameObject.SetActive(true);
+                animator.SetTrigger(_shootHash);
                 bullets[i].ChangeActiveState(true);
                 index++;
                 return;
@@ -229,10 +253,10 @@ namespace Lullaby.Entities.Enemies
             step = false;
             if (stage != BossStages.FirstStage)
             {
-                    foreach (var bullet in bullets)
-                            {
-                                bullet.gameObject.SetActive(false);
-                            }
+                foreach (var bullet in bullets)
+                {
+                    bullet.gameObject.SetActive(false);
+                }
             }
             StopAllCoroutines();
         }
@@ -281,9 +305,13 @@ namespace Lullaby.Entities.Enemies
         }
         #endregion
 
+        public void DivideCloneAnim()
+        {
+            animator.SetTrigger(_cloningHash);
+        }
+        
         public bool InsideZone(Vector2 dirToEnemy)
         {
-            
             if (!controlled && Vector2.Angle(dirFacing, dirToEnemy) > (angleAssigned - stats.current.angleOffset) / 2)
             {
                 controlled = true;
@@ -293,11 +321,7 @@ namespace Lullaby.Entities.Enemies
             {   
                 controlled = false;
             }
-            else
-            {
-              
-            }
-            
+
             return true;
         }
         
@@ -367,18 +391,15 @@ namespace Lullaby.Entities.Enemies
                     gameObject.SetActive(false);
                     enemyEvents.OnDie?.Invoke();
                 }
-            } else if (IsInvincible)
+            } 
+            else if (IsInvincible)
             { 
-              bossManager.ReviveBosses();
-              bossManager.DisableBossGameObjects();
-              bossManager.Retreat();
+                bossManager.ReviveBosses();
+                bossManager.DisableBossGameObjects();
+                bossManager.Retreat();
                
             }
-         
         }
-
-     
-
     }
 
     public enum BossStages

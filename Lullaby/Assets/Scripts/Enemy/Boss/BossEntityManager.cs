@@ -103,8 +103,12 @@ public class BossEntityManager : MonoBehaviour
     // NOMBRES PROPIEDADES SHADER
     private string _customColorPropertyName = "_CustomizableColor";
     
+    private BossEnemy _leadBoss;
     
     #region -- INITIALIZERS --
+
+    private void InitializeLeadBoss() => _leadBoss = transform.GetChild(0).GetComponent<BossEnemy>();
+
     /// <summary>
     /// Instantiates the bosses instances defined by the corresponding parameter {numOfBosses}
     /// </summary>
@@ -164,7 +168,6 @@ public class BossEntityManager : MonoBehaviour
     }
     public void InitializeBossSlots()
     {
-        
         var maxDistanceOffset = mainBoss.stats.current.FsMaxDistToPlayer;
         var minDistanceOffset = mainBoss.stats.current.FsMinDistToPlayer;
         var platformSize = fightPlatform.GetComponent<Renderer>().bounds.size;
@@ -193,7 +196,7 @@ public class BossEntityManager : MonoBehaviour
         mainBoss.transform.position = bossStartPos;
         Divide(bossBuffer.Count-1);
     }
-
+    
     private void InitializePlane()
     {
         RaycastHit raycastHit;
@@ -225,7 +228,9 @@ public class BossEntityManager : MonoBehaviour
     private void InitializeMainBoss() => mainBoss = BossEnemy.MainBoss;
     private void InitializeStep() => step = true;
     private void InitializeStage() => stage = BossStages.FirstStage;
+    
     #endregion
+    
     #region -- MONOBEHAVIOUR --
 
     void Awake()
@@ -237,6 +242,7 @@ public class BossEntityManager : MonoBehaviour
 
     void Start()
     {
+        InitializeLeadBoss();
         InitializeMainBoss();
         InitializeBossBuffer();
         enemyShot = new List<bool>() {false,false,false,false};
@@ -250,6 +256,7 @@ public class BossEntityManager : MonoBehaviour
     }
 
     #endregion
+    
     #region -- PARTICULAR FUNCTIONS --
 
     private void HandleMovement()
@@ -296,11 +303,18 @@ public class BossEntityManager : MonoBehaviour
             bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
         bossBuffer[idx].slot = bossSlots[bossBuffer.Count-1-idx];
         bossBuffer[idx].stage = mainBoss.stage;
+        //BossEnemy.MainBoss.DivideCloneAnim();
         bossBuffer[idx].gameObject.SetActive(true);
         bossBuffer[idx].angleAssigned = angles[(angles.Length -1 -idx)%angles.Length];
         bossBuffer[idx].dirFacing = dirs[(dirs.Length -1 -idx) % dirs.Length];
         if (idx == bossBuffer.Count - 1) bossBuffer[idx].IsInvincible = false;
+        
+        // Sequence s = DOTween.Sequence();
+        // s.AppendCallback(() => _leadBoss.DivideCloneAnim());
+        // s.AppendInterval(1.5f);
         Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
+        // tween.Pause();
+        // s.Append(tween.Play());
         tween.OnUpdate(delegate
         {
             if (mainBoss.stage == BossStages.FirstStage)
@@ -467,11 +481,11 @@ public class BossEntityManager : MonoBehaviour
         for (int i = bossBuffer.Count - 1 ; i >= 0; i--)
         { 
             if (!enemyShot[i]  && bossBuffer[i].controller.enabled)
-                {
-                    boss = bossBuffer[i];
-                    enemyShot[i] = true;
-                    break;  
-                }
+            {
+                boss = bossBuffer[i];
+                enemyShot[i] = true;
+                break;  
+            }
         }
 
         if (boss == null && AliveBossCount() != 0)
