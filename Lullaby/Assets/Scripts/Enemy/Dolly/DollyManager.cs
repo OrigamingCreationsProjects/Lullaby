@@ -30,6 +30,8 @@ namespace Lullaby.Entities.Enemies
         
         public void StartAI()
         {
+            if(GetComponentInChildren<Dolly>() == null)
+                return;
             _AI_LoopCoroutine = StartCoroutine(AI_Loop(null));
         }
 

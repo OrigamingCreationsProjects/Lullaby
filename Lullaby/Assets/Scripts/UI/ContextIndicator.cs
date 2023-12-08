@@ -33,6 +33,12 @@ namespace Lullaby.UI
                 case ButtonType.buttonSouth:
                     buttonReference = ContextIndicatorSystem.instance.buttonSouth;
                     break;
+                case ButtonType.leftStick:
+                    buttonReference = ContextIndicatorSystem.instance.leftStick;
+                    break;
+                case ButtonType.leftStickPress:
+                    buttonReference = ContextIndicatorSystem.instance.leftStickPress;
+                    break;
             }
         }
         private void RefreshUI()
