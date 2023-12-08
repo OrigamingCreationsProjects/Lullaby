@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 1152337107775194807}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9024478296101892017
 MonoBehaviour:
@@ -48,6 +48,9 @@ MonoBehaviour:
   numOfBosses: 4
   rotationSpeed: 65
   retreatTime: 3
+  retreatPos: {fileID: 0}
+  fightPlatform: {fileID: 0}
+  attackWaitTime: 3
   spawnTime: 1.5
   spawnTimeMultiplier: 4.12
   inPositionThreshold: 1.003
@@ -56,6 +59,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a8acebd1bf8f86944a9b56e1a3510033, type: 2}
   - {fileID: 2100000, guid: 16554f3b5dc01314f82e6096dc137564, type: 2}
   - {fileID: 2100000, guid: 95bee34416b7dbb40b2a79be210029da, type: 2}
+  bossColors:
+  - {r: 0.75294125, g: 0.30588236, b: 0.27058825, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
   bossSlots: []
 --- !u!1001 &7602886285434291576
 PrefabInstance:

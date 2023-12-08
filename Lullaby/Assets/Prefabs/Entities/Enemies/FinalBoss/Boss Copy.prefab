@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7385635889557341135}
-  - component: {fileID: 904970189940328355}
-  - component: {fileID: 8800795887975204356}
-  - component: {fileID: 1138571835435834373}
   - component: {fileID: 6575159405354025176}
   - component: {fileID: 5752765102690203379}
+  - component: {fileID: 1138571835435834373}
+  - component: {fileID: 904970189940328355}
+  - component: {fileID: 8800795887975204356}
+  - component: {fileID: 4420459324079978234}
   m_Layer: 0
   m_Name: Boss Copy
   m_TagString: Enemy
@@ -37,8 +38,178 @@ Transform:
   - {fileID: 2803634644569126566}
   - {fileID: 1469509934489006396}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6575159405354025176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67713720284878191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a911723247585e44b0aa1b2e05872de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityEvents:
+    OnGroundEnter:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGroundExit:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRailsEnter:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRailsExit:
+      m_PersistentCalls:
+        m_Calls: []
+  bulletPrefab: {fileID: 6581537573757696370, guid: df007d97fd9cd0e419814e07bb029ae5, type: 3}
+  body: {fileID: 1899045856057144082}
+  model: {fileID: 3336603962791258949}
+  slot: {fileID: 0}
+  stage: 0
+  IsInvincible: 1
+  InPlace: 0
+  numBullets: 1
+  enemyEvents:
+    OnPlayerDetected:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPlayerEscaped:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPlayerContact:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDamage:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6575159405354025176}
+          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
+          m_MethodName: CheckStage
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDie:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisappear:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRevive:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPreparedToAttack:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1138571835435834373}
+          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
+            Assembly-CSharp
+          m_MethodName: Change
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDivisonFinished:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAttackPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1138571835435834373}
+          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
+            Assembly-CSharp
+          m_MethodName: Change
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnSecondStage:
+      m_PersistentCalls:
+        m_Calls: []
+    OnFinalStage:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6575159405354025176}
+          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
+          m_MethodName: UpdateInvincibilityStatus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  rotateAnimComponent: {fileID: 0}
+  step: 1
+  invoked: 0
+  controlled: 1
+  angleAssigned: 0
+  dirFacing: {x: 0, y: 0}
+--- !u!114 &5752765102690203379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67713720284878191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 677f7f2dd15e7be4888b163e03295580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - {fileID: 11400000, guid: 5ab5fb7a69b5b914da8f8767992a0618, type: 2}
+--- !u!114 &1138571835435834373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67713720284878191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6619d581ca5be41b382c41a805bbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    onChange:
+      m_PersistentCalls:
+        m_Calls: []
+    onEnter:
+      m_PersistentCalls:
+        m_Calls: []
+    onExit:
+      m_PersistentCalls:
+        m_Calls: []
+  states:
+  - Lullaby.Entities.Enemies.States.BEIdleState
+  - Lullaby.Entities.Enemies.States.BEPreparingToAttack
+  - Lullaby.Entities.Enemies.States.CirculatingState
+  - Lullaby.Entities.Enemies.States.BESecondCirculating
+  - Lullaby.Entities.Enemies.States.BEFinalCirculating
+  - Lullaby.Entities.Enemies.States.BEAttackingState
+  - Lullaby.Entities.Enemies.States.BEDistAttackState
 --- !u!114 &904970189940328355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,8 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6bf63bbebf65944bac7406530ce51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initial: 100
-  max: 300
+  initial: 10
+  max: 30
   coolDown: 1
   onChange:
     m_PersistentCalls:
@@ -81,193 +252,29 @@ MonoBehaviour:
   onDamage:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1138571835435834373
-MonoBehaviour:
+--- !u!136 &4420459324079978234
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67713720284878191}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c6619d581ca5be41b382c41a805bbf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-    onChange:
-      m_PersistentCalls:
-        m_Calls: []
-    onEnter:
-      m_PersistentCalls:
-        m_Calls: []
-    onExit:
-      m_PersistentCalls:
-        m_Calls: []
-  states:
-  - Lullaby.Entities.Enemies.States.BEIdleState
-  - Lullaby.Entities.Enemies.States.CirculatingState
-  - Lullaby.Entities.Enemies.States.BEAttackingState
---- !u!114 &6575159405354025176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67713720284878191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a911723247585e44b0aa1b2e05872de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityEvents:
-    OnGroundEnter:
-      m_PersistentCalls:
-        m_Calls: []
-    OnGroundExit:
-      m_PersistentCalls:
-        m_Calls: []
-    OnRailsEnter:
-      m_PersistentCalls:
-        m_Calls: []
-    OnRailsExit:
-      m_PersistentCalls:
-        m_Calls: []
-  moveCoroutineHold: 4
-  yAngle: 0
-  bulletPrefab: {fileID: 6581537573757696370, guid: df007d97fd9cd0e419814e07bb029ae5, type: 3}
-  enemyAttacking: 0
-  body: {fileID: 8743161578731930035}
-  model: {fileID: 5286419560117750071}
-  slot: {fileID: 0}
-  stage: 0
-  IsInvincible: 1
-  numBullets: 1
-  enemyEvents:
-    OnPlayerDetected:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPlayerEscaped:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1138571835435834373}
-          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
-            Assembly-CSharp
-          m_MethodName: Change
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnPlayerContact:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6575159405354025176}
-          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
-          m_MethodName: ApplyDamage
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 101
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnDamage:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6575159405354025176}
-          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
-          m_MethodName: CheckStage
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnDie:
-      m_PersistentCalls:
-        m_Calls: []
-    OnRevive:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPreparedToAttack:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1138571835435834373}
-          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
-            Assembly-CSharp
-          m_MethodName: Change
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 2
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnDivisonFinished:
-      m_PersistentCalls:
-        m_Calls: []
-    OnAttackPerformed:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1138571835435834373}
-          m_TargetAssemblyTypeName: Lullaby.Entities.EntityStateManager`1[[Lullaby.Entities.Enemies.BossEnemy,
-            Assembly-CSharp
-          m_MethodName: Change
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnSecondStage:
-      m_PersistentCalls:
-        m_Calls: []
-    OnFinalStage:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6575159405354025176}
-          m_TargetAssemblyTypeName: Lullaby.Entities.Enemies.BossEnemy, Assembly-CSharp
-          m_MethodName: UpdateInvincibilityStatus
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  rotateAnimComponent: {fileID: 0}
-  step: 1
-  invoked: 0
---- !u!114 &5752765102690203379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67713720284878191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 677f7f2dd15e7be4888b163e03295580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-  - {fileID: 11400000, guid: 5ab5fb7a69b5b914da8f8767992a0618, type: 2}
+  serializedVersion: 2
+  m_Radius: 1.4
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &164739838141133765
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +304,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2667871561555718655}
   - {fileID: 4762259979745792909}
   m_Father: {fileID: 7385635889557341135}
   m_RootOrder: -1
@@ -610,13 +618,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 17
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -667,6 +675,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b413aecd0bfacda4cbb3788c2fb7e397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2489530108828210708
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1469509934489006396}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_Name
+      value: EosFinal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204986960704070235, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7342628cf2f30f642a64e17a64b14908, type: 2}
+    - target: {fileID: 1447920018457815832, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7342628cf2f30f642a64e17a64b14908, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+--- !u!1 &1899045856057144082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4095551437712319750, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+  m_PrefabInstance: {fileID: 2489530108828210708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2667871561555718655 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+  m_PrefabInstance: {fileID: 2489530108828210708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3336603962791258949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2937c398fc4a6b945b40c4f6e14b7641, type: 3}
+  m_PrefabInstance: {fileID: 2489530108828210708}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5015966845420958822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -741,7 +833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fbc15528f04a867498db9281b18642b0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4339927415385178765, guid: fbc15528f04a867498db9281b18642b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -763,15 +855,5 @@ PrefabInstance:
 --- !u!4 &4762259979745792909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fbc15528f04a867498db9281b18642b0, type: 3}
-  m_PrefabInstance: {fileID: 5015966845420958822}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5286419560117750071 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fbc15528f04a867498db9281b18642b0, type: 3}
-  m_PrefabInstance: {fileID: 5015966845420958822}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8743161578731930035 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4380234855860598229, guid: fbc15528f04a867498db9281b18642b0, type: 3}
   m_PrefabInstance: {fileID: 5015966845420958822}
   m_PrefabAsset: {fileID: 0}

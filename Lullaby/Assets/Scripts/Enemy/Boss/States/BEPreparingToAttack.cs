@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using Lullaby.Entities.Enemies;
 using UnityEngine;
-using DG.Tweening;
 
 namespace Lullaby.Entities.Enemies.States
 {
-    public class BEIdleState : BEState
+    public class BEPreparingToAttack : BEState
     {
         protected override void OnEnter(BossEnemy boss)
         {
@@ -18,24 +20,23 @@ namespace Lullaby.Entities.Enemies.States
         public override void OnStep(BossEnemy boss)
         {   
             if(boss.velocity != Vector3.zero) boss.Decelerate();
-            if(!boss.step) return;
-
             switch (boss.stage)
             {
                 case BossStages.FirstStage:
-                    boss.states.Change<CirculatingState>();
+                    boss.states.Change<BEAttackingState>();
                     break;
                 case BossStages.SecondStage:
-                    boss.states.Change<BESecondCirculating>();
+                    boss.states.Change<BEDistAttackState>();
                     break;
                 case BossStages.FinalStage:
-                    boss.states.Change<BEFinalCirculating>();
+                    boss.states.Change<BEDistAttackState>();
                     break;
             }
         }
 
         public override void OnContact(BossEnemy entity, Collider other)
         {
+         
         }
     }
 }

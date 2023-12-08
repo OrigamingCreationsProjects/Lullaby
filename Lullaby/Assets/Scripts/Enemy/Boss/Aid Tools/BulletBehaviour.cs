@@ -35,9 +35,10 @@ namespace Lullaby.Entities.Enemies
         {
             if (currentTime <= 0f)
             { 
-                SetShotStatus(false); 
                 currentTime = stats.timeAlive; 
-                gameObject.SetActive(false); 
+                ChangeActiveState(false);
+                //gameObject.SetActive(false); 
+                //SetShotStatus(false); 
             }
             else currentTime -= Time.deltaTime;
         }
@@ -63,10 +64,11 @@ namespace Lullaby.Entities.Enemies
            
         }
      
-        protected virtual void ContactAttack(Collider other){_parentBoss.ContactAttack(other, collider.bounds, this);}
+        protected virtual void ContactAttack(Collider other) => _parentBoss.ContactAttack(other, collider.bounds, this);
 
         protected void CenterAtParent()
         {
+            Debug.Log("_parentBoss: " + _parentBoss);
             var offset = (_parentBoss.player.position - _parentBoss.position).normalized * stats.distanceFromBoss;
             transform.position = _parentBoss.position + offset;
         }
@@ -101,29 +103,38 @@ namespace Lullaby.Entities.Enemies
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<BossEnemy>(out BossEnemy enemy))
+            if (other.TryGetComponent(out BossEnemy enemy))
             {
-                if(enemy == _parentBoss && followBoss) enemy.ApplyDamage(101);
-                SetShotStatus(false);
-                gameObject.SetActive(false);
+                if(enemy == _parentBoss && followBoss) enemy.ApplyDamage(stats.damage, transform.position);
+                ChangeActiveState(false);
             }
          
             ContactAttack(other);
         }
 
+        public void ChangeActiveState(bool value)
+        {
+            gameObject.SetActive(value);
+            SetShotStatus(value);
+        }
+        
         private void OnEnable()
         {
             CenterAtParent();
             followBoss = false;
             dir = Vector3.zero;
-            SetShotStatus(true);
+            //SetShotStatus(true);
+        }
+
+        private void OnDisable()
+        {
+            //SetShotStatus(false);
+            currentTime = stats.timeAlive;
         }
 
         private void OnCollisionEnter(Collision other)
         {
-           SetShotStatus(false);
-           gameObject.SetActive(false);
-           
+           ChangeActiveState(false);
         }
 
     
