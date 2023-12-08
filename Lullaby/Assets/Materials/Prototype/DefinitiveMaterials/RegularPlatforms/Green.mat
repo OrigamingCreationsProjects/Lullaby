@@ -11,14 +11,16 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: e8c08ba2a705b7a4ca51a31ac0448dff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MAIN_LIGHT_CALCULATE_SHADOWS
+  - _MAIN_LIGHT_SHADOWS_CASCADE
+  - _SHADOWS_SOFT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -110,8 +112,8 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightProbeContribution: 2.5
-    - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
-    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
+    - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -119,7 +121,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SHADOWS_SOFT: 0
+    - _SHADOWS_SOFT: 1
     - _Smoothness: 0.328
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
