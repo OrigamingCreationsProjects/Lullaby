@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace Lullaby
 {
@@ -7,11 +8,25 @@ namespace Lullaby
     {
         public SkinnedMeshRenderer faceRenderer;
         public Renderer eyesRenderer;
-        
-        
-        public void ChangeFace(int faceIndex)
+        public Color[] regularEyesColors;
+        public Color[] HDREyesColors;
+        public void ChangeFobosExpression(FobosEmotion emotion)
         {
-            eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(faceIndex * .33f, 0));
+            if (emotion == FobosEmotion.Angry)
+            {
+                eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(0 * .33f, 0));
+                eyesRenderer.material.SetColor("_EmissionColor", HDREyesColors[0] * 3);
+                eyesRenderer.material.SetColor("_BaseColor", regularEyesColors[0]);
+            }
+            if(emotion == FobosEmotion.Surprised)
+                eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(1 * .33f, 0));
+            if (emotion == FobosEmotion.Normal)
+            {
+                eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(2 * .33f, 0));
+                eyesRenderer.material.SetColor("_EmissionColor", HDREyesColors[1]);
+                eyesRenderer.material.SetColor("_BaseColor", regularEyesColors[1]);
+            }
+            
         }
     }
 }
