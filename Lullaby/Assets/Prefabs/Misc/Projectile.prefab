@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4107217289582221981}
   - component: {fileID: 2016394803791294768}
   - component: {fileID: 354318852378357878}
-  - component: {fileID: 159939706312610881}
   - component: {fileID: 2882513414393828155}
+  - component: {fileID: 159939706312610881}
   - component: {fileID: 4050135101771480499}
   m_Layer: 0
   m_Name: Projectile
@@ -87,6 +87,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2882513414393828155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581537573757696370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a34fbddc3d2a144a8674c0c7f5f2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 2dcee26d415e28f4e85efbcfba7f3b89, type: 2}
+  speed: 0
+  particles:
+  - {fileID: 320517417329231359}
 --- !u!136 &159939706312610881
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -110,20 +126,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2882513414393828155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6581537573757696370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a34fbddc3d2a144a8674c0c7f5f2648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 2dcee26d415e28f4e85efbcfba7f3b89, type: 2}
-  speed: 0
 --- !u!136 &4050135101771480499
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -286,6 +288,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3799524251949773839}
   m_SourcePrefab: {fileID: 100100000, guid: cec5435e15f72cc45b70c95bd56123ff, type: 3}
+--- !u!198 &320517417329231359 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7929974840103000533, guid: cec5435e15f72cc45b70c95bd56123ff, type: 3}
+  m_PrefabInstance: {fileID: 7673670865177009194}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6202419513114739334 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4354190642071740076, guid: cec5435e15f72cc45b70c95bd56123ff, type: 3}

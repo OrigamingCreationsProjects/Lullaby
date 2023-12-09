@@ -12,6 +12,7 @@ using Lullaby.Entities;
 using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
 using Unity.VisualScripting;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using Quaternion = UnityEngine.Quaternion;
 using Sequence = DG.Tweening.Sequence;
 using Vector2 = UnityEngine.Vector2;
@@ -155,6 +156,7 @@ public class BossEntityManager : MonoBehaviour
             var script = boss.GetComponent<BossEnemy>();
             var randomIdx = Random.Range(0, bossMaterials.Length);
             script.GetBody().GetComponent<SkinnedMeshRenderer>().material.SetColor(_customColorPropertyName,  bossColors[i%bossColors.Length]);
+            script.bulletColor = bossColors[i%bossColors.Length];
             script.enemyEvents.OnRetreat += AnEnemyIsRetreating;
             script.enemyEvents.OnAttack += AnEnemyIsAttacking;
             script.enemyEvents.OnPlayerSeen += PlayerIsDetected;

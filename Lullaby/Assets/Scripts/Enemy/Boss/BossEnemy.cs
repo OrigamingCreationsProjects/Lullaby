@@ -18,12 +18,13 @@ namespace Lullaby.Entities.Enemies
     public class BossEnemy : Entity<BossEnemy>
     {
       
-        [Header("Prefab Assignment")] [SerializeField]
+        [Header("Prefab Assignment")]
         public GameObject bulletPrefab;
+        public Color bulletColor;
         
         [SerializeField] private GameObject body;
         [SerializeField] public GameObject model;
-
+        
         public Animator animator;
         public Collider hitCollider;
         /// <summary>
@@ -247,7 +248,7 @@ namespace Lullaby.Entities.Enemies
                 index++;
                 break;
             }
-
+            bullet.SetParticleColor(bulletColor);
             Sequence s = DOTween.Sequence();
             s.AppendCallback(() => animator.SetTrigger(_shootHash));
             s.AppendInterval(0.5f);

@@ -14,9 +14,10 @@ namespace Lullaby.Entities.Enemies
         public Vector3 dir { get; private set; }
         public bool shot {get; private set;}
         
+        public float speed;
+        public ParticleSystem[] particles;
         private bool followBoss = false;
         private float currentTime;
-        public float speed;
         private float time;
 
         #region SET
@@ -78,6 +79,15 @@ namespace Lullaby.Entities.Enemies
             followBoss = true;
             speed = stats.reboundSpeed;
             currentTime = stats.timeAlive;
+        }
+        
+        public void SetParticleColor(Color color)
+        {
+            foreach (var particle in particles)
+            {
+                var main = particle.main;
+                main.startColor = color;
+            }
         }
         
         #region -- MONOBEHAVIOUR --
