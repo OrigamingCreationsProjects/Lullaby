@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &154140730744887708
 Transform:
@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 1262646660835755746}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1981500048841374222
 BoxCollider:
@@ -113,6 +113,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b7af58d7ab2d13744af928fab7db520d, type: 3}
       propertyPath: m_Name
       value: dado
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7af58d7ab2d13744af928fab7db520d, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
