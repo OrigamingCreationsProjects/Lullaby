@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace NPCTalker
+namespace Lullaby.Entities.NPC
 {
     public class Blinker : MonoBehaviour
     {
