@@ -1,12 +1,19 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace Lullaby.Entities.Enemies.States
 {
     public class FollowEnemyState : EnemyState
     {
-        protected override void OnEnter(Enemy enemy){}
+        protected override void OnEnter(Enemy enemy)
+        {
+            Sequence s = DOTween.Sequence();
+            s.AppendInterval(0.5f);
+            s.AppendCallback(() => enemy.GetComponent<FaceChanger>().ChangeFobosExpression(FobosEmotion.Angry));
+        }
 
-        protected override void OnExit(Enemy enemy) { }
+        protected override void OnExit(Enemy enemy) 
+        { }
 
         public override void OnStep(Enemy enemy)
         {

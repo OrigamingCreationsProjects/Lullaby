@@ -132,10 +132,10 @@ namespace Lullaby.Entities
             animator.SetInteger(_jumpCounterHash, _player.jumpCounter);
             animator.SetBool(_isGroundedHash, _player.isGrounded);
             animator.SetBool(_isHoldingHash, _player.holding);
-            if (_player.inputs.GetAttackDown())
-            {
-                //animator.SetTrigger(_attackTriggerHash);
-            }
+            // if (_player.inputs.GetAttackDown())
+            // {
+            //     //animator.SetTrigger(_attackTriggerHash);
+            // }
 
             if (_player.inputs.GetDashDown() && _player.states.IsCurrentOfType(typeof(RailGrindPlayerState)))
             {
