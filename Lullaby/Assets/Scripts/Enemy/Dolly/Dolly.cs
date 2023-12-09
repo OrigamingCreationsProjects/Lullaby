@@ -140,6 +140,13 @@ namespace Lullaby.Entities.Enemies
         protected int _deathHash;
         
         #endregion
+
+        public void Appear()
+        {
+            gameObject.SetActive(true);
+            dollyEvents.OnAppear?.Invoke();
+            MovementCoroutine = StartCoroutine(DollyMovement());
+        }
         
         // La corrutina que maneja el movimiento de cada enemigo para no sobrecargar el hilo principal.
         protected IEnumerator DollyMovement()
@@ -261,7 +268,14 @@ namespace Lullaby.Entities.Enemies
             controller.enabled = false;
             _animator.SetTrigger(_deathHash);
             _dollyManager.SetEnemyAvailability(this, false);
-            this.enabled = false;
+            Sequence s = DOTween.Sequence();
+            s.AppendInterval(0.7f);
+            s.AppendCallback(() => dollyEvents.OnDisappear.Invoke());
+            s.AppendInterval(0.3f);
+            s.AppendCallback(() => skin.gameObject.SetActive(false));
+            s.AppendCallback(() => this.enabled = false);
+            s.AppendCallback(() => gameObject.SetActive(false));
+
         }
         
         public void SetAttack()
@@ -283,6 +297,7 @@ namespace Lullaby.Entities.Enemies
         {
             isPreparingAttack = active;
 
+            dollyEvents.OnAttack?.Invoke(active);
             if (active)
             {
                 //Particula? Shake?

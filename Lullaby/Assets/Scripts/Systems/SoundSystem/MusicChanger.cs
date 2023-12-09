@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Systems.SoundSystem
 {
+    [RequireComponent(typeof(Collider))]
     [AddComponentMenu("Systems/Sound System/Music Changer")]
     public class MusicChanger : MonoBehaviour
     {

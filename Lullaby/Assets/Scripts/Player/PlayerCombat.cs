@@ -165,8 +165,8 @@ namespace Lullaby.Entities
             
             attackCoroutine = StartCoroutine(AttackCoroutine(cooldown));
 
-            if (IsLastHit())
-                StartCoroutine(FinalBlowCoroutine());
+            // if (IsLastHit())
+            //     StartCoroutine(FinalBlowCoroutine());
             
             if(target == null)
                 return;
