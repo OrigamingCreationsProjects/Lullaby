@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -9,6 +10,8 @@ namespace Lullaby.Entities.Enemies
         public ParticleSystem deathParticles;
         public ParticleSystem projectileParticles;
         public ParticleSystem projectileExplosionParticles;
+        
+        public Gradient[] smokeGradients;
         
         protected BossEnemy _boss;
         
@@ -45,11 +48,24 @@ namespace Lullaby.Entities.Enemies
             Play(spawnParticles);
         }
         
+        private void OnDamageParticle()
+        {
+            //deathParticles.Play();
+            
+            Play(deathParticles);
+        }
         
         protected virtual void Awake()
         {
             _boss = GetComponent<BossEnemy>();
             _boss.enemyEvents.OnCloning.AddListener(OnCloningParticle);
+            _boss.enemyEvents.OnDamage.AddListener(OnDamageParticle);
+        }
+
+        protected void Start()
+        {
+            var main = spawnParticles.main;
+            main.startColor =  new ParticleSystem.MinMaxGradient(GetComponent<BossEnemy>().smokeGradient);
         }
     }
 }

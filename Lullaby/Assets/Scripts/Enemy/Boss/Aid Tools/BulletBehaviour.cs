@@ -69,7 +69,6 @@ namespace Lullaby.Entities.Enemies
 
         protected void CenterAtParent()
         {
-            Debug.Log("_parentBoss: " + _parentBoss);
             var offset = (_parentBoss.player.position - _parentBoss.position).normalized * stats.distanceFromBoss;
             transform.position = _parentBoss.position + offset;
         }

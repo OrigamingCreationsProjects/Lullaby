@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Lullaby.Entities.Enemies;
 using UnityEngine;
 
 namespace Lullaby.Entities.Enemies.States

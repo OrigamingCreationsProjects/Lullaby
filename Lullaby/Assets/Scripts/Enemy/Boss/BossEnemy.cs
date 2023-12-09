@@ -21,7 +21,7 @@ namespace Lullaby.Entities.Enemies
         [Header("Prefab Assignment")]
         public GameObject bulletPrefab;
         public Color bulletColor;
-        
+        public Gradient smokeGradient;
         [SerializeField] private GameObject body;
         [SerializeField] public GameObject model;
         

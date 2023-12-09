@@ -51,6 +51,8 @@ public class BossEntityManager : MonoBehaviour
     private Material[] bossMaterials;
     [SerializeField]
     private Color[] bossColors = {Color.red, Color.blue, Color.green, Color.yellow};
+    [SerializeField]
+    private Gradient[] bossGradients;
     [SerializeField] 
     private List<Transform> bossSlots;
     
@@ -82,7 +84,7 @@ public class BossEntityManager : MonoBehaviour
     private BossEnemy mainBoss;
     private Coroutine AI_Loop_Coroutine;
     public Coroutine Divide_Coroutine;
-
+    
     private float angleTop;
     private float angleBottom;
     private float angleLeft;
@@ -153,6 +155,7 @@ public class BossEntityManager : MonoBehaviour
             var randomIdx = Random.Range(0, bossMaterials.Length);
             script.GetBody().GetComponent<SkinnedMeshRenderer>().material.SetColor(_customColorPropertyName,  bossColors[i%bossColors.Length]);
             script.bulletColor = bossColors[i%bossColors.Length];
+            script.smokeGradient = bossGradients[i%bossGradients.Length];
             script.enemyEvents.OnRetreat += AnEnemyIsRetreating;
             script.enemyEvents.OnAttack += AnEnemyIsAttacking;
             script.enemyEvents.OnPlayerSeen += PlayerIsDetected;
@@ -161,9 +164,8 @@ public class BossEntityManager : MonoBehaviour
             //boss.GetComponent<BossEnemy>().enabled = false;
             
         }
-
-      
     }
+    
     public void InitializeBossSlots()
     {
         var maxDistanceOffset = mainBoss.stats.current.FsMaxDistToPlayer;
@@ -180,6 +182,7 @@ public class BossEntityManager : MonoBehaviour
             var zScale =  zOffset * (i - offset);
             emptyObj.transform.position =  new Vector3(mainBoss.transform.position.x + zScale, mainBoss.transform.position.y, mainBoss.transform.position.z + xScale);
             */
+            
             var emptyObj = new GameObject($"bossSlot_{i}");
             
             // CIRCLE FORMATION
@@ -398,7 +401,7 @@ public class BossEntityManager : MonoBehaviour
         }
     }
 
-     /// <summary>
+    /// <summary>
     /// Counts the number of bosses currently alive
     /// </summary>
     /// <returns>Integer with number of bosses alive.</returns>
