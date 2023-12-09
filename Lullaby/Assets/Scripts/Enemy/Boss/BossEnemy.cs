@@ -25,7 +25,7 @@ namespace Lullaby.Entities.Enemies
         [SerializeField] public GameObject model;
 
         public Animator animator;
-        
+        public Collider hitCollider;
         /// <summary>
         /// Returns the Boss Enemy Stats Manager instance.
         /// </summary>
@@ -236,15 +236,24 @@ namespace Lullaby.Entities.Enemies
 
         public void ShootBullet()
         {
+            BulletBehaviour bullet = bullets[0];
             for (int i = 0; i < bullets.Count(); i++)
             {
                 if (bullets[i].shot) {index = i; continue;} 
                 //bullets[i].gameObject.SetActive(true);
-                animator.SetTrigger(_shootHash);
-                bullets[i].ChangeActiveState(true);
+               
+                bullet = bullets[i];
+               
                 index++;
-                return;
+                break;
             }
+
+            Sequence s = DOTween.Sequence();
+            s.AppendCallback(() => animator.SetTrigger(_shootHash));
+            s.AppendInterval(0.5f);
+            s.AppendCallback(() => bullet.ChangeActiveState(true));
+            // animator.SetTrigger(_shootHash);
+            // bullet.ChangeActiveState(true);
         }
         
 
@@ -308,6 +317,10 @@ namespace Lullaby.Entities.Enemies
         public void DivideCloneAnim()
         {
             animator.SetTrigger(_cloningHash);
+        }  
+        public void TurningCloneAnim()
+        {
+            animator.SetTrigger(_turningHash);
         }
         
         public bool InsideZone(Vector2 dirToEnemy)

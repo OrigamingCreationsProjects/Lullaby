@@ -299,44 +299,66 @@ public class BossEntityManager : MonoBehaviour
         enemyRetreating = true;
         bossBuffer[idx].Disable();
         bossBuffer[idx].states.Change<BEIdleState>();
-        if(BossEnemy.MainBoss != bossBuffer[idx]) 
-            bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
+        if (BossEnemy.MainBoss != bossBuffer[idx])
+        {
+            Vector3 targetPos = BossEnemy.MainBoss.transform.localPosition;
+            
+            targetPos += (-BossEnemy.MainBoss.transform.right * 2);
+            bossBuffer[idx].transform.localPosition = targetPos;
+            
+            //bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
+        }
         bossBuffer[idx].slot = bossSlots[bossBuffer.Count-1-idx];
         bossBuffer[idx].stage = mainBoss.stage;
         //BossEnemy.MainBoss.DivideCloneAnim();
-        bossBuffer[idx].gameObject.SetActive(true);
         bossBuffer[idx].angleAssigned = angles[(angles.Length -1 -idx)%angles.Length];
         bossBuffer[idx].dirFacing = dirs[(dirs.Length -1 -idx) % dirs.Length];
         if (idx == bossBuffer.Count - 1) bossBuffer[idx].IsInvincible = false;
         
-        // Sequence s = DOTween.Sequence();
-        // s.AppendCallback(() => _leadBoss.DivideCloneAnim());
-        // s.AppendInterval(1.5f);
-        Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
+     
+        Sequence s = DOTween.Sequence();
+        if(bossBuffer[idx] != _leadBoss)
+            s.AppendCallback(() => _leadBoss.DivideCloneAnim());
+        s.AppendInterval(spawnTime/2);
+        s.AppendCallback(() => bossBuffer[idx].gameObject.SetActive(true));
+        s.AppendCallback(() => bossBuffer[idx].TurningCloneAnim());
+        s.AppendCallback(() => bossBuffer[idx].enemyEvents.OnCloning?.Invoke());
+        s.AppendCallback(() => bossBuffer[idx].hitCollider.enabled = false);
+        s.AppendInterval(spawnTime/2);
+        s.Append(bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime));
+        s.AppendCallback(() => FinalDivide(idx));
+        
+        
+        //Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
         // tween.Pause();
         // s.Append(tween.Play());
-        tween.OnUpdate(delegate
+        // tween.OnUpdate(delegate
+        // {
+        //     if (mainBoss.stage == BossStages.FirstStage)
+        //     {
+        //         if (Vector3.Distance(bossSlots[bossBuffer.Count-1-idx].position, bossBuffer[idx].position) > inPositionThreshold)
+        //         {
+        //             tween.ChangeEndValue(bossSlots[bossBuffer.Count-1-idx].position, spawnTime/spawnTimeMultiplier,true);
+        //         }
+        //     }
+        //    
+        // }).OnComplete(() =>
+        // {
+        //     
+        // });
+    }
+
+    private void FinalDivide(int idx)
+    {
+        idx -= 1;
+        if (idx > -1) Divide(idx);
+        else
         {
-            if (mainBoss.stage == BossStages.FirstStage)
-            {
-                if (Vector3.Distance(bossSlots[bossBuffer.Count-1-idx].position, bossBuffer[idx].position) > inPositionThreshold)
-                {
-                    tween.ChangeEndValue(bossSlots[bossBuffer.Count-1-idx].position, spawnTime/spawnTimeMultiplier,true);
-                }
-            }
-           
-        }).OnComplete(() =>
-        {
-            idx -= 1;
-            if (idx > -1) Divide(idx);
-            else
-            {
-                
-                EnableBosses();
-                enemyRetreating = false;
-                yAngle = rotationSpeed;
-            }
-        });
+            
+            EnableBosses();
+            enemyRetreating = false;
+            yAngle = rotationSpeed;
+        }
     }
     
     public void CheckInvincibilityStatus()

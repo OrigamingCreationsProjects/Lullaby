@@ -16,6 +16,7 @@ namespace Lullaby.Entities.Enemies.States
     protected override void OnEnter(BossEnemy boss)
     {
         boss.EnableCollider(true);
+        boss.hitCollider.enabled = true;
         timeRemaining = boss.stats.current.FSApproachTime;
     }
 

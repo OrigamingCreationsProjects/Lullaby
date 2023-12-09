@@ -18,7 +18,7 @@ namespace Lullaby.Entities.Enemies
         public bool canAttackOnContact = true;
         public bool contactPushback = true;
         public float contactOffset = 0.15f;
-        public int contactDamage = 1;
+        public int contactDamage = 20;
         public float contactPushBackForce = 18f;
         public float contactSteppingTolerance = 0.1f;
         
