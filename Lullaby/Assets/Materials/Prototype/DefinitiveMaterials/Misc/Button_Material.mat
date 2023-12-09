@@ -30,8 +30,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -123,6 +122,8 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _LightProbeContribution: 2.13
+    - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -130,6 +131,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SHADOWS_SOFT: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -149,5 +151,5 @@ Material:
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Tint: {r: 1, g: 0.617, b: 0.62707895, a: 0}
+    - _Tint: {r: 0.9254902, g: 0.6156863, b: 0.41960785, a: 0}
   m_BuildTextureStacks: []
