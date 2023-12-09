@@ -1,7 +1,9 @@
-﻿using DG.Tweening;
+﻿using System.Numerics;
+using DG.Tweening;
 using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Lullaby.Entities.Enemies
 {
@@ -147,6 +149,11 @@ namespace Lullaby.Entities.Enemies
             //lateralVelocity = new Vector3(0, 0, -localForward.z * stats.current.hurtBackwardsForce);
         }
 
+        public virtual void ApplySurpriseForces()
+        {
+            verticalVelocity = Vector3.up * 7;
+        }
+        
         //Meter logica de desaparición como las partículas y tal
         //(quiza mejor invocar el evento de desaparicion y que el componente de particulas se encargue de ello)
         public virtual void Disappear()

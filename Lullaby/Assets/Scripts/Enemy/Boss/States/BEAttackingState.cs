@@ -16,63 +16,44 @@ namespace Lullaby.Entities.Enemies.States
         private float playerPosUpdateDelay;
         protected override void OnEnter(BossEnemy entity)
         {
-            //entity.enemyEvents.HandleAttack(true);
             retreat = false;
-            //entity.transform.parent = null;
             
+            entity.EnableCollider(true);
             dir = (entity.player.position - entity.transform.position);
-            lastPos = entity.position;
+            lastPos = entity.transform.localPosition;
             lastPos.y = 0f;
             timePersecuting = entity.stats.current.FsPursuitTime;
             playerPosUpdateDelay =  entity.stats.current.FSPlayerPosUpdateDelay;
-
-            if (entity.stage == BossStages.FirstStage) return;
-       
-            Sequence s = DOTween.Sequence();
-            s.AppendCallback(() => entity.ShootBullet(entity.index));
-            s.AppendCallback(() => entity.enemyEvents.OnAttackPerformed?.Invoke());
+            
         }
 
         protected override void OnExit(BossEnemy entity)
         {
-           
+            entity.EnableCollider(true);
             entity.lateralVelocity = Vector3.zero;
-            if(entity.stage != BossStages.FirstStage)entity.enemyEvents.HandleAttack(false);
             if (!retreat) return;
             Sequence s = DOTween.Sequence();
-            // s.AppendCallback(() => entity.transform.parent = BossEnemy.MainBoss.transform);
+            s.AppendCallback(()=>   entity.enemyEvents.HandleRetreat(true));
             s.AppendCallback(() =>
             {
-                if(entity.stage == BossStages.FirstStage)
-                {
-                    //if(entity.stats.current.goBackIntoSlot)
-                    //{
-                    entity.transform.position = lastPos;
-                       // entity.transform.DOMove(lastPos,entity.stats.current.returnToPosTime);
-                        //if(entity.stats.current.waitForRetreat)
-                        entity.enemyEvents.HandleRetreat(true);
-                    //}
-
-                }
+               
+                    entity.transform.localPosition = lastPos;
+                      
+                        
 
                 });
-            s.AppendCallback(() => entity.SetController(false));
             s.AppendInterval(entity.stats.current.returnToPosTime);
-            s.AppendCallback(() => entity.SetController(true));
             s.AppendCallback(() => entity.enemyEvents.HandleRetreat(false));
             s.AppendCallback(() => entity.enemyEvents.HandleAttack(false));
-            //entity.transform.position = entity.slot.position;
-            //entity.transform.parent = BossEnemy.MainBoss.transform;   
         }
 
         public override void OnStep(BossEnemy entity)
         {
             if(!entity.step) return;
-            if (entity.stage == BossStages.FirstStage)
-            {
+            
                 if(playerPosUpdateDelay < 0f) {
                     dir = (entity.player.position - entity.transform.position);
-                    playerPosUpdateDelay = entity.stats.current.FSPlayerPosUpdateDelay;
+                    playerPosUpdateDelay =  entity.stats.current.FSPlayerPosUpdateDelay;
                 }
                 var dist = (entity.player.position - entity.transform.position).magnitude;
                 if (dist < entity.stats.current.DestinyReachedThreshold || timePersecuting <= 0f)
@@ -83,12 +64,7 @@ namespace Lullaby.Entities.Enemies.States
                     return;
                 }
                 entity.Accelerate(dir.normalized, entity.stats.current.attackLaunchAcceleration,entity.stats.current.attackLaunchSpeed);
-            }
-            else
-            {
-                entity.Decelerate();
-                entity.enemyEvents.OnAttackPerformed?.Invoke();
-            }
+                
                
             HandleTimers();
            
@@ -96,6 +72,7 @@ namespace Lullaby.Entities.Enemies.States
 
         public override void OnContact(BossEnemy entity, Collider other)
         {
+            entity.ContactAttack(other, entity.controller.bounds);
         }
 
         private void HandleTimers()

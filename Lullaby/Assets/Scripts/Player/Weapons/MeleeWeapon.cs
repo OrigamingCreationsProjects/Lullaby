@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Lullaby.Entities.Enemies;
 using UnityEngine;
 
 namespace Lullaby.Entities.Weapons
@@ -145,6 +146,11 @@ namespace Lullaby.Entities.Weapons
                 b = breakable; 
                 HandleBreakableObject(breakable);
                 return true;
+            }
+            else if(other.TryGetComponent(out BulletBehaviour bullet))
+            {
+                bullet.Rebound();
+                return true;               
             }
             if(d == null) return false;
 

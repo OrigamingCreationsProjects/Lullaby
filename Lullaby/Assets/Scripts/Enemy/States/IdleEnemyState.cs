@@ -4,7 +4,10 @@ namespace Lullaby.Entities.Enemies.States
 {
     public class IdleEnemyState: EnemyState
     {
-        protected override void OnEnter(Enemy enemy){}
+        protected override void OnEnter(Enemy enemy)
+        {
+            enemy.GetComponent<FaceChanger>().ChangeFobosExpression(FobosEmotion.Normal);
+        }
 
         protected override void OnExit(Enemy enemy) { }
 

@@ -12,7 +12,7 @@ namespace Lullaby.Entities.Events
         public UnityEvent OnAttackPerformed;
         public UnityEvent OnSecondStage;
         public UnityEvent OnFinalStage;
-        
+        public UnityEvent OnCloning;
 
         public event EventHandler<OnValueChange> OnRetreat;
         public event EventHandler<OnValueChange> OnAttack;

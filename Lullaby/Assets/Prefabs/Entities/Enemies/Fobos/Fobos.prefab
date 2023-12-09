@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 6097278131880929440}
   - component: {fileID: 7865911376656237996}
   - component: {fileID: 5851180536620410875}
+  - component: {fileID: 2952833614875563734}
   m_Layer: 11
   m_Name: Fobos
   m_TagString: Enemy
@@ -113,7 +114,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 4
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -273,6 +274,7 @@ MonoBehaviour:
   - Lullaby.Entities.Enemies.States.FollowEnemyState
   - Lullaby.Entities.Enemies.States.HurtEnemyState
   - Lullaby.Entities.Enemies.States.DieEnemyState
+  - Lullaby.Entities.Enemies.States.SurpriseEnemyState
 --- !u!114 &8188461907434106841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,8 +369,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8530616
-  m_Height: 1.7061232
+  m_Radius: 0.67
+  m_Height: 1.32
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0.051065505}
 --- !u!114 &5851180536620410875
@@ -388,6 +390,26 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.5
   materialType: 2
+--- !u!114 &2952833614875563734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6712562220562376004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3413da067c84e99a2aa371582440ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceRenderer: {fileID: 0}
+  eyesRenderer: {fileID: 3539496394194285234}
+  regularEyesColors:
+  - {r: 0.7490196, g: 0, b: 0, a: 1}
+  - {r: 0.5758805, g: 1, b: 0, a: 1}
+  HDREyesColors:
+  - {r: 0.7490196, g: 0, b: 0, a: 1}
+  - {r: 0.7294118, g: 0.7490196, b: 0, a: 1}
 --- !u!1 &8776602681901742570
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +687,11 @@ Animator:
 --- !u!4 &3376566471070685012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 67362eb45436bb7409ee50e5c0bdc124, type: 3}
+  m_PrefabInstance: {fileID: 2977231393674031295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3539496394194285234 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7471593715498417651, guid: 67362eb45436bb7409ee50e5c0bdc124, type: 3}
   m_PrefabInstance: {fileID: 2977231393674031295}
   m_PrefabAsset: {fileID: 0}
 --- !u!23 &6194596296458017111 stripped
