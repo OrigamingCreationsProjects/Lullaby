@@ -133,7 +133,7 @@
                 "m_Node": {
                     "m_Id": "a4b360b2f79e4ae18e866c51e70a1b9d"
                 },
-                "m_SlotId": 429889506
+                "m_SlotId": 107346089
             }
         },
         {
@@ -361,6 +361,31 @@
     },
     "m_Labels": [],
     "m_Space": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "08cc8b6c88fd48898eec636ed999ba5e",
+    "m_Id": 107346089,
+    "m_DisplayName": "SpecularColor",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_SpecularColor",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0,
+        "w": 1.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -1009,31 +1034,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "63ac54f580874640bd2ffd624b25d6ab",
-    "m_Id": 429889506,
-    "m_DisplayName": "SpecularColor",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "_SpecularColor",
-    "m_StageCapability": 2,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "69f250db17ac43caa7daa1e564efed4b",
     "m_Group": {
@@ -1486,7 +1486,7 @@
             "m_Id": "b888aa359370453389dc41a73be474b0"
         },
         {
-            "m_Id": "63ac54f580874640bd2ffd624b25d6ab"
+            "m_Id": "08cc8b6c88fd48898eec636ed999ba5e"
         },
         {
             "m_Id": "9abbefbed74b48129e067158eb29e449"
@@ -1513,7 +1513,8 @@
         "f65acc8f-a430-47c4-a8f9-8c2e8f9dfc30",
         "eaf4edb9-b746-4851-822d-fd8a9fe0c731",
         "405d55af-9de2-4bdc-aeca-9567af6a1970",
-        "a89f0ac6-6a7c-4629-8152-d5f1f239282b"
+        "a89f0ac6-6a7c-4629-8152-d5f1f239282b",
+        "4dc91710-c19f-4b57-9b15-9101bd3b6a01"
     ],
     "m_PropertyIds": [
         -917185203,
@@ -1521,7 +1522,8 @@
         -1343353704,
         429889506,
         470640716,
-        877333449
+        877333449,
+        107346089
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
