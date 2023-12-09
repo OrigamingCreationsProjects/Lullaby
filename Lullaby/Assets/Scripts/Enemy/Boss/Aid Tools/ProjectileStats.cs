@@ -6,12 +6,18 @@ using UnityEngine;
 public class ProjectileStats : ScriptableObject
 {
     [Header("Position Parameters")] 
+    
     [Tooltip("Distance from the boss for the projectile to spawn. Should be greater than boss collider to avoid conflicts.")]
     public float distanceFromBoss = 5f;
+    
     [Header("Speed Parameters")]
     public float projectileSpeed = 10f; 
     public float reboundSpeed = 20f;
     public float curveSpeed = 5f;
+    
+    [Header("Damage Parameters")]
+    public int damage = 10;
+    
     [Header("Time Parameters")]
     public float timeAlive = 6f;
     public float playerPosUpdateDelay = .4f;

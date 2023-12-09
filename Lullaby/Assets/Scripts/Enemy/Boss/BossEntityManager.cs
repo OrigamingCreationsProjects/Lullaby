@@ -2,17 +2,15 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Lullaby.Entities.Enemies;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using DG.Tweening;
-using Lullaby;
 using Lullaby.Entities;
 using Lullaby.Entities.Enemies.States;
 using Lullaby.Entities.Events;
-using UnityEngine.UIElements;
 using Quaternion = UnityEngine.Quaternion;
+using Sequence = DG.Tweening.Sequence;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -34,7 +32,7 @@ public class BossEntityManager : MonoBehaviour
     [SerializeField, Tooltip("Defines the platform in which the final boss fight takes place")]
     public Transform fightPlatform;
     [SerializeField, Tooltip("Defines the time the manager waits when an enemy is about to attack.")]
-    private float attackWaitTime = 3f;
+    public float attackWaitTime = 3f;
     
     [Header("Spawn Configuration"), Space(2f)]
     
@@ -44,19 +42,22 @@ public class BossEntityManager : MonoBehaviour
     private float spawnTimeMultiplier;
     [SerializeField, Range(0f,2f), Tooltip("Threshold in which the tweener decides if destination has been reached.")] 
     private float inPositionThreshold;
-    
-    
+
     [Header("Objects Assignation"), Space(2f)]
     [SerializeField] 
     private GameObject bossPrefab;
 
     [SerializeField, Tooltip("Main Boss should be already in scene so include only materials for copies.")] 
     private Material[] bossMaterials;
+    [SerializeField]
+    private Color[] bossColors = {Color.red, Color.blue, Color.green, Color.yellow};
+    [SerializeField]
+    private Gradient[] bossGradients;
     [SerializeField] 
     private List<Transform> bossSlots;
     
-   
-   
+    private int indexAI = 0;
+
     /// <summary>
     /// Flags to notify one enemy is attacking or retreating.
     /// </summary>
@@ -79,10 +80,11 @@ public class BossEntityManager : MonoBehaviour
     private List<bool> enemyShot;
     private List<int> enemyIndexes;
     private bool step;
-    private Transform bossStartPos;
+    private Vector3 bossStartPos;
     private BossEnemy mainBoss;
     private Coroutine AI_Loop_Coroutine;
-
+    public Coroutine Divide_Coroutine;
+    
     private float angleTop;
     private float angleBottom;
     private float angleLeft;
@@ -93,11 +95,19 @@ public class BossEntityManager : MonoBehaviour
     
     private Player player;
     private float yAngle;
-    private BossStages stage;
+    private BossStages stage = BossStages.FirstStage;
 
     private bool invoked = false;
     
+    // NOMBRES PROPIEDADES SHADER
+    private string _customColorPropertyName = "_CustomizableColor";
+    
+    private BossEnemy _leadBoss;
+    
     #region -- INITIALIZERS --
+
+    private void InitializeLeadBoss() => _leadBoss = transform.GetChild(0).GetComponent<BossEnemy>();
+
     /// <summary>
     /// Instantiates the bosses instances defined by the corresponding parameter {numOfBosses}
     /// </summary>
@@ -120,7 +130,7 @@ public class BossEntityManager : MonoBehaviour
         {
             if (boss.TryGetComponent(out BossEnemy script))
             {
-                bossStartPos = boss.transform;
+                bossStartPos = boss.transform.position;
                 if(retreatPos == null) retreatPos = boss.transform;
                 script.enemyEvents.OnPlayerSeen += PlayerIsDetected;
                 script.enemyEvents.OnAttack += AnEnemyIsAttacking;
@@ -141,21 +151,23 @@ public class BossEntityManager : MonoBehaviour
             GameObject boss;
             boss = Instantiate(bossPrefab, mainBoss.position, transform.rotation, transform);
             boss.name = $"Boss_Clone{i}";
-            boss.GetComponent<BossEnemy>().GetBody().GetComponent<MeshRenderer>().material = bossMaterials[i%bossMaterials.Length] ;
-            boss.GetComponent<BossEnemy>().enemyEvents.OnRetreat += AnEnemyIsRetreating;
-            boss.GetComponent<BossEnemy>().enemyEvents.OnAttack += AnEnemyIsAttacking;
-            boss.GetComponent<BossEnemy>().enemyEvents.OnPlayerSeen += PlayerIsDetected;
-            bossBuffer.Add(boss.GetComponent<BossEnemy>());
+            var script = boss.GetComponent<BossEnemy>();
+            var randomIdx = Random.Range(0, bossMaterials.Length);
+            script.GetBody().GetComponent<SkinnedMeshRenderer>().material.SetColor(_customColorPropertyName,  bossColors[i%bossColors.Length]);
+            script.bulletColor = bossColors[i%bossColors.Length];
+            script.smokeGradient = bossGradients[i%bossGradients.Length];
+            script.enemyEvents.OnRetreat += AnEnemyIsRetreating;
+            script.enemyEvents.OnAttack += AnEnemyIsAttacking;
+            script.enemyEvents.OnPlayerSeen += PlayerIsDetected;
+            bossBuffer.Add(script);
             boss.SetActive(false);
             //boss.GetComponent<BossEnemy>().enabled = false;
             
         }
-
-      
     }
+    
     public void InitializeBossSlots()
     {
-        player = mainBoss.player;
         var maxDistanceOffset = mainBoss.stats.current.FsMaxDistToPlayer;
         var minDistanceOffset = mainBoss.stats.current.FsMinDistToPlayer;
         var platformSize = fightPlatform.GetComponent<Renderer>().bounds.size;
@@ -170,6 +182,7 @@ public class BossEntityManager : MonoBehaviour
             var zScale =  zOffset * (i - offset);
             emptyObj.transform.position =  new Vector3(mainBoss.transform.position.x + zScale, mainBoss.transform.position.y, mainBoss.transform.position.z + xScale);
             */
+            
             var emptyObj = new GameObject($"bossSlot_{i}");
             
             // CIRCLE FORMATION
@@ -181,13 +194,12 @@ public class BossEntityManager : MonoBehaviour
           
             bossSlots.Add(emptyObj.transform);
         }
-        mainBoss.transform.position = bossStartPos.position;
+        mainBoss.transform.position = bossStartPos;
         Divide(bossBuffer.Count-1);
     }
-
+    
     private void InitializePlane()
     {
-        var player = FindObjectOfType<Player>();
         RaycastHit raycastHit;
         if (Physics.Raycast(player.transform.position, Vector3.down, out raycastHit, player.controller.height + 2f) && fightPlatform == null)
         {
@@ -217,21 +229,26 @@ public class BossEntityManager : MonoBehaviour
     private void InitializeMainBoss() => mainBoss = BossEnemy.MainBoss;
     private void InitializeStep() => step = true;
     private void InitializeStage() => stage = BossStages.FirstStage;
+    
     #endregion
+    
     #region -- MONOBEHAVIOUR --
 
     void Awake()
     {
-        InitializeMainBoss();
-        InitializeBossBuffer();
+        
         InitializeStage();
         InitializeStep();
     }
 
     void Start()
     {
-        
+        InitializeLeadBoss();
+        InitializeMainBoss();
+        InitializeBossBuffer();
         enemyShot = new List<bool>() {false,false,false,false};
+        enemyIndexes = new List<int>();
+
     }
 
     void Update()
@@ -240,6 +257,7 @@ public class BossEntityManager : MonoBehaviour
     }
 
     #endregion
+    
     #region -- PARTICULAR FUNCTIONS --
 
     private void HandleMovement()
@@ -252,8 +270,6 @@ public class BossEntityManager : MonoBehaviour
                 transform.Rotate(new Vector3(0,yAngle,0) * Time.deltaTime);
                 break;
             case BossStages.SecondStage:
-                if (enemyAttacking) return;
-                transform.Rotate(new Vector3(0,yAngle,0) * Time.deltaTime);
                 break;
             case BossStages.FinalStage:
                 break;
@@ -281,39 +297,69 @@ public class BossEntityManager : MonoBehaviour
     /// <returns></returns>
     public void Divide(int idx)
     {
-        mainBoss.Disable();
+        enemyRetreating = true;
         bossBuffer[idx].Disable();
-        if(BossEnemy.MainBoss != bossBuffer[idx]) 
-            bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
+        bossBuffer[idx].states.Change<BEIdleState>();
+        if (BossEnemy.MainBoss != bossBuffer[idx])
+        {
+            Vector3 targetPos = BossEnemy.MainBoss.transform.localPosition;
+            
+            targetPos += (-BossEnemy.MainBoss.transform.right * 2);
+            bossBuffer[idx].transform.localPosition = targetPos;
+            
+            //bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
+        }
         bossBuffer[idx].slot = bossSlots[bossBuffer.Count-1-idx];
         bossBuffer[idx].stage = mainBoss.stage;
-        bossBuffer[idx].states.Change<BEIdleState>();
-        bossBuffer[idx].gameObject.SetActive(true);
+        //BossEnemy.MainBoss.DivideCloneAnim();
         bossBuffer[idx].angleAssigned = angles[(angles.Length -1 -idx)%angles.Length];
         bossBuffer[idx].dirFacing = dirs[(dirs.Length -1 -idx) % dirs.Length];
         if (idx == bossBuffer.Count - 1) bossBuffer[idx].IsInvincible = false;
-        Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
-        tween.OnUpdate(delegate
+        
+     
+        Sequence s = DOTween.Sequence();
+        if(bossBuffer[idx] != _leadBoss)
+            s.AppendCallback(() => _leadBoss.DivideCloneAnim());
+        s.AppendInterval(spawnTime/2);
+        s.AppendCallback(() => bossBuffer[idx].gameObject.SetActive(true));
+        s.AppendCallback(() => bossBuffer[idx].TurningCloneAnim());
+        s.AppendCallback(() => bossBuffer[idx].enemyEvents.OnCloning?.Invoke());
+        s.AppendCallback(() => bossBuffer[idx].hitCollider.enabled = false);
+        s.AppendInterval(spawnTime/2);
+        s.Append(bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime));
+        s.AppendCallback(() => FinalDivide(idx));
+        
+        
+        //Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
+        // tween.Pause();
+        // s.Append(tween.Play());
+        // tween.OnUpdate(delegate
+        // {
+        //     if (mainBoss.stage == BossStages.FirstStage)
+        //     {
+        //         if (Vector3.Distance(bossSlots[bossBuffer.Count-1-idx].position, bossBuffer[idx].position) > inPositionThreshold)
+        //         {
+        //             tween.ChangeEndValue(bossSlots[bossBuffer.Count-1-idx].position, spawnTime/spawnTimeMultiplier,true);
+        //         }
+        //     }
+        //    
+        // }).OnComplete(() =>
+        // {
+        //     
+        // });
+    }
+
+    private void FinalDivide(int idx)
+    {
+        idx -= 1;
+        if (idx > -1) Divide(idx);
+        else
         {
-            if (mainBoss.stage == BossStages.FirstStage)
-            {
-                if (Vector3.Distance(bossSlots[bossBuffer.Count-1-idx].position, bossBuffer[idx].position) > inPositionThreshold)
-                {
-                    tween.ChangeEndValue(bossSlots[bossBuffer.Count-1-idx].position, spawnTime/spawnTimeMultiplier,true);
-                }
-            }
-           
-        }).OnComplete(() =>
-        {
-            idx -= 1;
-            if (idx > -1) Divide(idx);
-            else
-            {
-                enemyRetreating = false;
-                EnableBossesControllers();
-                yAngle = rotationSpeed;
-            }
-        });
+            
+            EnableBosses();
+            enemyRetreating = false;
+            yAngle = rotationSpeed;
+        }
     }
     
     public void CheckInvincibilityStatus()
@@ -326,52 +372,25 @@ public class BossEntityManager : MonoBehaviour
 
     public void EnableBosses()
     {
-        for (int index = 0; index < bossBuffer.Count; index++)
+        for (int index = bossBuffer.Count-1; index >= 0; index--)
         {
             bossBuffer[index].step = true;
             bossBuffer[index].enabled = true;
             bossBuffer[index].rotateAnimComponent.enabled = true;
-            if (bossBuffer[index].stage == BossStages.FinalStage && !invoked)
-            {
-                bossBuffer[index].StartCoroutine(bossBuffer[index].EnemyMovement());
-               
-            }
-                
-            bossBuffer[index].states.Change<CirculatingState>();
-        }
-
-        if(BossEnemy.MainBoss.stage == BossStages.FinalStage) invoked = true;
-    }
-
-    private void EnableBossesControllers()
-    {
-        foreach (BossEnemy boss in bossBuffer)
-        {
-            boss.SetController(true);
-            if (BossEnemy.MainBoss == boss)
-            {
-                mainBoss.enemyEvents.OnDivisonFinished?.Invoke();
-                EnableBosses();
-                StartAI();
-            } 
         }
         
-       
-          
+        StartAI();
     }
+    
     public void Retreat()
     {
         Sequence s = DOTween.Sequence();
         yAngle = 0f;
         enemyAttacking = false;
         enemyRetreating = true;
-        StopCoroutine(AI_Loop_Coroutine);
-        //mainBoss.transform.position = retreatPos.position;
-        s.AppendCallback(() => mainBoss.SetController(false));
         s.AppendCallback(() => BossEnemy.MainBoss.transform.DOMove(retreatPos.position, retreatTime));
         s.AppendInterval(retreatTime);
         s.AppendCallback(() => Divide(bossBuffer.Count-1));
-        //Divide(bossBuffer.Count-1);
     }
     
     public void DisableBossGameObjects()
@@ -382,7 +401,7 @@ public class BossEntityManager : MonoBehaviour
         }
     }
 
-     /// <summary>
+    /// <summary>
     /// Counts the number of bosses currently alive
     /// </summary>
     /// <returns>Integer with number of bosses alive.</returns>
@@ -410,6 +429,7 @@ public class BossEntityManager : MonoBehaviour
     }
     public void StartAI()
     {
+        indexAI++;
         AI_Loop_Coroutine = StartCoroutine(AI_Loop(null));
     }
 
@@ -425,7 +445,7 @@ public class BossEntityManager : MonoBehaviour
 
         for (int i = 0; i < bossBuffer.Count(); i++)
         {
-            if (bossBuffer[i].states.current is CirculatingState && bossBuffer[i].controller.enabled)
+            if (bossBuffer[i].controller.enabled)
                 enemyIndexes.Add(i);
         }
 
@@ -445,24 +465,33 @@ public class BossEntityManager : MonoBehaviour
 /// <returns>Selected Boss script</returns>
     public BossEnemy RandomEnemyExcludingOne()
     {
-        enemyIndexes = new List<int>();
-
+        
         for (int i = 0; i < bossBuffer.Count(); i++)
         {
-            if (bossBuffer[i].states.current is CirculatingState && bossBuffer[i].controller.enabled && !enemyShot[i])
+            if (bossBuffer[i].gameObject.activeSelf && !enemyShot[i])
                 enemyIndexes.Add(i);
         }
 
+        if (AliveBossCount() == 0)
+        {
+            return null;
+        }
         if (enemyIndexes.Count == 0)
         {
-            enemyShot = new List<bool>() { false, false, false, false };
-            return null;
+            for (int i = 0; i < enemyShot.Count; i++)
+            {
+                enemyShot[i] = false;
+            }
+            var idx = Random.Range(0, bossBuffer.Count);
+            enemyShot[idx] = true;
+            return bossBuffer[idx];
         }
 
         BossEnemy randomEnemy;
         int randomIndex = Random.Range(0, enemyIndexes.Count);
         randomEnemy = bossBuffer[enemyIndexes[randomIndex]];
         enemyShot[enemyIndexes[randomIndex]] = true;
+        enemyIndexes.Clear();
         return randomEnemy;
     }
 
@@ -474,7 +503,7 @@ public class BossEntityManager : MonoBehaviour
         BossEnemy boss = null;
         for (int i = bossBuffer.Count - 1 ; i >= 0; i--)
         { 
-            if (!enemyShot[i] && bossBuffer[i].states.current is CirculatingState && bossBuffer[i].controller.enabled)
+            if (!enemyShot[i]  && bossBuffer[i].controller.enabled)
             {
                 boss = bossBuffer[i];
                 enemyShot[i] = true;
@@ -485,7 +514,7 @@ public class BossEntityManager : MonoBehaviour
         if (boss == null && AliveBossCount() != 0)
         {
             enemyShot = new List<bool>() { false, false, false, false };
-            if( bossBuffer[bossBuffer.Count - 1].states.current is CirculatingState && bossBuffer[bossBuffer.Count - 1].enabled) boss = bossBuffer[bossBuffer.Count - 1];
+            if( bossBuffer[bossBuffer.Count - 1].enabled) boss = bossBuffer[bossBuffer.Count - 1];
         }
         return boss;
 
@@ -494,55 +523,81 @@ public class BossEntityManager : MonoBehaviour
     
     IEnumerator AI_Loop(BossEnemy boss)
     {
-        if (AliveBossCount() == 0)
+        var index = indexAI;
+        while (AliveBossCount() > 0)
         {
-            StopCoroutine(AI_Loop(null));
-            yield break;
-        }
-        yield return new WaitUntil(() => EnemyCloseEnough());
-        if(BossEnemy.MainBoss.stage != BossStages.FinalStage) yield return new WaitWhile(()=> enemyAttacking);
-        
-        yield return new WaitWhile(() => enemyRetreating);
-        if(BossEnemy.MainBoss.stage != BossStages.FirstStage) yield return new WaitForSeconds(Random.Range(BossEnemy.MainBoss.stats.current.distAttackMinWaitingTime,BossEnemy.MainBoss.stats.current.distAttackMaxWaitingTime));
-        else yield return new WaitForSeconds(Random.Range(BossEnemy.MainBoss.stats.current.attackMinWaitingTime,BossEnemy.MainBoss.stats.current.attackMaxWaitingTime));
-        BossEnemy attackingEnemy;
-        if (BossEnemy.MainBoss.stage != BossStages.FinalStage)
-        {
-            attackingEnemy = RandomEnemyExcludingOne();
-        
-            if (attackingEnemy == null)
-                attackingEnemy = RandomEnemy();
-
-            if (attackingEnemy == null && AliveBossCount() == 1)
-                attackingEnemy = BossEnemy.MainBoss;
-        
-            if (attackingEnemy == null)
-                yield break;
+            Debug.Log($"AI LOOP NUMBER {index} IS RUNNING");
+            while (enemyRetreating) yield return null;
             
-            yield return new WaitUntil(()=> attackingEnemy.states.current is CirculatingState);
-            enemyAttacking = true;
-            yield return new WaitForSeconds(attackWaitTime);
-            attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
-            if (AliveBossCount() > 0)
-                AI_Loop_Coroutine = StartCoroutine(AI_Loop(attackingEnemy));
-        }
-        else
-        {
-            attackingEnemy = GetEnemy();
-            if (attackingEnemy == null && AliveBossCount() == 1)
-                attackingEnemy = BossEnemy.MainBoss;
+            BossEnemy attackingEnemy;
+            attackingEnemy = RandomEnemyExcludingOne();
+            
             if (attackingEnemy == null)
                 yield break;
-            attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
-            yield return new WaitForSeconds(attackWaitTime);
-            if (AliveBossCount() > 0)
-                AI_Loop_Coroutine = StartCoroutine(AI_Loop(null));
+
+            if (stage == BossStages.FirstStage)
+            {
+                while (!EnemyCloseEnough()) yield return null;
+                while (enemyAttacking) yield return null;
+                yield return new WaitForSeconds(Random.Range(mainBoss.stats.current.attackMinWaitingTime,
+                    mainBoss.stats.current.attackMaxWaitingTime));
+                while (attackingEnemy.states.current is not CirculatingState) yield return null;
+                enemyAttacking = true;
+                yield return new WaitForSeconds(attackWaitTime);
+                attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
+            }
+            else
+            {
+                yield return new WaitForSeconds(Random.Range(mainBoss.stats.current.distAttackMinWaitingTime,
+                    mainBoss.stats.current.distAttackMaxWaitingTime));
+                Debug.Log($"ATTACKING ENEMY IS {attackingEnemy.name}");
+                attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
+                yield return new WaitForSeconds(attackWaitTime);
+            }
         }
-        
-       
-        
     }
 
+   /* IEnumerator Divide()
+    {
+        for (int idx = bossBuffer.Count - 1; idx >= 0; idx--)
+        {
+            bossBuffer[idx].Disable();
+            bossBuffer[idx].states.Change<BEIdleState>();
+            if(BossEnemy.MainBoss != bossBuffer[idx]) 
+                bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
+            bossBuffer[idx].slot = bossSlots[bossBuffer.Count-1-idx];
+            bossBuffer[idx].stage = mainBoss.stage;
+            bossBuffer[idx].gameObject.SetActive(true);
+            bossBuffer[idx].angleAssigned = angles[(angles.Length -1 -idx)%angles.Length];
+            bossBuffer[idx].dirFacing = dirs[(dirs.Length -1 -idx) % dirs.Length];
+            if (idx == bossBuffer.Count - 1) bossBuffer[idx].IsInvincible = false;
+            bossBuffer[idx].transform.position = bossSlots[bossBuffer.Count - 1 - idx].position;
+            /*Tweener tween = bossBuffer[idx].transform.DOMove(bossSlots[bossBuffer.Count-1-idx].position, spawnTime);
+            tween.OnUpdate(delegate
+            {
+                if (mainBoss.stage == BossStages.FirstStage)
+                {
+                    if (Vector3.Distance(bossSlots[bossBuffer.Count - 1 - idx].position, bossBuffer[idx].position) >
+                        inPositionThreshold)
+                    {
+                        tween.ChangeEndValue(bossSlots[bossBuffer.Count - 1 - idx].position,
+                            spawnTime / spawnTimeMultiplier, true);
+                    }
+                }
+
+            });
+            yield return new WaitWhile(() =>
+                    Vector3.Distance(bossSlots[bossBuffer.Count - 1 - idx].position, bossBuffer[idx].position) >
+                        inPositionThreshold
+                );*/
+   /*    }
+
+   enemyRetreating = false;
+   EnableBosses();
+   yAngle = rotationSpeed;
+   yield return null;
+}
+*/
    
     #endregion
 
@@ -555,19 +610,13 @@ public class BossEntityManager : MonoBehaviour
     {
         foreach (var boss in bossBuffer)
         {
-            // Computes the distance to the player from each boss. Takes only into account the distance in the
-            // circunference around the player. Not the distance in component y.
-            var playerPos = player.position;
-            playerPos.y = boss.position.y;
-            var distFromPlayer = (playerPos - boss.position).magnitude;
-            // Checks the distance to the player is enough to attack it. This check only happens in the First Stage.
-            if (distFromPlayer <= boss.stats.current.FsMinDistToPlayer || boss.stage != BossStages.FirstStage)
+            if (!boss.InPlace)
             {
-                return true;
+                return false;
             }
         }
     
-        return false;
+        return true;
     }
    
     /// <summary>
@@ -577,7 +626,6 @@ public class BossEntityManager : MonoBehaviour
     /// <param name="args"></param>
     private void AnEnemyIsAttacking(object sender, OnValueChange args)
     {
-        Debug.Log("AN ENEMY IS ATTACKING");
         enemyAttacking = args.value;
     }
     /// <summary>
@@ -591,8 +639,10 @@ public class BossEntityManager : MonoBehaviour
     }
 
     private void PlayerIsDetected(object sender, OnValueChange args)
-    { InitializePlane(); // Called in Start so the player controller has time to be assigned in Awake call.
-       InitializeBossSlots();
+    {
+        player = mainBoss.player;
+        InitializePlane(); // Called in Start so the player controller has time to be assigned in Awake call.
+        InitializeBossSlots();
     }
 
     private void OnSecondStage(object sender, EventArgs args)
@@ -613,6 +663,16 @@ public class BossEntityManager : MonoBehaviour
         Retreat();
     }
     #endregion
-    
+
+    #region EVENT DRIVEN
+
+    public void ResetBossesStates()
+    {
+        foreach (var boss in bossBuffer)
+        {
+            boss.states.Change<BEIdleState>();
+        }
+    }
+    #endregion
     
 }

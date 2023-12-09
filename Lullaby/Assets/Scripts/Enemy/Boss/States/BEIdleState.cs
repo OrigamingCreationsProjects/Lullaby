@@ -19,14 +19,23 @@ namespace Lullaby.Entities.Enemies.States
         {   
             if(boss.velocity != Vector3.zero) boss.Decelerate();
             if(!boss.step) return;
-            var distanceToPlayer = (boss.player.position - boss.position).magnitude;
-            if(BossEnemy.MainBoss != boss) boss.states.Change<CirculatingState>();
-            if(BossEnemy.MainBoss == boss && boss.invoked) boss.states.Change<CirculatingState>();
+
+            switch (boss.stage)
+            {
+                case BossStages.FirstStage:
+                    boss.states.Change<CirculatingState>();
+                    break;
+                case BossStages.SecondStage:
+                    boss.states.Change<BESecondCirculating>();
+                    break;
+                case BossStages.FinalStage:
+                    boss.states.Change<BEFinalCirculating>();
+                    break;
+            }
         }
 
         public override void OnContact(BossEnemy entity, Collider other)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

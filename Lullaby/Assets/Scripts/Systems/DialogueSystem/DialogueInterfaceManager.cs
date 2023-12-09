@@ -135,6 +135,7 @@ namespace Lullaby.Systems.DialogueSystem
                 animatedText.ReadText(currentLine);
                 currentTalkerAnimator.SetTrigger(_talkHash);
                 currentTalker.talkerEvents.OnDialogueBark?.Invoke(_barkClip);
+                MoveTalkerMouth();
             } 
             else if(animatedText.maxVisibleCharacters != currentLine.Length)
             {
@@ -150,6 +151,14 @@ namespace Lullaby.Systems.DialogueSystem
             }
         }
 
+        public void MoveTalkerMouth()
+        {
+            if (currentNPC.dialogueText.conversationBlock[dialogueIndex].actorId == 0)
+            {
+                currentTalker.GetComponentInChildren<Speaker>().Speak();
+            }
+        }
+        
         public void FadeUI(bool show, float time, float delay)
         {
             Sequence fadeSequence = DOTween.Sequence();
