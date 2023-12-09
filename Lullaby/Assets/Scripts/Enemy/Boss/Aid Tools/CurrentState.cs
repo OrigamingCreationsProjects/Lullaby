@@ -28,6 +28,10 @@ public class CurrentState : MonoBehaviour
             if (state is BEAttackingState) text = "ATTACKING STATE";
             else if (state is CirculatingState) text = "CIRCULATING STATE";
             else if (state is BEIdleState) text = "IDLE STATE";
+            else if (state is BEDistAttackState) text = "DIST ATTACK STATE";
+            else if (state is BEFinalCirculating) text = "FINAL CIRCULATING STATE";
+            else if (state is BESecondCirculating) text = "SECOND CIRCULATING STATE";
+            else if (state is BEPreparingToAttack) text = "PREPARING ATTACK STATE";
             stateText.text = text;
         }
         catch (Exception e)

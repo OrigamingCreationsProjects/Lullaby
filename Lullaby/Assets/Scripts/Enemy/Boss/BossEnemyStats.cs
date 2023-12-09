@@ -18,7 +18,7 @@ namespace Lullaby.Entities.Enemies
         public bool canAttackOnContact = true;
         public bool contactPushback = true;
         public float contactOffset = 0.15f;
-        public int contactDamage = 1;
+        public int contactDamage = 20;
         public float contactPushBackForce = 18f;
         public float contactSteppingTolerance = 0.1f;
         
@@ -38,7 +38,8 @@ namespace Lullaby.Entities.Enemies
         public float followAcceleration = 10f;
         public float followTopSpeed = 4f;
         public float DestinyReachedThreshold = 2f;
-       
+        public float secondStageAcceleration = 5f;
+        public float secondStageSpeed = 8f;
 
         [Header("Stages Parameters")] 
 

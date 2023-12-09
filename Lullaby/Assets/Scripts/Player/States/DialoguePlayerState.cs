@@ -14,6 +14,7 @@ namespace Lullaby.Entities.States
            DialogueInterfaceManager.Instance.CameraChange(true);
            DialogueInterfaceManager.Instance.ClearText();
            DialogueInterfaceManager.Instance.FadeUI(true, .2f, .65f);
+           DialogueInterfaceManager.Instance.MoveTalkerMouth();
            Sequence s = DOTween.Sequence();
            s.AppendCallback(() => player.inputs.enabled = false);
            s.AppendInterval(1f);
