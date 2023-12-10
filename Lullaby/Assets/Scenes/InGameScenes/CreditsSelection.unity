@@ -1418,9 +1418,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 983643905}
-        m_TargetAssemblyTypeName: Lullaby.GameSceneLoader, Assembly-CSharp
-        m_MethodName: Load
+      - m_Target: {fileID: 1497187402}
+        m_TargetAssemblyTypeName: Lullaby.GameController, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1548,17 +1548,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &983643905 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1333788091328572218, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
-  m_PrefabInstance: {fileID: 357238562}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb0b133bbb4d4adcb5c69a976db1db03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1003986088
 GameObject:
   m_ObjectHideFlags: 0
