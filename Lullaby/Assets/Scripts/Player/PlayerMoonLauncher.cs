@@ -5,6 +5,7 @@ using DG.Tweening;
 using Lullaby;
 using Lullaby.Entities;
 using Lullaby.Entities.States;
+using Lullaby.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -41,6 +42,9 @@ public class PlayerMoonLauncher : MonoBehaviour
     private MoonAnimation _moonAnimation;
 
     private TrailRenderer _flyTrail;
+
+    private Player _player; 
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +52,7 @@ public class PlayerMoonLauncher : MonoBehaviour
         playerParent = GameObject.FindGameObjectWithTag(GameTags.MoonCartParent).transform;
         impulseSource = FindObjectOfType<CinemachineImpulseSource>();
         _flyTrail = moonPathCart.GetComponentInChildren<TrailRenderer>();
+        _player = GetComponent<Player>();
     }
     
     public void StartCenterLaunch()
@@ -148,10 +153,16 @@ public class PlayerMoonLauncher : MonoBehaviour
          //     launchObject = other.transform;
          // }
 
+         if (other.CompareTag(GameTags.MoonLauncher))
+         {
+             Debug.Log("Moon launcher: " + other.name);
+            _player.moonLauncher.launchObject = other.transform;
+            _player.insideMoon = true;
+            other.gameObject.GetComponentInChildren<ContextIndicator>().ShowContextIndicator();
+         }
+
          if (other.CompareTag(GameTags.MoonCameraTrigger))
              other.GetComponent<CameraTrigger>().SetCamera();
-         
-         
      }
 
      private void OnTriggerExit(Collider other)
@@ -159,6 +170,8 @@ public class PlayerMoonLauncher : MonoBehaviour
          if (other.CompareTag(GameTags.MoonLauncher))
          {
              insideLaunchStar = false;
+            _player.insideMoon = false;
+            other.gameObject.GetComponentInChildren<ContextIndicator>().HideContextIndicator();
          }
      }
 }

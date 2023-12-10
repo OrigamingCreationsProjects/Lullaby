@@ -18,6 +18,8 @@ namespace Lullaby
 		public static string MoonCameraTrigger = "Moon/CameraTrigger";
 		public static string MoonPathCart = "Moon/PathCart";
 		public static string MoonCartParent = "Moon/CartParent";
+		public static string SurfaceGrass = "Surface/Grass";
+		public static string SurfaceWood = "Surface/Wood";
 		public static bool IsEntity(Collider collider) =>
 			collider.CompareTag(Player) || collider.CompareTag(Enemy);
 

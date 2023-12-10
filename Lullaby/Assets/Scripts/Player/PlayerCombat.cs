@@ -131,7 +131,7 @@ namespace Lullaby.Entities
         {
             attackTriggers = new string[] {"AttackCombo1", "AttackCombo2", "AttackCombo3"};
             
-            Debug.Log("Entramos en Attack");
+            //Debug.Log("Entramos en Attack");
             if (target == null)
             {
                 AttackType(null, .2f, 0, "AttackCombo1");
@@ -142,7 +142,7 @@ namespace Lullaby.Entities
             {
                 _animationCount = (int)Mathf.Repeat((float)_animationCount + 1, (float)attackTriggers.Length);
                 string attackString = attackTriggers[_animationCount];
-                Debug.Log($"TRIGGER A LANZAR {attackString}");
+                //Debug.Log($"TRIGGER A LANZAR {attackString}");
                 AttackType(target, attackCooldown, .65f, attackString);
             }
             else
