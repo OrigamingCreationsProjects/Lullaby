@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Lullaby;
+using Systems.SoundSystem;
 using UnityEngine;
 
 public class CreditsScroll : MonoBehaviour
@@ -9,17 +11,19 @@ public class CreditsScroll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MusicManager.instance.currentSong.Stop();
+        GetComponent<AudioSource>().Play();
         Scroll();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void Scroll()
     {
-        transform.DOLocalMoveY(6000, scrollTime);
+        transform.DOLocalMoveY(6000, scrollTime).onComplete += () => EndCredits();
+    }
+
+    private void EndCredits()
+    {
+        GetComponent<AudioSource>().Stop();
+        GameSceneLoader.instance.Load("MainMenu");
     }
 }
