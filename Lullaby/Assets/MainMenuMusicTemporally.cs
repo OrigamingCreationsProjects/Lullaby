@@ -8,12 +8,8 @@ public class MainMenuMusicTemporally : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MusicManager.instance.PlayRandomPlaylistSong(MusicType.MainMenu);
+        if(MusicManager.instance.currentSong.name != "MainMenu_Music")
+            MusicManager.instance.PlayRandomPlaylistSong(MusicType.MainMenu);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

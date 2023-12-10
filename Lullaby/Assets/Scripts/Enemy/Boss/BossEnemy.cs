@@ -402,8 +402,8 @@ namespace Lullaby.Entities.Enemies
                   
                     
                     bossManager.StartAI();
-                    gameObject.SetActive(false);
                     enemyEvents.OnDie?.Invoke();
+                    gameObject.SetActive(false);
                 }
             } 
             else if (IsInvincible)
