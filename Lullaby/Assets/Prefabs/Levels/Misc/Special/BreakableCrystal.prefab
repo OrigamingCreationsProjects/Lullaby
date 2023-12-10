@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5218611967800031680}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -1843689209865246678, guid: 721ed075afdb7d3459396edca98d15ba, type: 3}
 --- !u!23 &2082616815231559535
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 67cc746f092d95d46a0e63a37822b60e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,10 +103,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5, y: 5, z: 5}
+  m_Center: {x: -0.10815525, y: 0.06152451, z: -0.00018167496}
 --- !u!114 &6361218511106357229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7297638815935885991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.36800003, y: 0.64, z: 0.06}
+  m_LocalPosition: {x: -0, y: 0.62, z: 0.06}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -411,7 +411,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6146968921540489317
 Rigidbody:
@@ -620,6 +620,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crystal
       objectReference: {fileID: 0}
+    - target: {fileID: -3384669409856310521, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bcf1849e299c594dac6ff1e8c1a9e83, type: 2}
+    - target: {fileID: -3384669409856310521, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bcf1849e299c594dac6ff1e8c1a9e83, type: 2}
+    - target: {fileID: -3384669409856310521, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bcf1849e299c594dac6ff1e8c1a9e83, type: 2}
     - target: {fileID: -2378985397033982674, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
       propertyPath: m_Name
       value: Ground
@@ -628,6 +640,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crystal
       objectReference: {fileID: 0}
+    - target: {fileID: 3977782800622743349, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 8012427030741892567, guid: 7ed63f7dccd601e42bc87121f7e3d6e5, type: 3}
+    - target: {fileID: 6904359993390795604, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ea612a44c0729e0418234528f6e58905, type: 2}
+    - target: {fileID: 8357038998324569602, guid: 6c52d0fd3fed0f045863bb49f48ce074, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5237397878538892510, guid: 7ed63f7dccd601e42bc87121f7e3d6e5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

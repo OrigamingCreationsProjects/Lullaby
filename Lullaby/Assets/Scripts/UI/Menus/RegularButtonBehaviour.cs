@@ -52,14 +52,14 @@ namespace Lullaby.UI.Menus
             // Agrega la entrada del evento al EventTrigger
             _eventTrigger.triggers.Add(entry2);
 
-            EventTrigger.Entry entry3 = new EventTrigger.Entry();
-            entry3.eventID = EventTriggerType.PointerClick;
-
-            // Agrega una función de delegado para manejar el evento PointerClick
-            entry3.callback.AddListener((data) => { OnPointerExit((BaseEventData)data); });
-
-            // Agrega la entrada del evento al EventTrigger
-            _eventTrigger.triggers.Add(entry3);
+            // EventTrigger.Entry entry3 = new EventTrigger.Entry();
+            // entry3.eventID = EventTriggerType.PointerClick;
+            //
+            // // Agrega una función de delegado para manejar el evento PointerClick
+            // entry3.callback.AddListener((data) => { OnPointerExit((BaseEventData)data); });
+            //
+            // // Agrega la entrada del evento al EventTrigger
+            // _eventTrigger.triggers.Add(entry3);
 
             #endregion
 
