@@ -701,8 +701,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6e8735ebd6301b8459d138b1047297fa, type: 3}
   airDash: {fileID: 8300000, guid: 6b0f75be2524ec54c95f0b7bfe9a05b2, type: 3}
   ledgeGrabbing: {fileID: 8300000, guid: a209b34d21edd61488a87e949634861b, type: 3}
-  startRailGrind: {fileID: 0}
-  railGrind: {fileID: 0}
+  startRailGrind: {fileID: 8300000, guid: 6ed6b6819b253d547af420bbb9498895, type: 3}
+  railGrind: {fileID: 8300000, guid: cf76daaf8d1c74548a7fa9261ad34ecc, type: 3}
   grindAudio: {fileID: 8727660342391122002}
 --- !u!114 &4437697211066741242
 MonoBehaviour:
@@ -6165,11 +6165,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_audioClip: {fileID: 8300000, guid: 9c416b9f36b9e9a4cac81231b0692bf6, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
