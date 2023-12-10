@@ -39,6 +39,9 @@ namespace Lullaby.UI
                 case ButtonType.leftStickPress:
                     buttonReference = ContextIndicatorSystem.instance.leftStickPress;
                     break;
+                case ButtonType.backButton:
+                    buttonReference = ContextIndicatorSystem.instance.backButton;
+                    break;
             }
         }
         private void RefreshUI()
@@ -70,5 +73,6 @@ namespace Lullaby.UI
         leftStickPress,
         rightStick,
         rightStickPress,
+        backButton,
     }
 }

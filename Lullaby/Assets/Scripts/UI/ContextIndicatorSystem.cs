@@ -37,6 +37,7 @@ namespace Lullaby.UI
         public Sprite rightTrigger{get{return _rightTrigger[dictionary[currentScheme]];}}
         public Sprite selectButton{get{return _selectButton[dictionary[currentScheme]];}}
         public Sprite startButton{get{return _startButton[dictionary[currentScheme]];}}
+        public Sprite backButton{get{return _backButton[dictionary[currentScheme]];}}
                 
         [SerializeField]private Sprite[] _buttonEast;
         [SerializeField]private Sprite [] _buttonWest ;
@@ -57,6 +58,7 @@ namespace Lullaby.UI
         [SerializeField]private Sprite []_rightTrigger;
         [SerializeField]private Sprite []_selectButton;
         [SerializeField]private Sprite []_startButton;
+        [SerializeField]private Sprite []_backButton;
         
         private void Awake()   
         {
