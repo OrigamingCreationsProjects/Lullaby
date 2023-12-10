@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 343825845755065448}
   m_Layer: 0
   m_Name: FallingPlatform
-  m_TagString: Untagged
+  m_TagString: Platform/Piano
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,6 +291,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
       propertyPath: m_Name
       value: PianoKeys
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
+      propertyPath: m_TagString
+      value: Piano
       objectReference: {fileID: 0}
     - target: {fileID: 5803408599898292813, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
       propertyPath: m_Materials.Array.data[0]

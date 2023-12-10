@@ -170,7 +170,7 @@ namespace  Lullaby.Entities
                        out var direction, out var distance))
                 {
                     if(_overlaps[i].transform == transform) continue;
-                    if (_overlaps[i].CompareTag(GameTags.Platform)) //Si la colision es con una plataforma
+                    if (_overlaps[i].CompareTag(GameTags.Platform) || _overlaps[i].CompareTag(GameTags.Piano)) //Si la colision es con una plataforma
                     {
                         position += transform.up * height * 0.5f; //Subimos la capsula a la mitad de su altura
                         continue;
