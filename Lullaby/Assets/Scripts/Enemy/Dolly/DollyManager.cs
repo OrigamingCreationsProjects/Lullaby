@@ -197,7 +197,8 @@ namespace Lullaby.Entities.Enemies
                 allEnemies[i].enemyScript = _dollysClones[i];
                 allEnemies[i].enemyAvailability = true;
                 aliveDollysCount++;
-                allEnemies[i].enemyScript.gameObject.SetActive(false);
+                if (allEnemies[i].enemyScript is Dolly) 
+                    allEnemies[i].enemyScript.gameObject.SetActive(false);
             }
             //OnEnemiesDefeated.AddListener(DebugEventLaunched);
             //StartCombat();
