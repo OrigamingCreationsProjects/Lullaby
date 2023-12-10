@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1642958379046724263}
   - component: {fileID: 8280747192673893000}
   - component: {fileID: 4553690946108455250}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 1759552409976278596}
   - component: {fileID: 2958108836219859932}
   - component: {fileID: 343825845755065448}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FallingPlatform
   m_TagString: Platform/Piano
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ Transform:
   - {fileID: 5438616533509990464}
   - {fileID: 1104454620921417576}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2958108836219859932
 MonoBehaviour:
@@ -268,6 +268,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: -1857257970752255197, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 826944219044864138, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0
@@ -293,6 +297,10 @@ PrefabInstance:
       value: PianoKeys
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
       propertyPath: m_TagString
       value: Piano
       objectReference: {fileID: 0}
@@ -300,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bc5e2c9d3c1617b4b949be118e71d19d, type: 2}
+    - target: {fileID: 7859137749538233215, guid: 4f6a9cfd2e3136e4c8d8c47ff86ac5ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
