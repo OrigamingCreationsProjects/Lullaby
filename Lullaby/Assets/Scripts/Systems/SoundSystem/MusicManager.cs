@@ -112,6 +112,11 @@ namespace Systems.SoundSystem
         {
             song.Stop();
         }
+
+        public void StopSceneMusic()
+        {
+            currentSong.Stop();
+        }
         
         IEnumerator SongPlayingCoroutine()
         {
