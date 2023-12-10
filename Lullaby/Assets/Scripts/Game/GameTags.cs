@@ -9,6 +9,7 @@ namespace Lullaby
 		public static string Talker = "Talker";
 		public static string Hazard = "Hazard";
 		public static string Platform = "Platform";
+		public static string Piano = "Platform/Piano";
 		public static string Platter = "Platter";
 		public static string Spring = "Spring";
 		public static string Hitbox = "Hitbox";

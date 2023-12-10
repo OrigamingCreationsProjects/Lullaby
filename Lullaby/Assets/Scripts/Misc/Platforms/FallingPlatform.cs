@@ -75,7 +75,6 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
             if (!activated)
             {
                 activated = true;
-                Debug.Log("Se detecta la colision");
                 StartCoroutine(FallRoutine());
             }
         }
@@ -83,7 +82,6 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
 
     protected IEnumerator FallRoutine()
     {
-        Debug.Log("Se inicia la corrutina de caida");
         var timer = fallDelay;
 
         while (timer >= 0)
@@ -112,7 +110,7 @@ public class FallingPlatform : MonoBehaviour, IEntityContact
     {
         collider = GetComponent<Collider>();
         initialPosition = transform.position;
-        tag = GameTags.Platform;
+        tag = GameTags.Piano;
     }
 
     // Update is called once per frame

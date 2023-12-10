@@ -183,7 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   display: {fileID: 5859093197069075994}
-  clip: {fileID: 0}
+  brokenClip: {fileID: 8300000, guid: 6e112140d7f7920448f14ee4a2a6062c, type: 3}
+  hitClip: {fileID: 8300000, guid: 9940361ac6644f846bfc15e0a9ed37ef, type: 3}
   currentHitsToBreak: 2
   invulnerabilityTime: 0.2
   OnBreak:
@@ -234,7 +235,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0

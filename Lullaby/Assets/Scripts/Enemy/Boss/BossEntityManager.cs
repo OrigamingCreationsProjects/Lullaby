@@ -303,8 +303,9 @@ public class BossEntityManager : MonoBehaviour
         if (BossEnemy.MainBoss != bossBuffer[idx])
         {
             Vector3 targetPos = BossEnemy.MainBoss.transform.localPosition;
-            
-            targetPos += (-BossEnemy.MainBoss.transform.right * 2);
+            Vector3 targetRot = BossEnemy.MainBoss.transform.localEulerAngles;
+            bossBuffer[idx].transform.localEulerAngles = targetRot;
+            targetPos += (BossEnemy.MainBoss.transform.right * 2);
             bossBuffer[idx].transform.localPosition = targetPos;
             
             //bossBuffer[idx].transform.position = BossEnemy.MainBoss.position;
