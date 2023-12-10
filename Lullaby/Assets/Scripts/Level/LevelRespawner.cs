@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Systems.SoundSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Lullaby.LevelManagement
 {
@@ -37,7 +39,15 @@ namespace Lullaby.LevelManagement
         {
             Debug.Log("Entramos a respawn");
             StopAllCoroutines();
-            StartCoroutine(Routine());
+            if (SceneManager.GetActiveScene().name == "FinalBossScene")
+            {
+                StartCoroutine(RestartRoutine());
+            }
+            else
+            {
+                StartCoroutine(Routine());
+            }
+            //StartCoroutine(Routine());
         }
 
         /// <summary>
@@ -98,7 +108,10 @@ namespace Lullaby.LevelManagement
             _pauser.Pause(false);
             _pauser.canPause = false;
             _level.player.inputs.enabled = false;
+            MusicManager.instance.StopSceneMusic();
             yield return new WaitForSeconds(restartFadeOutDelay);
+            //MusicManager.instance.PlayRandomPlaylistSong(MusicManager.instance.currentPlaylist.musicType);
+            MusicManager.instance.currentSong.Play();
             GameSceneLoader.instance.Reload();
         }
         protected virtual IEnumerator GameOverRoutine()

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Lullaby.Entities
 {
     [RequireComponent(typeof(Player))]
-    [AddComponentMenu("Lullaby/Platformer Project/Player/Player Fight")]
+    [AddComponentMenu("Lullaby/Platformer Project/Player/Player Weapon")]
     public class PlayerWeapon : MonoBehaviour
     {
         protected MeleeWeapon _meleeWeapon;

@@ -36,6 +36,7 @@ namespace Lullaby
 
         public Sequence PullMoon(float pullTime)
         {
+            GetComponent<AudioSource>().Play();
             glowParticle.Play();
             chargeParticle.Play();
 

@@ -32,8 +32,8 @@ namespace Lullaby.UI.Menus
 
         private void FadeBackgrounds(Image backgroundNew, Image backgroundOld, Color inTextColor)
         {
-            backgroundNew.DOFade(1.0f, fadeTime);//.SetEase(Ease.OutCubic);
-            backgroundOld.DOFade(0.0f, fadeTime);//.SetEase(Ease.OutCubic);
+            backgroundNew.DOFade(1.0f, fadeTime).SetEase(Ease.OutCubic);
+            backgroundOld.DOFade(0.0f, fadeTime).SetEase(Ease.OutCubic);
             //titleImage.DOColor(inTextColor, fadeTime);//.SetEase(Ease.OutCubic);
         }
 
