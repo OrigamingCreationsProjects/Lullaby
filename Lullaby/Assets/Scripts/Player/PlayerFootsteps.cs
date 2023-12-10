@@ -24,6 +24,7 @@ namespace Lullaby.Entities
         [Header("General Settings")] 
         public float stepDistanceOffset = 1.25f;
         public float groundStepVolume = 0.5f;
+        public float landVolume = 0.15f;
 
         protected Vector3 _lastLateralPosition;
         // Almacena los sonidos de pasos y aterrizaje en un diccionario con arrays
@@ -34,12 +35,13 @@ namespace Lullaby.Entities
         protected Player _player;
         protected AudioSource _audioSource;
         
-        protected virtual void PlayRandomClip(AudioClip[] clips)
+        protected virtual void PlayRandomClip(AudioClip[] clips, bool landingClip = false)
         {
             if (clips.Length > 0)
             {
                 var index = Random.Range(0, clips.Length);
-                _audioSource.PlayOneShot(clips[index], groundStepVolume);
+                float volume = landingClip ? landVolume : groundStepVolume;
+                _audioSource.PlayOneShot(clips[index], volume);
             }
         }
 
@@ -50,7 +52,7 @@ namespace Lullaby.Entities
 
             if (_landings.ContainsKey(_player.groundHit.collider.tag))
             {
-                PlayRandomClip(_landings[_player.groundHit.collider.tag]);
+                PlayRandomClip(_landings[_player.groundHit.collider.tag], true);
             }
             else
             {
@@ -71,7 +73,7 @@ namespace Lullaby.Entities
             foreach (var surface in surfaces)
             {
                 _footsteps.Add(surface.tag, surface.footsteps);
-                _landings.Add(surface.tag, surface.footsteps);
+                _landings.Add(surface.tag, surface.landings);
             }
         }
 

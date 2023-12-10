@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Lullaby
 {
@@ -11,7 +12,8 @@ namespace Lullaby
     public class Breakable : MonoBehaviour
     {
         public GameObject display;
-        public AudioClip clip;
+        public AudioClip brokenClip;
+        public AudioClip hitClip;
         public int currentHitsToBreak = 2;
         public float invulnerabilityTime = 0.5f;
         /// <summary>
@@ -40,8 +42,12 @@ namespace Lullaby
                 broken = true;
                 display.SetActive(false);
                 _collider.enabled = false;
-                _audio.PlayOneShot(clip);
+                _audio.PlayOneShot(brokenClip);
                 OnBreak?.Invoke();
+            }
+            else
+            {
+                _audio.PlayOneShot(hitClip);
             }
         }
 

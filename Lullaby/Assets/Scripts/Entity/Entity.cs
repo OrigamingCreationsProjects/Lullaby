@@ -460,8 +460,9 @@ namespace Lullaby.Entities
                 groundNormal = groundHit.normal; // Actualizamos la normal de la superficie
                 groundAngle = Vector3.Angle(Vector3.up, groundHit.normal); // Calculamos el angulo de la superficie
                 localSlopeDirection = new Vector3(groundNormal.x, 0, groundNormal.z).normalized; // Calculamos la direccion de la pendiente
-                transform.parent = hit.collider.CompareTag(GameTags.Platform) ? hit.transform : initialParent;   // Si la superficie es una plataforma
-                                                                                                                // vinculamos al personaje con la plataforma
+                transform.parent = hit.collider.CompareTag(GameTags.Platform) || hit.collider.CompareTag(GameTags.Piano) 
+                    ? hit.transform : initialParent;   // Si la superficie es una plataforma
+                                                      // vinculamos al personaje con la plataforma
             }
         }
 

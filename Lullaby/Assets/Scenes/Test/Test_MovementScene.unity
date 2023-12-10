@@ -8030,7 +8030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   display: {fileID: 2102980849}
-  clip: {fileID: 0}
+  brokenClip: {fileID: 0}
+  hitClip: {fileID: 0}
   currentHitsToBreak: 2
   invulnerabilityTime: 0.2
   OnBreak:
@@ -30799,10 +30800,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.085890114
       objectReference: {fileID: 0}
-    - target: {fileID: 313782015568607454, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
-      propertyPath: moveWithTransform
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 367436816187323891, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.6566297e-12
@@ -30978,10 +30975,6 @@ PrefabInstance:
     - target: {fileID: 1926735944544475283, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109206926157513847, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
-      propertyPath: emitterVelocityMode
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2467201218454904992, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31434,6 +31427,10 @@ PrefabInstance:
     - target: {fileID: 8575689397858140903, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.008775465
+      objectReference: {fileID: 0}
+    - target: {fileID: 8697383638212605354, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
+      propertyPath: attack.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8832719905514083048, guid: 8121f475e943bdf41a35fdc48fe2d4f6, type: 3}
       propertyPath: m_LocalPosition.x
