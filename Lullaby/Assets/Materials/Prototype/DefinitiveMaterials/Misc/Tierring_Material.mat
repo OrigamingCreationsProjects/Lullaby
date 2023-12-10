@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CrystalToon
-  m_Shader: {fileID: -6465566751694194690, guid: 63e7597f8e741f64f91fe58d83e33860, type: 3}
+  m_Name: Tierring_Material
+  m_Shader: {fileID: -6465566751694194690, guid: e8c08ba2a705b7a4ca51a31ac0448dff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: 3a507ebb58b1ae14c900d97c5c8cb004, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -46,7 +46,7 @@ Material:
     m_Ints: []
     m_Floats:
     - LIGHTMAP: 0
-    - _LightProbeContribution: 1.3
+    - _LightProbeContribution: 1.99
     - _MAIN_LIGHT_CALCULATE_SHADOWS: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
@@ -57,7 +57,7 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Tint: {r: 0, g: 0.70247513, b: 4.867145, a: 0}
+    - _Tint: {r: 0.24705882, g: 0.12709412, b: 0.06892943, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7554392168775407601
 MonoBehaviour:
