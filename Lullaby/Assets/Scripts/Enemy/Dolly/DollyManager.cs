@@ -167,12 +167,25 @@ namespace Lullaby.Entities.Enemies
             return false;
         }
 
+        public void StartCombat()
+        {
+            for (int i = 0; i < allEnemies.Length; i++)
+            {
+                if (allEnemies[i].enemyScript is Dolly)
+                {
+                    ((Dolly)allEnemies[i].enemyScript).Appear();
+                }
+            }
+            StartAI();
+        }
+        
         public void DebugEventLaunched()
         {
             Debug.Log("SE HA LANZADO EL EVENTO DE ENEMIGOS DERROTADOS");
         }
         
-
+        
+        
         private void Start()
         {
             _dollysClones = GetComponentsInChildren<Enemy>();
@@ -184,9 +197,10 @@ namespace Lullaby.Entities.Enemies
                 allEnemies[i].enemyScript = _dollysClones[i];
                 allEnemies[i].enemyAvailability = true;
                 aliveDollysCount++;
+                allEnemies[i].enemyScript.gameObject.SetActive(false);
             }
-            OnEnemiesDefeated.AddListener(DebugEventLaunched);
-            StartAI();
+            //OnEnemiesDefeated.AddListener(DebugEventLaunched);
+            //StartCombat();
         }
     }
     [System.Serializable]

@@ -161,7 +161,7 @@ namespace Lullaby.Entities.Weapons
                 //hit an object that is not in our layer, this end the attack. we "bounce" off it
                 return false;
             }
-            Debug.Log($"Se detecta colision con: {other.name}");
+            //Debug.Log($"Se detecta colision con: {other.name}");
             
             return true;
         }
