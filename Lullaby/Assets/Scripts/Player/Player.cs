@@ -4,6 +4,7 @@ using Lullaby.Entities.Enemies;
 using Lullaby.Entities.Events;
 using Lullaby.Entities.NPC;
 using Lullaby.Entities.States;
+using Lullaby.UI;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Sequence = DG.Tweening.Sequence;
@@ -84,6 +85,11 @@ namespace Lullaby.Entities
         public int airAttackCounter { get; protected set; }
         
         /// <summary>
+        /// Returns is the player is inside a Moon Launcher.
+        /// </summary>
+        public bool insideMoon { get; set; }
+        
+        /// <summary>s
         /// The last time the Player performed an dash.
         /// </summary>
         /// <value></value>
@@ -112,16 +118,14 @@ namespace Lullaby.Entities
         #region -- MOON LAUNCH --
         
         /// <summary>
-        /// Returns the PlayerMoonLauncher instance.
+        /// Returns the PlayerMoonLauncher instance.D
         /// </summary>
         public PlayerMoonLauncher moonLauncher { get; protected set; }
         
         //public virtual CinemachineDollyCart moonPathCart { get; set; }
 
         #endregion
-        
-        
-        
+
         #region -- INITIALIZERS --
         
         protected virtual void InitializeInputs() => inputs = GetComponent<PlayerInputManager>();
@@ -595,8 +599,7 @@ namespace Lullaby.Entities
                 transform.position = hit.point - lateralOffset + verticalOffset; // Colocamos al jugador en función del punto de contacto, el offset lateral y el vertical.
                 states.Change<LedgeHangingPlayerState>(); // Cambiamos al estado de agarrarse a un borde.
                 playerEvents.OnLedgeGrabbed?.Invoke(); // Invocamos el evento de agarrarse a un borde.
-            } 
-           
+            }
         }
         
         protected virtual bool DetectingLedge(float forwardDistance, float downwardDistance, out RaycastHit ledgeHit)
@@ -653,17 +656,18 @@ namespace Lullaby.Entities
         public virtual void HandleMoonLauncher()
         {
             var distance = 5f; //Cambiar por variable
+            if (inputs.GetPickAndDropDown() && insideMoon)
+            {
+                //Debug.Log("Detectamos Interact");
+                states.Change<MoonFlyPlayerState>();
+                moonLauncher.launchObject.GetComponentInChildren<ContextIndicator>().HideContextIndicator();
+            }
             if (SphereCast(transform.forward, distance, out var hit, Physics.DefaultRaycastLayers, 
                     QueryTriggerInteraction.Collide) && hit.collider.CompareTag(GameTags.MoonLauncher))
             {
                 //Debug.Log("Detectamos Launcher");
                 
                 moonLauncher.launchObject = hit.transform;
-                if (inputs.GetPickAndDropDown())
-                {
-                    Debug.Log("Detectamos Interact");
-                    states.Change<MoonFlyPlayerState>();   
-                }
             }
         }
         
@@ -698,7 +702,6 @@ namespace Lullaby.Entities
         {
             inputs.enabled = value;
         }
-        
         
         public virtual void WallDrag(Collider other)
         {

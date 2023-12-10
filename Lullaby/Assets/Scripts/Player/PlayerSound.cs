@@ -20,13 +20,15 @@ namespace Lullaby.Entities
         public AudioClip ledgeGrabbing;
         public AudioClip startRailGrind;
         public AudioClip railGrind;
-
+        public AudioClip pauseGame;
+        public AudioClip unpauseGame;
         [Header("Other Sources")]
         public AudioSource grindAudio;
-
+        public AudioSource pauseAudio;
+        
         protected Player _player;
         protected AudioSource _audioSource;
-
+        
         protected virtual void InitializePlayer() => _player = GetComponent<Player>();
 
         protected virtual void InitializeAudio()
@@ -78,11 +80,15 @@ namespace Lullaby.Entities
            
             LevelPauser.instance?.OnPaused.AddListener(() =>
             {
+                pauseAudio.clip = pauseGame;
+                pauseAudio?.Play();
                 _audioSource.Pause();
                 grindAudio.Pause();
             });
             LevelPauser.instance?.OnUnpaused.AddListener(() =>
             {
+                pauseAudio.clip = unpauseGame;
+                pauseAudio?.Play();
                 _audioSource.UnPause();
                 grindAudio.UnPause();
             });
