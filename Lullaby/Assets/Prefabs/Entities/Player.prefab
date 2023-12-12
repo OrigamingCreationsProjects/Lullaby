@@ -733,6 +733,7 @@ MonoBehaviour:
   onStateChangedName: OnStateChanged
   attackTriggerName: AttackTrigger
   railDashTriggerName: RailDashTrigger
+  flyPathName: FlyPath
   minLateralAnimationSpeed: 0.5
   forcedTransitions:
   - fromStateId: 7
@@ -16491,6 +16492,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c4fbac2ba9f8253419bc3c5ae9ed2c1d, type: 2}
     - target: {fileID: 6310656565025019698, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
       propertyPath: m_Layer
       value: 14
