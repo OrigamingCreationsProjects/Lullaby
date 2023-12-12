@@ -24,8 +24,7 @@ public class PlayerMoonLauncher : MonoBehaviour
     public bool almostFinished;
 
     [HideInInspector] public Transform launchObject;
-
-    [FormerlySerializedAs("dollyCart")]
+    
     [Space]
     [Header("Public References")]
     public CinemachineDollyCart moonPathCart;

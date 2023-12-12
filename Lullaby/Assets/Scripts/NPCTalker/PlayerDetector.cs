@@ -19,8 +19,6 @@ namespace Lullaby.Entities.NPC
         
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Player detected");
-            Debug.Log("Other tag: " + other.tag);
             if (other.CompareTag(GameTags.Player))
             {
                 Debug.Log("Entered player collider");

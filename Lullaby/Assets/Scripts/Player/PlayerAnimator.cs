@@ -21,8 +21,9 @@ namespace Lullaby.Entities
             
             [Tooltip("The name of the Animation State you want to play right after finishing the Player State from above.")]
             public string toAnimationState;
-        } 
-            
+        }
+
+        private bool inIdle = false;
         
         public Animator animator;
 
@@ -125,8 +126,19 @@ namespace Lullaby.Entities
             var verticalSpeed = _player.verticalVelocity.y;
             var lateralAnimationSpeed =
                 Mathf.Max(minLateralAnimationSpeed, lateralSpeed / _player.stats.current.topSpeed);
-            
-            animator.SetInteger(_stateHash, _player.states.index);
+            if (_player.states.IsCurrentOfType(typeof(IdlePlayerState)))
+            {
+                if (!inIdle)
+                {
+                    inIdle = true;
+                    animator.SetInteger(_stateHash, _player.states.index);
+                }
+            }
+            else
+            {
+                inIdle = false;
+                animator.SetInteger(_stateHash, _player.states.index);
+            }    
             animator.SetInteger(_lastStateHash, _player.states.lastIndex);
             animator.SetFloat(_lateralSpeedHash, lateralSpeed);
             animator.SetFloat(_verticalSpeedHash, verticalSpeed);

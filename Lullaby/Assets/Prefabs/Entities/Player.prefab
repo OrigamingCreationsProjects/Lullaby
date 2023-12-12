@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 9106762306273309378}
   - component: {fileID: 6376612762011091981}
   - component: {fileID: 7511705489265488824}
+  - component: {fileID: 5597615115725908602}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -593,6 +594,12 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnDeadlyFall:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRandomIdleEnter:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRandomIdleExit:
       m_PersistentCalls:
         m_Calls: []
   pickableSlot: {fileID: 3817438375967522968}
@@ -700,6 +707,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1d99a55603d96754abf3b0022dfa9903, type: 3}
   - {fileID: 8300000, guid: 0cc23c6121031ee4384c8cfe0a96bfaf, type: 3}
   - {fileID: 8300000, guid: 6e8735ebd6301b8459d138b1047297fa, type: 3}
+  idleVoices:
+  - {fileID: 8300000, guid: f9e048e929ce1ac43bdd1df091aff6a4, type: 3}
+  - {fileID: 8300000, guid: 1b688c859c446a64d967a27f57f80f0b, type: 3}
   airDash: {fileID: 8300000, guid: 6b0f75be2524ec54c95f0b7bfe9a05b2, type: 3}
   ledgeGrabbing: {fileID: 8300000, guid: a209b34d21edd61488a87e949634861b, type: 3}
   startRailGrind: {fileID: 8300000, guid: 6ed6b6819b253d547af420bbb9498895, type: 3}
@@ -1143,6 +1153,50 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5597615115725908602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812922285005920064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedObjects:
+  - rid: 7534756655237955591
+  references:
+    version: 2
+    RefIds:
+    - rid: 7534756655237955591
+      type: {class: TrackedMonoBehaviourObject, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
+      data:
+        m_Target: {fileID: 8697383638212605354}
+        m_TrackedProperties:
+          items:
+          - rid: 7534756655237955592
+        m_UpdateType: 1
+        m_Changed:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 7534756655237955592
+      type: {class: LocalizedAssetProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_Localized:
+          rid: 7534756655237955593
+        m_PropertyPath: idleVoices.Array.data[0]
+    - rid: 7534756655237955593
+      type: {class: LocalizedAudioClip, ns: UnityEngine.Localization, asm: Unity.Localization}
+      data:
+        m_TableReference:
+          m_TableCollectionName: GUID:10ce86bfbdb1ff4499b7a690a5cb1845
+        m_TableEntryReference:
+          m_KeyId: 730516963328
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
 --- !u!1 &4472801907949673263
 GameObject:
   m_ObjectHideFlags: 0
@@ -16544,8 +16598,38 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8558114371570474477, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4526236374740629650}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4725664968144008099}
   m_SourcePrefab: {fileID: 100100000, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+--- !u!1 &444470896322229451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+  m_PrefabInstance: {fileID: 786575487412734362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4725664968144008099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444470896322229451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930ec76f13f046d89b98b52e0410cb13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blinkNeutralName: Blink_Neutral
+  blinkHappyName: Blink_Happy
+  blinkSadName: Blink_Sad
+  blinkAngryName: Blink_Angry
+  mouthSleepyName: Mouth_Sleepy
+  mouthSingingName: Mouth_Singing
+  _minBlinkTime: 3
+  _maxBlinkTime: 5
+  animator: {fileID: 6593533277691491339}
+  blinkNeutralHash: 0
 --- !u!4 &963985001965776497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
@@ -16554,6 +16638,11 @@ Transform:
 --- !u!4 &2181313608142377758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7732699155771336060, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
+  m_PrefabInstance: {fileID: 786575487412734362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6593533277691491339 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 9faaac3b965543c429a4121c6a5a0c18, type: 3}
   m_PrefabInstance: {fileID: 786575487412734362}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8371866344508016934 stripped

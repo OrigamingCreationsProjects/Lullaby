@@ -15,6 +15,8 @@ namespace Lullaby.Entities
         public AudioClip[] attack;
         public AudioClip[] deadlyFall;
         public AudioClip[] ledgeClimbing;
+        public AudioClip[] idleVoices;
+        
         [Header("Effects")] 
         public AudioClip airDash;
         public AudioClip ledgeGrabbing;
@@ -70,6 +72,9 @@ namespace Lullaby.Entities
             _player.playerEvents.OnDashStarted.AddListener(() => Play(airDash));
             _player.playerEvents.OnLedgeGrabbed.AddListener(() => Play(ledgeGrabbing, false));
             _player.playerEvents.OnLedgeClimbing.AddListener(() => PlayRandom(ledgeClimbing));
+            _player.playerEvents.OnRandomIdleEnter.AddListener((x) => Play(idleVoices[x]));
+            _player.playerEvents.OnRandomIdleExit.AddListener(() => _audioSource.Stop());
+            
             _player.entityEvents.OnRailsExit.AddListener(() => grindAudio?.Stop());
             
             _player.entityEvents.OnRailsEnter.AddListener(() =>
@@ -77,7 +82,7 @@ namespace Lullaby.Entities
                 Play(startRailGrind, false);
                 grindAudio?.Play();
             });
-           
+            
             LevelPauser.instance?.OnPaused.AddListener(() =>
             {
                 pauseAudio.clip = pauseGame;
@@ -85,6 +90,7 @@ namespace Lullaby.Entities
                 _audioSource.Pause();
                 grindAudio.Pause();
             });
+            
             LevelPauser.instance?.OnUnpaused.AddListener(() =>
             {
                 pauseAudio.clip = unpauseGame;

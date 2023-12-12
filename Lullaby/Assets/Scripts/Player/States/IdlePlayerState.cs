@@ -6,9 +6,16 @@ namespace Lullaby.Entities.States
     [AddComponentMenu("Lullaby/CustomMovement/Player/States/Idle Player State")]
     public class IdlePlayerState: PlayerState
     {
-        protected override void OnEnter(Player player){}
+        protected override void OnEnter(Player player)
+        {
+            PlayerFace pf = player.GetComponentInChildren<PlayerFace>();
+            pf.SetCurrentBlink(pf.blinkNeutralHash);
+        }
 
-        protected override void OnExit(Player player){}
+        protected override void OnExit(Player player)
+        {
+            player.playerEvents.OnRandomIdleExit?.Invoke();
+        }
 
         public override void OnStep(Player player)
         {
