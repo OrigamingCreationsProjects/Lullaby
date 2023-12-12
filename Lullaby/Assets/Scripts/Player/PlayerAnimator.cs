@@ -39,6 +39,7 @@ namespace Lullaby.Entities
         public string onStateChangedName = "OnStateChanged";
         public string attackTriggerName = "AttackTrigger";
         public string railDashTriggerName = "RailDashTrigger";
+        public string flyPathName = "FlyPath";
         
         [Header("Settings")] 
         public float minLateralAnimationSpeed = 0.5f;
@@ -56,7 +57,8 @@ namespace Lullaby.Entities
         protected int _onStateChangedHash;
         protected int _attackTriggerHash;
         protected int _railDashTriggerHash;
-
+        protected int _flyPathHash;
+        
         protected Dictionary<int, ForcedTransition> m_forcedTransitions;
 
         protected Player _player;
@@ -103,6 +105,7 @@ namespace Lullaby.Entities
             _onStateChangedHash = Animator.StringToHash(onStateChangedName);
             _attackTriggerHash = Animator.StringToHash(attackTriggerName);
             _railDashTriggerHash = Animator.StringToHash(railDashTriggerName);
+            _flyPathHash = Animator.StringToHash(flyPathName);
         }
 
         protected virtual void HandleForcedTransitions()
@@ -140,6 +143,11 @@ namespace Lullaby.Entities
             if (_player.inputs.GetDashDown() && _player.states.IsCurrentOfType(typeof(RailGrindPlayerState)))
             {
                 animator.SetTrigger(_railDashTriggerHash);
+            }
+
+            if (_player.states.IsCurrentOfType(typeof(MoonFlyPlayerState)))
+            {
+                animator.SetFloat(_flyPathHash, _player.moonLauncher.moonPathCart.m_Position);
             }
         }
 
