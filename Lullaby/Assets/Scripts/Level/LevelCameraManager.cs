@@ -32,7 +32,7 @@ namespace Lullaby.LevelManagement
         
         private void ShowActionTween(Transform target)
         {
-            Debug.Log("ShowActionTween");
+            //Debug.Log("ShowActionTween");
             Sequence s = DOTween.Sequence();
             s.AppendCallback(() => ChangeHelpingCameraTarget(target));
             //s.AppendInterval(0.5f); 

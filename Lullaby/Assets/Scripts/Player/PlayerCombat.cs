@@ -57,13 +57,13 @@ namespace Lullaby.Entities
         {
             if(isAttackingEnemy)
                 return;
-            Debug.Log("Se llega a AttackCheck");
+            //Debug.Log("Se llega a AttackCheck");
             //Check to see if the detection behavior has an enemy set
             if (_enemyDetector.GetCurrentTarget() == null)
             {
                 //¿Asignamos que no se ataque a nadie?
                 Attack(null, 0);
-                Debug.Log("No hay target asignado vivos");
+                //Debug.Log("No hay target asignado vivos");
                 return;
             }
             else
@@ -75,7 +75,7 @@ namespace Lullaby.Entities
             if (_enemyDetector.GetInputMagnitude() > _player.stats.current.enemyDetectionTreshold)
                 lockedTarget = _enemyDetector.GetCurrentTarget();
 
-            Debug.Log("A la linea de attack se se llega");
+            //Debug.Log("A la linea de attack se se llega");
             //ATACAMOS AL TONTO QUE TOCA. AGREGAR METODO
             Attack(lockedTarget, TargetDistance(lockedTarget)); // EL DISTANCE LLEVARMELO A METODO
         }
@@ -87,15 +87,16 @@ namespace Lullaby.Entities
             if(isAttackingEnemy)
                 return;
             _dollyModeActive = true;
-            Debug.Log("Se llega a AttackCheck");
+            //Debug.Log("Se llega a AttackCheck");
             //Check to see if the detection behavior has an enemy set
             if (_enemyDetector.GetCurrentTarget() == null)
             {
                 //lockedTarget = null;
                 //¿Asignamos que no se ataque a nadie?
                 Attack(null, 0);
-                Debug.Log("No hay target asignado vivos");
+                //Debug.Log("No hay target asignado vivos");
                 return;
+                
                 // if (_enemyManager.GetAliveEnemyCount() == 0)
                 // {
                 //     //¿Asignamos que no se ataque a nadie?
@@ -121,7 +122,7 @@ namespace Lullaby.Entities
             if (lockedTarget == null)
                 lockedTarget = _enemyManager.RandomDolly();
             
-            Debug.Log("A la linea de attack se se llega");
+            //Debug.Log("A la linea de attack se se llega");
             //ATACAMOS AL TONTO QUE TOCA. AGREGAR METODO
             Attack(lockedTarget, TargetDistance(lockedTarget)); // EL DISTANCE LLEVARMELO A METODO
         }
@@ -238,10 +239,10 @@ namespace Lullaby.Entities
 
         private bool IsLastHit()
         {
-            Debug.Log("Comprobamos si si se puede saber que es el ultimo golpe");
+            //Debug.Log("Comprobamos si si se puede saber que es el ultimo golpe");
             if (lockedTarget == null || !(lockedTarget is Dolly) || !lockedTarget.IsAlive())
                 return false;
-            Debug.Log("Comprobamos si es el ultimo golpe");
+            //Debug.Log("Comprobamos si es el ultimo golpe");
             
             return _enemyManager.CheckAliveEnemyCount() == 1 &&
                    (lockedTarget.health.current - _player.stats.current.regularAttackDamage) <= 0;

@@ -31,7 +31,7 @@ namespace Lullaby.Entities.Events
 
         public void HandlePlayerSeen(bool boolean)
         {  
-            Debug.Log("HANDLE PLAYER SEEN");
+            //Debug.Log("HANDLE PLAYER SEEN");
             OnPlayerSeen?.Invoke(this, new OnValueChange(){value = boolean});
         }
 

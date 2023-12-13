@@ -84,7 +84,7 @@ namespace Lullaby.Entities.NPC
             InitializeTag();
             InitializeStatsManager();
             // TEMPORAL
-            talkerEvents.OnDialogueStarted.AddListener(() => Debug.Log("Dialogo Empezado"));
+            //talkerEvents.OnDialogueStarted.AddListener(() => Debug.Log("Dialogo Empezado"));
             originalRotation = new Quaternion(
                 transform.localRotation.x, 
                 transform.localRotation.y, 

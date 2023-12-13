@@ -69,14 +69,14 @@ namespace Lullaby.LevelManagement
 
         protected virtual IEnumerator ExitRoutine()
         {
-            Debug.Log("Empezamos corutina de salir");
+            //Debug.Log("Empezamos corutina de salir");
             _pauser.Pause(false);
             _pauser.canPause = false;
             _level.player.inputs.enabled = false;
             yield return new WaitForSeconds(loadingDelay);
             GameManager.LockCursor(false);
             //Cargar escena de salida
-            Debug.Log("Llegamos a la instruccion load");
+            //Debug.Log("Llegamos a la instruccion load");
             _sceneLoader.Load(exitScene);
             OnExit?.Invoke();
         }

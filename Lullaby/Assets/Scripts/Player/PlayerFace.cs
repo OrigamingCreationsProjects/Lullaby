@@ -58,7 +58,7 @@ namespace Lullaby.Entities
             _player.playerEvents.OnHurt.AddListener(() => UpdateCurrentBlink(_blinkSadHash));
             _player.playerEvents.OnDie.AddListener(() => UpdateCurrentBlink(_blinkSadHash));
             _player.playerEvents.OnDie.AddListener(() => StopAllCoroutines());
-            LevelRespawner.instance.OnRespawn.AddListener(() => StartCoroutine(BlinkRoutine()));
+            LevelRespawner.instance.OnRespawn.AddListener(() => RestartBlinkRoutine());
         }
         protected virtual void MouthTrigger(int x)
         {
@@ -78,6 +78,12 @@ namespace Lullaby.Entities
         public virtual void SetCurrentBlink(int newBlinkHash)
         {
             _currentBlinkHash = newBlinkHash;
+        }
+
+        public virtual void RestartBlinkRoutine()
+        {
+            StopAllCoroutines();
+            StartCoroutine(BlinkRoutine());
         }
         
         IEnumerator BlinkRoutine()

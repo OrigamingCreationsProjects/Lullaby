@@ -71,9 +71,9 @@ namespace Systems.SoundSystem
                     auxList.Add(i);
             }
             int randomIndex = Random.Range(0, auxList.Count);
-            Debug.Log($"La longitud de auxlist es{auxList.Count}");
-            Debug.Log($"La longitud de PLAYLIST es{playlist.sounds.Length}");
-            Debug.Log($"La cancion escogida es{auxList[randomIndex]}");
+            // Debug.Log($"La longitud de auxlist es{auxList.Count}");
+            // Debug.Log($"La longitud de PLAYLIST es{playlist.sounds.Length}");
+            // Debug.Log($"La cancion escogida es{auxList[randomIndex]}");
             Sound randomSong = playlist.sounds[auxList[randomIndex]];
             //currentSong.Stop(); // O transicion suave entre las canciones
             lastSong = currentSong;

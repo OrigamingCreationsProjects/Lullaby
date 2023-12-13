@@ -13,15 +13,13 @@ namespace Lullaby.Entities.NPC
         {
             _talker = GetComponentInParent<Talker>();
             _contextIndicator = transform.parent.GetComponentInChildren<ContextIndicator>();
-            Debug.Log("Talker: " + _talker);
-            Debug.Log("Context indicator: " + _contextIndicator);
         }
         
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(GameTags.Player))
             {
-                Debug.Log("Entered player collider");
+                //Debug.Log("Entered player collider");
                 _talker.talkerEvents.OnPlayerDetected.Invoke();
                 _contextIndicator.ShowContextIndicator();
             }

@@ -15,7 +15,7 @@ namespace Systems.SoundSystem
         {
             if (other.CompareTag(GameTags.Player) && zoneMusicType != MusicManager.instance.currentPlaylist.musicType)
             {
-                Debug.Log("Se cambia playlist");
+                //Debug.Log("Se cambia playlist");
                 MusicManager.instance.ChangeCurrentPlaylist(zoneMusicType);
             }
         }

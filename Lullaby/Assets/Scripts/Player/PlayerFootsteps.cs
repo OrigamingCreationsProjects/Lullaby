@@ -34,6 +34,7 @@ namespace Lullaby.Entities
 
         protected Player _player;
         protected AudioSource _audioSource;
+        [SerializeField] protected AudioSource audioSourceFootsteps;
         
         protected virtual void PlayRandomClip(AudioClip[] clips, bool landingClip = false)
         {
@@ -41,7 +42,14 @@ namespace Lullaby.Entities
             {
                 var index = Random.Range(0, clips.Length);
                 float volume = landingClip ? landVolume : groundStepVolume;
-                _audioSource.PlayOneShot(clips[index], volume);
+                if (!landingClip)
+                {
+                    _audioSource.PlayOneShot(clips[index], volume);
+                }
+                else
+                {
+                    audioSourceFootsteps.PlayOneShot(clips[index], volume);
+                }
             }
         }
 
@@ -49,9 +57,10 @@ namespace Lullaby.Entities
         {
             //Si el jugador aterrizara en superficie diferente especial como agua u otra cosa hay que comprobarlo para
             //que esto no se haga
-
             if (_landings.ContainsKey(_player.groundHit.collider.tag))
             {
+                Debug.Log("Landing tag: " + _player.groundHit.collider.tag);
+                Debug.Log("Landing clip: " + _landings[_player.groundHit.collider.tag][0].name);
                 PlayRandomClip(_landings[_player.groundHit.collider.tag], true);
             }
             else
