@@ -33,7 +33,7 @@ Transform:
   - {fileID: 6607290511376275289}
   - {fileID: 4917298850324326954}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &2456874192934779618
 MonoBehaviour:
@@ -405,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f1edf7dba92e346488894643c1bb0a18, type: 3}
       propertyPath: m_Name
       value: NewSign
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f1edf7dba92e346488894643c1bb0a18, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1453273935156603781, guid: f1edf7dba92e346488894643c1bb0a18, type: 3}
       propertyPath: m_Materials.Array.data[0]

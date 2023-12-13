@@ -59,8 +59,8 @@ namespace Lullaby.Entities
             //que esto no se haga
             if (_landings.ContainsKey(_player.groundHit.collider.tag))
             {
-                Debug.Log("Landing tag: " + _player.groundHit.collider.tag);
-                Debug.Log("Landing clip: " + _landings[_player.groundHit.collider.tag][0].name);
+                // Debug.Log("Landing tag: " + _player.groundHit.collider.tag);
+                // Debug.Log("Landing clip: " + _landings[_player.groundHit.collider.tag][0].name);
                 PlayRandomClip(_landings[_player.groundHit.collider.tag], true);
             }
             else

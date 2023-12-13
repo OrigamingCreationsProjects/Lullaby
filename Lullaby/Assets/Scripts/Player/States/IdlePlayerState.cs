@@ -8,6 +8,7 @@ namespace Lullaby.Entities.States
     {
         protected override void OnEnter(Player player)
         {
+            player.skin.rotation = player.transform.rotation;
             PlayerFace pf = player.GetComponentInChildren<PlayerFace>();
             pf.SetCurrentBlink(pf.blinkNeutralHash);
         }
