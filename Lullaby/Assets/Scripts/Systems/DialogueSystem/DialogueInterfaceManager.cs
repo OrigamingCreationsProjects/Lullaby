@@ -110,7 +110,7 @@ namespace Lullaby.Systems.DialogueSystem
                 Sequence s = DOTween.Sequence();
                 s.AppendInterval(.8f);
                 s.AppendCallback(() => ResetState());
-                Debug.Log("Salimos del dialogo");
+                //Debug.Log("Salimos del dialogo");
             }
             int auxindex = dialogueIndex == 0? dialogueIndex : dialogueIndex - 1;
             string auxLine = currentNPC.dialogueText.conversationBlock[auxindex].dialogueLine.GetLocalizedString();

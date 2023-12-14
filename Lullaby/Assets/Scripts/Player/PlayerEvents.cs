@@ -78,8 +78,17 @@ namespace Lullaby.Entities.Events
 		/// </summary>
 		public UnityEvent OnDeadlyFall;
 
-		#region Eventos descartados
+		/// <summary>
+		/// Called when we entry on a random idle
+		/// </summary>
+		public UnityEvent<int> OnRandomIdleEnter;
 		
+		
+		public UnityEvent OnRandomIdleExit;
+		
+
+		#region Eventos descartados
+
 		// /// <summary>
 		// /// Called when the Player performs a backflip.
 		// /// </summary>
@@ -89,22 +98,22 @@ namespace Lullaby.Entities.Events
 		// /// Called when the Player started the Stomp Attack.
 		// /// </summary>
 		// public UnityEvent OnStompStarted;
-		
+
 		// /// <summary>
 		// /// Called when the Player starts moving down with Stomp Attack.
 		// /// </summary>
 		// public UnityEvent OnStompFalling;
-		
+
 		// /// <summary>
 		// /// Called when the Player landed from the Stomp Attack.
 		// /// </summary>
 		// public UnityEvent OnStompLanding;
-		
+
 		// /// <summary>
 		// /// Called when the Player finished the Stomp Attack.
 		// /// </summary>
 		// public UnityEvent OnStompEnding;
-		
+
 		// /// <summary>
 		// /// Called when the Player starts gliding.
 		// /// </summary>

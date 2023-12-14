@@ -33,7 +33,7 @@ namespace Lullaby.Entities.States
                 }
             }
 
-            if(player.moonLauncher.moonPathCart.m_Position > .7f && !player.moonLauncher.almostFinished && player.moonLauncher.flying)
+            if(player.moonLauncher.moonPathCart.m_Position > .85f && !player.moonLauncher.almostFinished && player.moonLauncher.flying)
             {
                 player.moonLauncher.almostFinished = true;
                 

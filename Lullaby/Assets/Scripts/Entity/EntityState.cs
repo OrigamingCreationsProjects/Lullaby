@@ -14,7 +14,7 @@ namespace Lullaby.Entities
 
         public void Enter(T entity)
         {
-            Debug.Log($"Se entra en el estado {entity.states.current.GetType()}");
+            //Debug.Log($"Se entra en el estado {entity.states.current.GetType()}");
             timeSinceEntered = 0f;
             onEnter?.Invoke();
             OnEnter(entity);
@@ -22,7 +22,7 @@ namespace Lullaby.Entities
 
         public void Exit(T entity)
         {
-            Debug.Log($"Se sale del estado {entity.states.current.GetType()}");
+            //Debug.Log($"Se sale del estado {entity.states.current.GetType()}");
             onExit?.Invoke();
             OnExit(entity);
         }

@@ -20,7 +20,6 @@ namespace Lullaby
             canvas.gameObject.SetActive(true);
             collider = GetComponent<Collider>();
             camera = Camera.main;
-            Debug.Log("Camera: " + camera);
             tutorialImage.sprite = tutorialSprite;
         }
 

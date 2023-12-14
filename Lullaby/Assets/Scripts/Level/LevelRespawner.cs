@@ -37,7 +37,7 @@ namespace Lullaby.LevelManagement
         /// </summary>
         public virtual void Respawn()
         {
-            Debug.Log("Entramos a respawn");
+            //Debug.Log("Entramos a respawn");
             StopAllCoroutines();
             if (SceneManager.GetActiveScene().name == "FinalBossScene")
             {

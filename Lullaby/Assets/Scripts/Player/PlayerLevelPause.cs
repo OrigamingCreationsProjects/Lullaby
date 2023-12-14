@@ -21,7 +21,7 @@ namespace Lullaby.Entities
         {
             if (_player.inputs.GetPauseDown())
             {
-                Debug.Log("Pause button pressed");
+                //Debug.Log("Pause button pressed");
                 var value = _pauser.paused;
                 _pauser.Pause(!value);
             }

@@ -51,7 +51,7 @@ namespace Lullaby
                 if (PlayerPrefs.HasKey(_generalVolumeKey))
                 {
                     generalVolumeSlider.value = PlayerPrefs.GetFloat(_generalVolumeKey);
-                    Debug.Log("Valor de GeneralVolume al cargar settigns: " + PlayerPrefs.GetFloat(_generalVolumeKey));
+                    //Debug.Log("Valor de GeneralVolume al cargar settigns: " + PlayerPrefs.GetFloat(_generalVolumeKey));
                 }
                 else
                 {
@@ -82,14 +82,14 @@ namespace Lullaby
                 if (PlayerPrefs.HasKey(_qualityLevelKey))
                 {
                     quialityDropdown.value = PlayerPrefs.GetInt(_qualityLevelKey);
-                    Debug.Log("Quality cogido" + PlayerPrefs.GetInt(_qualityLevelKey));
+                    //Debug.Log("Quality cogido" + PlayerPrefs.GetInt(_qualityLevelKey));
                     ChangeQualitySettings();
                 }
                 else
                 {
                     quialityDropdown.value = (int)defaultQualityLevel;
                     PlayerPrefs.SetInt(_qualityLevelKey, (int)defaultQualityLevel);
-                    Debug.Log("Quality seteado" + (int)defaultQualityLevel);
+                    //Debug.Log("Quality seteado" + (int)defaultQualityLevel);
                     ChangeQualitySettings();
                 }
             }
@@ -130,7 +130,7 @@ namespace Lullaby
         {
             QualitySettings.SetQualityLevel(quialityDropdown.value);
             PlayerPrefs.SetInt(_qualityLevelKey, quialityDropdown.value);
-            Debug.Log("Nuevo Quality Level " + quialityDropdown.value);
+            //Debug.Log("Nuevo Quality Level " + quialityDropdown.value);
             PlayerPrefs.Save();
         }
         
