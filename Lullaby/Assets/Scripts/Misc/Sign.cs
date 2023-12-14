@@ -56,7 +56,7 @@ namespace Lullaby
 
         protected void Scale(Vector3 from, Vector3 to)
         {
-            Debug.Log("Intentamos escalar");
+            //Debug.Log("Intentamos escalar");
             //Sequence showSequence = DOTween.Sequence();
             // showSequence.Append(canvas.transform.DOScaleY(to.y, scaleDuration).SetEase(Ease.InOutSine));
             // showSequence.Insert(0, canvas.transform.DOMoveY(finalPosition.y, scaleDuration).SetEase(Ease.InOutSine));

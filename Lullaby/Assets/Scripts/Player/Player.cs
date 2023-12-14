@@ -232,7 +232,7 @@ namespace Lullaby.Entities
         /// <param name="origin">The origin hit position where we receive damage</param>
         public void ReceivePunch(int damageAmount, Vector3 origin)
         {
-            Debug.Log("Se recibe el golpe");
+            //Debug.Log("Se recibe el golpe");
             if(health.isEmpty || health.recovering) return;
             
             health.Damage(damageAmount);
@@ -373,7 +373,7 @@ namespace Lullaby.Entities
             {
                 if(inputs.GetJumpDown())
                 {
-                    Debug.Log($"Vertical velocity en el salto es: {verticalVelocity}");
+                    //Debug.Log($"Vertical velocity en el salto es: {verticalVelocity}");
                     if (canMultiJump)
                     {
                         //Revisar esto bien
@@ -480,7 +480,7 @@ namespace Lullaby.Entities
         
         public void MoveTowardsTarget(Enemy target, float duration)
         {
-            Debug.Log("Nos movemos hacia el objetivo");
+            //Debug.Log("Nos movemos hacia el objetivo");
             FaceToTarget(target.transform);
             transform.DOMove(TargetOffset(target), duration); //.SetEase(Ease.Linear);
             //_player.states.Change<AttackPlayerState>();
@@ -587,7 +587,7 @@ namespace Lullaby.Entities
                 DetectingLedge(stats.current.ledgeMaxForwardDistance,
                 stats.current.ledgeMaxDownwardDistance, out var hit)) // Si puede agarrarse a un borde y está cayendo  //!holding agregar si cogemos objetos
             {
-                Debug.Log("Entrando al metodo ledgeGrab");
+                //Debug.Log("Entrando al metodo ledgeGrab");
                 if(Vector3.Angle(hit.normal, transform.up) > 0) return; // Si el angulo entre la normal y el vector up es mayor que 0 no se puede agarrar.
                 if(hit.collider is CapsuleCollider || hit.collider is SphereCollider) return; // Si el collider es una capsula o una esfera no se puede agarrar. 
 

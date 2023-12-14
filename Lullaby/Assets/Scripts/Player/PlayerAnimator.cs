@@ -21,8 +21,9 @@ namespace Lullaby.Entities
             
             [Tooltip("The name of the Animation State you want to play right after finishing the Player State from above.")]
             public string toAnimationState;
-        } 
-            
+        }
+
+        private bool inIdle = false;
         
         public Animator animator;
 
@@ -39,6 +40,7 @@ namespace Lullaby.Entities
         public string onStateChangedName = "OnStateChanged";
         public string attackTriggerName = "AttackTrigger";
         public string railDashTriggerName = "RailDashTrigger";
+        public string flyPathName = "FlyPath";
         
         [Header("Settings")] 
         public float minLateralAnimationSpeed = 0.5f;
@@ -56,7 +58,8 @@ namespace Lullaby.Entities
         protected int _onStateChangedHash;
         protected int _attackTriggerHash;
         protected int _railDashTriggerHash;
-
+        protected int _flyPathHash;
+        
         protected Dictionary<int, ForcedTransition> m_forcedTransitions;
 
         protected Player _player;
@@ -103,6 +106,7 @@ namespace Lullaby.Entities
             _onStateChangedHash = Animator.StringToHash(onStateChangedName);
             _attackTriggerHash = Animator.StringToHash(attackTriggerName);
             _railDashTriggerHash = Animator.StringToHash(railDashTriggerName);
+            _flyPathHash = Animator.StringToHash(flyPathName);
         }
 
         protected virtual void HandleForcedTransitions()
@@ -122,8 +126,19 @@ namespace Lullaby.Entities
             var verticalSpeed = _player.verticalVelocity.y;
             var lateralAnimationSpeed =
                 Mathf.Max(minLateralAnimationSpeed, lateralSpeed / _player.stats.current.topSpeed);
-            
-            animator.SetInteger(_stateHash, _player.states.index);
+            if (_player.states.IsCurrentOfType(typeof(IdlePlayerState)))
+            {
+                if (!inIdle)
+                {
+                    inIdle = true;
+                    animator.SetInteger(_stateHash, _player.states.index);
+                }
+            }
+            else
+            {
+                inIdle = false;
+                animator.SetInteger(_stateHash, _player.states.index);
+            }    
             animator.SetInteger(_lastStateHash, _player.states.lastIndex);
             animator.SetFloat(_lateralSpeedHash, lateralSpeed);
             animator.SetFloat(_verticalSpeedHash, verticalSpeed);
@@ -140,6 +155,11 @@ namespace Lullaby.Entities
             if (_player.inputs.GetDashDown() && _player.states.IsCurrentOfType(typeof(RailGrindPlayerState)))
             {
                 animator.SetTrigger(_railDashTriggerHash);
+            }
+
+            if (_player.states.IsCurrentOfType(typeof(MoonFlyPlayerState)))
+            {
+                animator.SetFloat(_flyPathHash, _player.moonLauncher.moonPathCart.m_Position);
             }
         }
 

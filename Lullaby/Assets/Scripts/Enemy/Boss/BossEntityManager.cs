@@ -527,7 +527,7 @@ public class BossEntityManager : MonoBehaviour
         var index = indexAI;
         while (AliveBossCount() > 0)
         {
-            Debug.Log($"AI LOOP NUMBER {index} IS RUNNING");
+            //Debug.Log($"AI LOOP NUMBER {index} IS RUNNING");
             while (enemyRetreating) yield return null;
             
             BossEnemy attackingEnemy;
@@ -551,7 +551,7 @@ public class BossEntityManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(Random.Range(mainBoss.stats.current.distAttackMinWaitingTime,
                     mainBoss.stats.current.distAttackMaxWaitingTime));
-                Debug.Log($"ATTACKING ENEMY IS {attackingEnemy.name}");
+                //Debug.Log($"ATTACKING ENEMY IS {attackingEnemy.name}");
                 attackingEnemy.enemyEvents.OnPreparedToAttack?.Invoke();
                 yield return new WaitForSeconds(attackWaitTime);
             }

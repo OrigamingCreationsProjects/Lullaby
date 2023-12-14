@@ -55,10 +55,10 @@ namespace Lullaby
         /// <param name="scene">The name of the scene we want to load</param>
         public virtual void Load(string scene)
         {
-            Debug.Log("Llegamos a Load");
+            //Debug.Log("Llegamos a Load");
             if (!isLoading && (currentScene != scene))
             {
-                Debug.Log("Entramos en el if");
+                //Debug.Log("Entramos en el if");
                 StartCoroutine(LoadRoutine(scene));
             }
         }

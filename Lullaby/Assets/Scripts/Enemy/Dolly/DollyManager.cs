@@ -39,7 +39,7 @@ namespace Lullaby.Entities.Enemies
         {
             if (GetAliveEnemiesCount() == 0)
             {
-                Debug.Log("PARAMOS EL AI LOOP");
+                //Debug.Log("PARAMOS EL AI LOOP");
                 StopCoroutine(AI_Loop(null));
                 yield break;
             }
@@ -53,17 +53,17 @@ namespace Lullaby.Entities.Enemies
 
             if (attackingDolly == null)
                 yield break;
-            Debug.Log("Dolly attacking is " + attackingDolly.name);
-            Debug.Log("Esperamos a que RETREATING sea false");
+            // Debug.Log("Dolly attacking is " + attackingDolly.name);
+            // Debug.Log("Esperamos a que RETREATING sea false");
             yield return new WaitUntil(() => attackingDolly.IsRetreating() == false);
-            Debug.Log("Esperamos a que LOCKED TARGET sea false");
+            //Debug.Log("Esperamos a que LOCKED TARGET sea false");
             yield return new WaitUntil(() => attackingDolly.IsLockedTarget() == false);
-            Debug.Log("Esperamos a que STUNNED sea false");
+            //Debug.Log("Esperamos a que STUNNED sea false");
             yield return new WaitUntil(() => attackingDolly.IsStunned() == false);
             
             attackingDolly.SetAttack();
             
-            Debug.Log("Esperamos a que PREPARINGATTACK sea false");
+            //Debug.Log("Esperamos a que PREPARINGATTACK sea false");
             yield return new WaitUntil(() => attackingDolly.IsPreparingAttack() == false);
             
             attackingDolly.SetRetreat();
@@ -178,14 +178,7 @@ namespace Lullaby.Entities.Enemies
             }
             StartAI();
         }
-        
-        public void DebugEventLaunched()
-        {
-            Debug.Log("SE HA LANZADO EL EVENTO DE ENEMIGOS DERROTADOS");
-        }
-        
-        
-        
+
         private void Start()
         {
             _dollysClones = GetComponentsInChildren<Enemy>();

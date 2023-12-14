@@ -24,8 +24,7 @@ public class PlayerMoonLauncher : MonoBehaviour
     public bool almostFinished;
 
     [HideInInspector] public Transform launchObject;
-
-    [FormerlySerializedAs("dollyCart")]
+    
     [Space]
     [Header("Public References")]
     public CinemachineDollyCart moonPathCart;
@@ -107,14 +106,14 @@ public class PlayerMoonLauncher : MonoBehaviour
 
         s.AppendCallback(() => transform.parent = playerParent.transform);                                           // Attatch the player to the empty gameObject
         s.AppendCallback(() => transform.localPosition = new Vector3(0, 0, 0));                                           // Attatch the player to the empty gameObject
-        Debug.Log("Vamos a empezar el movimiento");
+        //Debug.Log("Vamos a empezar el movimiento");
         s.Append(transform.DOMove(transform.localPosition - transform.up, prepMoveDuration));                        // Pull player a little bit back
         s.Join(transform.DOLocalRotate(new Vector3(0, 360 * 2, 0), prepMoveDuration, RotateMode.LocalAxisAdd).SetEase(Ease.OutQuart));
         s.Join(_moonAnimation.PullMoon(prepMoveDuration));
         s.AppendInterval(launchInterval);                                                                            // Wait for a while before the launch
         s.AppendCallback(() => _flyTrail.emitting = true);
         s.AppendCallback(() => followParticles.Play());
-        Debug.Log("Vamos a empezar la traslacion");
+        //Debug.Log("Vamos a empezar la traslacion");
         s.Append(DOVirtual.Float(moonPathCart.m_Position, 1, finalSpeed, PathSpeed).SetEase(pathCurve));                // Lerp the value of the Dolly Cart position from 0 to 1
         s.Join(_moonAnimation.PunchMoon(.5f)); //QUIZA CAMBIAR POR VARIABLE
         s.Join(transform.DOLocalMove(new Vector3(0,0,-.5f), .5f));                                                   // Return player's Y position
@@ -155,7 +154,7 @@ public class PlayerMoonLauncher : MonoBehaviour
 
          if (other.CompareTag(GameTags.MoonLauncher))
          {
-             Debug.Log("Moon launcher: " + other.name);
+             //Debug.Log("Moon launcher: " + other.name);
             _player.moonLauncher.launchObject = other.transform;
             _player.insideMoon = true;
             other.gameObject.GetComponentInChildren<ContextIndicator>().ShowContextIndicator();
