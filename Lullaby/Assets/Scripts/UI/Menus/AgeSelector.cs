@@ -23,6 +23,7 @@ namespace Lullaby.UI.Menus
             {
                 currentAge = 99;
             }
+            GamePlayerData.instance.UpdateAge(currentAge);
             ageText.text = currentAge.ToString();
         }
         
@@ -33,6 +34,7 @@ namespace Lullaby.UI.Menus
             {
                 currentAge = 0;
             }
+            GamePlayerData.instance.UpdateAge(currentAge);
             ageText.text = currentAge.ToString();
         }
     }

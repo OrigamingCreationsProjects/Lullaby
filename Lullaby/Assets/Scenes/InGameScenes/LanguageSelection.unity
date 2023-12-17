@@ -730,7 +730,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 133852654}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 357238564}
+        m_TargetAssemblyTypeName: GamePlayerData, Assembly-CSharp
+        m_MethodName: UpdateAge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &133852657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,6 +999,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: __GAME__
       objectReference: {fileID: 0}
+    - target: {fileID: 4461150785803734001, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
+      propertyPath: gender
+      value: Masculino
+      objectReference: {fileID: 0}
     - target: {fileID: 4512318684373836436, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -2.875
@@ -1021,6 +1037,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd7fec62c0bd461aac01b3a6bda9d112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &357238564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4461150785803734001, guid: 3792c21c04fc9c64fb7fe0aae9d7a850, type: 3}
+  m_PrefabInstance: {fileID: 357238562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d3d445b0cbb074f926dd601c49ebda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &406652478
@@ -2905,7 +2932,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1450895499}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 357238564}
+        m_TargetAssemblyTypeName: GamePlayerData, Assembly-CSharp
+        m_MethodName: UpdateAge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1450895503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4456,13 +4495,13 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Lullaby.GameSettings, Assembly-CSharp
-        m_MethodName: ChangeQualitySettings
-        m_Mode: 1
+      - m_Target: {fileID: 357238564}
+        m_TargetAssemblyTypeName: GamePlayerData, Assembly-CSharp
+        m_MethodName: UpdateGender
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1846180737688028764}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
