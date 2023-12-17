@@ -113,7 +113,7 @@ namespace Lullaby.UI.Menus
         public void OnPointerExit(BaseEventData eventData)
         {
             // El ratón ha salido del botón
-            Debug.Log("El ratón ha salido del botón.");
+            //Debug.Log("El ratón ha salido del botón.");
             transform.DOScale(_originalScale, 0.1f).SetEase(Ease.InOutExpo).SetUpdate(true);
 
             if (shakePosition) tween.Pause();
